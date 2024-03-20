@@ -103,7 +103,7 @@ async def upscale_image(update: Update, context: ContextTypes.DEFAULT_TYPE):
             b = base64.b64encode(f).decode("utf-8")
 
             response = await state.post(
-                "https://lexica.qewertyy.me/upscale",
+                "https://api.qewertyy.me/upscale",
                 data={"image_data": b},
             )
 
