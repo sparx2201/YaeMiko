@@ -82,30 +82,30 @@ async def gpt_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 # Define the upscale_image function
-async def upscale_image(client, message):
+async def upscale_image(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         # Check if the replied message contains a photo
-        if message.reply_to_message and message.reply_to_message.photo:
+        if update.message.reply_to_message and update.message.reply_to_message.photo:
             # Send a message indicating upscaling is in progress
-            progress_msg = await message.reply_text(
+            progress_msg = await update.message.reply_text(
                 "Upscaling your image, please wait..."
             )
 
             # Access the image file_id from the replied message
-            image = message.reply_to_message.photo.file_id
-            file_path = await client.download_media(image)
+            image = await update.message.reply_to_message.photo[-1].get_file()
 
-            with open(file_path, "rb") as image_file:
+            # Download the image and save it
+            image_path = await image.download_to_drive()
+
+            with open(image_path, "rb") as image_file:
                 f = image_file.read()
 
             b = base64.b64encode(f).decode("utf-8")
 
-            async with httpx.AsyncClient() as http_client:
-                response = await http_client.post(
-                    "https://api.qewertyy.me/upscale",
-                    data={"image_data": b},
-                    timeout=None,
-                )
+            response = await state.post(
+                "https://lexica.qewertyy.me/upscale",
+                data={"image_data": b},
+            )
 
             # Save the upscaled image
             upscaled_file_path = "upscaled_image.png"
@@ -124,11 +124,11 @@ async def upscale_image(client, message):
                 parse_mode=ParseMode.HTML,
             )
         else:
-            await message.reply_text("Please reply to an image to upscale it.")
+            await update.message.reply_text("Please reply to an image to upscale it.")
 
     except Exception as e:
         logger.error(f"Failed to upscale the image: {e}")
-        await message.reply_text(
+        await update.message.reply_text(
             "Failed to upscale the image. Please try again later."
         )
 
