@@ -126,7 +126,7 @@ async def upscale_image(client, message):
 
     except Exception as e:
         print(f"Failed to upscale the image: {e}")
-        await message.reply_text("Failed to upscale the image. Please try again later.")
+        await update.message.reply_text("Failed to upscale the image. Please try again later.")
 
 # <================================================ HANDLER =======================================================>
 # Register the upscale_image command handler
