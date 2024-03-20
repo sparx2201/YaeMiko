@@ -124,11 +124,11 @@ async def upscale_image(client, message):
                 parse_mode=ParseMode.HTML,
             )
         else:
-            await update.message.reply_text("Please reply to an image to upscale it.")
+            await message.reply_text("Please reply to an image to upscale it.")
 
     except Exception as e:
         logger.error(f"Failed to upscale the image: {e}")
-        await update.message.reply_text(
+        await message.reply_text(
             "Failed to upscale the image. Please try again later."
         )
 
