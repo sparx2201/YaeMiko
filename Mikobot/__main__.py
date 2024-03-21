@@ -243,21 +243,18 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         else:
             first_name = update.effective_user.first_name
-            lol = await message.reply_photo(
+            lol =  await asyncio.sleep(0.2)
+            guu = await message.reply_text("⚡️")
+            await asyncio.sleep(1.8)
+            await guu.delete()
+            await message.reply_photo(
                 photo=str(choice(START_IMG)),
                 caption=FIRST_PART_TEXT.format(escape_markdown(first_name)),
-                parse_mode=ParseMode.MARKDOWN,
-            )
-            await asyncio.sleep(0.2)
-            guu = await update.effective_message.reply_text("🐾")
-            await asyncio.sleep(1.8)
-            await guu.delete()  # Await this line
-            await update.effective_message.reply_text(
-                PM_START_TEXT,
                 reply_markup=InlineKeyboardMarkup(START_BTN),
                 parse_mode=ParseMode.MARKDOWN,
                 disable_web_page_preview=False,
             )
+            
     else:
         await message.reply_photo(
             photo=str(choice(START_IMG)),
