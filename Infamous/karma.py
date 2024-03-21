@@ -14,6 +14,8 @@ START_IMG = [
     "https://graph.org/file/5a792a93f1944f8dd64e9.jpg",
     "https://graph.org/file/5bfee7b85968dc552db68.jpg",
     "https://graph.org/file/ce3457d3fdbd17c3e015d.jpg",
+    "https://graph.org/file/99bee7df6e46e62a20fa4.jpg",
+
 ]
 
 HEY_IMG = "https://graph.org/file/99bee7df6e46e62a20fa4.jpg"
@@ -70,8 +72,8 @@ ALIVE_BTN = [
 ]
 
 HELP_STRINGS = """
-×─── *𝘑𝘪𝘯𝙓* ───×
+×───   *𝘑𝘪𝘯𝙓*   ───×
 
 Mᴀɪɴ Cᴏᴍᴍᴀɴᴅs
-‣ /start : sᴛᴀʀᴛꜱ ᴍᴇ 
-‣ /help : 🇹​​🇴​ ​🇬​​🇪​​🇹​ ​🇭​​🇪​​🇱​​🇵​ ​🇴​​🇷​ ​🇮​​🇳​​🇫​​🇴​ ​🇦​​🇧​​🇴​​🇺​​🇹​ ​🇦​​🇱​​🇱​ ​🇨​​🇴​​🇲​​🇲​​🇦​​🇳​​🇩​​🇸​ ​🇦​​🇳​​🇩​ ​🇲​​🇴​​🇩​​🇺​​🇱​​🇪​​🇸 ​"""
+‣ /start : sᴛᴀʀᴛs ᴍᴇ 
+‣ /help : ᴛᴏ ɢᴇᴛ ʜᴇʟᴘ ᴏʀ ɪɴꜰᴏ ᴀʙᴏᴜᴛ ᴀʟʟ ᴄᴏᴍᴍᴀɴᴅꜱ ᴀɴᴅ ᴍᴏᴅᴜʟᴇs ​"""
