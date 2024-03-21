@@ -241,11 +241,13 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             elif args[0][1:].isdigit() and "rules" in IMPORTED:
                 await IMPORTED["rules"].send_rules(update, args[0], from_pm=True)
 
-        else:
+        else:  
+        first_name = update.effective_user.first_name
            await message.reply_photo(
                photo=str(choice(START_IMG)), 
                 reply_markup=InlineKeyboardMarkup(START_BTN),
-                caption=FIRST_PART_TEXT.format(query.from_user.mention),
+                caption=FIRST_PART_TEXT.format(escape_markdown(first_name)),
+                parse_mode=ParseMode.MARKDOWN,
                 disable_web_page_preview=True,
             )
             
