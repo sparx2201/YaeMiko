@@ -58,15 +58,20 @@ GROUP_START_BTN = [
 
 ALIVE_BTN = [
     [
-        InlineKeyboardButton(text="Sᴜᴘᴘᴏʀᴛ", url=f"https://t.me/{SUPPORT_CHAT}"),
-        InlineKeyboardButton(text="Hᴇʟᴘ", callback_data="help_back"),
+        ib(text="Sᴜᴘᴘᴏʀᴛ", url=f"https://t.me/{SUPPORT_CHAT}"),
+        ib(text="Hᴇʟᴘ", callback_data="help_back"),
     ],
     [
-        InlineKeyboardButton(
+        id(
             text="Aᴅᴅ Mᴇ",
             url=f"https://t.me/{BOT_USERNAME}?startgroup=true",
         ),
     ],
 ]
 
-HELP_STRINGS = """×─── *𝘑𝘪𝘯*𝙓 ───×\nMᴀɪɴ Cᴏᴍᴍᴀɴᴅs\n ‣ /start : sᴛᴀʀᴛꜱ ᴍᴇ \n ‣ /help : ​🇹​​🇴​ ​🇬​​🇪​​🇹​ ​🇭​​🇪​​🇱​​🇵​ ​🇴​​🇷​ ​🇮​​🇳​​🇫​​🇴​ ​🇦​​🇧​​🇴​​🇺​​🇹​ ​🇦​​🇱​​🇱​ ​🇨​​🇴​​🇲​​🇲​​🇦​​🇳​​🇩​​🇸​ ​🇦​​🇳​​🇩​ ​🇲​​🇴​​🇩​​🇺​​🇱​​🇪​​🇸 ​"""
+HELP_STRINGS = """
+×─── *𝘑𝘪𝘯𝙓* ───×
+
+Mᴀɪɴ Cᴏᴍᴍᴀɴᴅs
+‣ /start : sᴛᴀʀᴛꜱ ᴍᴇ 
+‣ /help : 🇹​​🇴​ ​🇬​​🇪​​🇹​ ​🇭​​🇪​​🇱​​🇵​ ​🇴​​🇷​ ​🇮​​🇳​​🇫​​🇴​ ​🇦​​🇧​​🇴​​🇺​​🇹​ ​🇦​​🇱​​🇱​ ​🇨​​🇴​​🇲​​🇲​​🇦​​🇳​​🇩​​🇸​ ​🇦​​🇳​​🇩​ ​🇲​​🇴​​🇩​​🇺​​🇱​​🇪​​🇸 ​"""
