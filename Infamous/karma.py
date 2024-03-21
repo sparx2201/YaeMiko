@@ -62,7 +62,7 @@ ALIVE_BTN = [
         ib(text="Hᴇʟᴘ", callback_data="help_back"),
     ],
     [
-        id(
+        ib(
             text="Aᴅᴅ Mᴇ",
             url=f"https://t.me/{BOT_USERNAME}?startgroup=true",
         ),
