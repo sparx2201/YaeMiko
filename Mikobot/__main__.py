@@ -249,12 +249,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 disable_web_page_preview=True,
             )
             
-            await asyncio.sleep(0.2)
-            guu = await update.effective_message.reply_text("🐾")
-            await asyncio.sleep(1.8)
-            await guu.delete()  # Await this line
-            
-            
     else:
         await message.reply_photo(
             photo=str(choice(START_IMG)),
