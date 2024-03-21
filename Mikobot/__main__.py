@@ -242,14 +242,13 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await IMPORTED["rules"].send_rules(update, args[0], from_pm=True)
 
         else:
-             first_name = update.effective_user.first_name
            await message.reply_photo(
-                photo=str(choice(START_IMG)),
+               photo=str(choice(START_IMG)), 
                 reply_markup=InlineKeyboardMarkup(START_BTN),
-                caption=FIRST_PART_TEXT.format(escape_markdown(first_name)),
-                parse_mode=ParseMode.MARKDOWN,
+                caption=FIRST_PART_TEXT.format(query.from_user.mention),
                 disable_web_page_preview=True,
             )
+            
             await asyncio.sleep(0.2)
             guu = await update.effective_message.reply_text("🐾")
             await asyncio.sleep(1.8)
