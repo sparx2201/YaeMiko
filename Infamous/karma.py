@@ -10,16 +10,12 @@ from Mikobot import BOT_USERNAME, OWNER_ID, SUPPORT_CHAT
 
 # <============================================== CONSTANTS =========================================================>
 START_IMG = [
-    "https://telegra.ph/file/40b93b46642124605e678.jpg",
-    "https://telegra.ph/file/01a2e0cd1b9d03808c546.jpg",
-    "https://telegra.ph/file/ed4385c26dcf6de70543f.jpg",
-    "https://telegra.ph/file/33a8d97739a2a4f81ddde.jpg",
-    "https://telegra.ph/file/cce9038f6a9b88eb409b5.jpg",
-    "https://telegra.ph/file/262c86393730a609cdade.jpg",
-    "https://telegra.ph/file/33a8d97739a2a4f81ddde.jpg",
+    "https://graph.org/file/ef4ebe4f2e88d521678bb.jpg",
+    "https://graph.org/file/5a792a93f1944f8dd64e9.jpg",
+    "https://graph.org/file/5bfee7b85968dc552db68.jpg",
 ]
 
-HEY_IMG = "https://telegra.ph/file/33a8d97739a2a4f81ddde.jpg"
+HEY_IMG = "https://graph.org/file/99bee7df6e46e62a20fa4.jpg"
 
 ALIVE_ANIMATION = [
     "https://telegra.ph//file/f9e2b9cdd9324fc39970a.mp4",
@@ -32,60 +28,55 @@ ALIVE_ANIMATION = [
     "https://telegra.ph//file/6efdd8e28756bc2f6e53e.mp4",
 ]
 
-FIRST_PART_TEXT = "✨ *ʜᴇʟʟᴏ* `{}` . . ."
+FIRST_PART_TEXT = "*ʜᴇʏ* `{}` . . ."
 
-PM_START_TEXT = "✨ *ɪ ᴀᴍ ᴍɪᴋᴏ, ᴀ ɢᴇɴꜱʜɪɴ ɪᴍᴘᴀᴄᴛ ᴛʜᴇᴍᴇᴅ ʀᴏʙᴏᴛ ᴡʜɪᴄʜ ᴄᴀɴ ʜᴇʟᴘ ʏᴏᴜ ᴛᴏ ᴍᴀɴᴀɢᴇ ᴀɴᴅ ꜱᴇᴄᴜʀᴇ ʏᴏᴜʀ ɢʀᴏᴜᴘ ᴡɪᴛʜ ʜᴜɢᴇ ɢʀᴏᴜᴘ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ*"
+PM_START_TEXT = "ɪ ᴀᴍ <b>𝘑𝘪𝘯</b>𝙓
+──────────────×
+ɪ ᴀᴍ ᴍᴏꜱᴛ ᴘᴏᴡᴇʀꜰᴜʟ ᴀɴᴅ ᴀᴅᴠᴀɴᴄᴇ ᴛᴇʟᴇɢʀᴀᴍ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ ʙᴏᴛ ᴡɪᴛʜ ꜱᴏᴍᴇ ᴀᴡᴇꜱᴏᴍᴇ ᴍᴏᴅᴜʟᴇꜱ ᴀɴᴅ ꜰᴇᴀᴛᴜʀᴇs.
+────────────────────────×
+ɪ'ᴍ ʜᴇʀᴇ ᴛᴏ ᴡʜɪᴘ ʏᴏᴜʀ ɢʀᴏᴜᴘ ɪɴᴛᴏ ꜱʜᴀᴘᴇ.  ꜱᴏ ɢɪᴠᴇ ᴍᴇ ᴀ ᴄᴏᴍᴍᴀɴᴅ, ᴀɴᴅ ʟᴇᴛ'ꜱ ɢᴇᴛ ʏᴏᴜʀ ɢʀᴏᴜᴘ ɪɴ ʟɪɴᴇ."
 
 START_BTN = [
     [
         InlineKeyboardButton(
-            text="⇦ ADD ME ⇨",
+            text="Aᴅᴅ Mᴇ",
             url=f"https://t.me/{BOT_USERNAME}?startgroup=true",
         ),
     ],
     [
-        InlineKeyboardButton(text="HELP", callback_data="help_back"),
-    ],
+        InlineKeyboardButton(text="Aʙᴏᴜᴛ", callback_data="Miko_"),
+        InlineKeyboardButton(text="Aɪ", callback_data="ai_handler"),
+       ],
     [
-        InlineKeyboardButton(text="DETAILS", callback_data="Miko_"),
-        InlineKeyboardButton(text="AI", callback_data="ai_handler"),
-        InlineKeyboardButton(text="SOURCE", callback_data="git_source"),
-    ],
-    [
-        InlineKeyboardButton(text="CREATOR", url=f"tg://user?id={OWNER_ID}"),
+        InlineKeyboardButton(text="Cᴏᴍᴍᴀɴᴅs", callback_data="help_back"),
     ],
 ]
 
 GROUP_START_BTN = [
     [
-        InlineKeyboardButton(
-            text="⇦ ADD ME ⇨",
-            url=f"https://t.me/{BOT_USERNAME}?startgroup=true",
-        ),
-    ],
-    [
-        InlineKeyboardButton(text="SUPPORT", url=f"https://t.me/{SUPPORT_CHAT}"),
-        InlineKeyboardButton(text="CREATOR", url=f"tg://user?id={OWNER_ID}"),
+        InlineKeyboardButton(text="Aᴅᴅ Mᴇ",url=f"https://t.me/{BOT_USERNAME}?startgroup=true"),
+        InlineKeyboardButton(text="Sᴜᴘᴘᴏʀᴛ", url=f"https://t.me/{SUPPORT_CHAT}"),
     ],
 ]
 
 ALIVE_BTN = [
     [
-        ib(text="UPDATES", url="https://t.me/Hydra_Updates"),
-        ib(text="SUPPORT", url="https://t.me/hydraXsupport"),
+        InlineKeyboardButton(text="Sᴜᴘᴘᴏʀᴛ", url=f"https://t.me/{SUPPORT_CHAT}"),
+        InlineKeyboardButton(text="Hᴇʟᴘ", callback_data="help_back"),
     ],
     [
         ib(
-            text="⇦ ADD ME ⇨",
+            text="Aᴅᴅ Mᴇ",
             url=f"https://t.me/{BOT_USERNAME}?startgroup=true",
         ),
     ],
 ]
 
 HELP_STRINGS = """
-🫧 *Yae-Miko* 🫧
+×─── <b>𝘑𝘪𝘯</b>𝙓 ───×
 
-☉ *Here, you will find a list of all the available commands.*
+Mᴀɪɴ Cᴏᴍᴍᴀɴᴅs
+ ‣ /start : sᴛᴀʀᴛꜱ ᴍᴇ 
+ ‣ /help  : ​🇹​​🇴​ ​🇬​​🇪​​🇹​ ​🇭​​🇪​​🇱​​🇵​ ​🇴​​🇷​ ​🇮​​🇳​​🇫​​🇴​ ​🇦​​🇧​​🇴​​🇺​​🇹​ ​🇦​​🇱​​🇱​ ​🇨​​🇴​​🇲​​🇲​​🇦​​🇳​​🇩​​🇸​ ​🇦​​🇳​​🇩​ ​🇲​​🇴​​🇩​​🇺​​🇱​​🇪​​🇸​.
 
-ᴀʟʟ ᴄᴏᴍᴍᴀɴᴅs ᴄᴀɴ ʙᴇ ᴜsᴇᴅ ᴡɪᴛʜ : /
 """
