@@ -10,11 +10,11 @@ from Mikobot import BOT_USERNAME, OWNER_ID, SUPPORT_CHAT
 
 # <============================================== CONSTANTS =========================================================>
 START_IMG = [
-    "https://graph.org/file/ef4ebe4f2e88d521678bb.jpg",
-    "https://graph.org/file/5a792a93f1944f8dd64e9.jpg",
-    "https://graph.org/file/5bfee7b85968dc552db68.jpg",
-    "https://graph.org/file/ce3457d3fdbd17c3e015d.jpg",
-    "https://graph.org/file/99bee7df6e46e62a20fa4.jpg",
+    "https://graph.org/file/188b1141646aad99ed0db.jpg",
+    "https://graph.org/file/9abcaf8cef16f7f29a93b.jpg",
+    "https://graph.org/file/be0e1fee1216d2e866a16.jpg",
+    "https://graph.org/file/80515dcc2c0ea613c5418.jpg",
+    "https://graph.org/file/16aa4cbe8461c48da48f5.jpg",
 
 ]
 
