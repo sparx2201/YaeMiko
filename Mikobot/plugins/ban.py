@@ -12,7 +12,7 @@ from telegram.error import BadRequest
 from telegram.ext import CallbackContext, CommandHandler, CallbackQueryHandler
 from telegram.helpers import mention_html
 from typing import Optional, List
-from telegram import TelegramError
+from telegram.error import TelegramError
 
 import Mikobot.modules.sql.users_sql as sql
 from Mikobot.modules.disable import DisableAbleCommandHandler
