@@ -98,7 +98,7 @@ async def ban(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
     else:
         CHAT_SENDER = False
         try:
-            member = await chat.get_member(user_id)
+            member = chat.get_member(user_id)
         except BadRequest as excp:
             if excp.message == "User not found":
                 raise
