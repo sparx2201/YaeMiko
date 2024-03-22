@@ -92,9 +92,11 @@ async def ban(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
         await message.reply_text("Oh yeah, ban myself, noob!")
         return log_message
 
-   if re.match(r'^\d+$', input_value):
-        user_id = int(input_value)
+    if user_id is not None and user_id < 0:
+        CHAT_SENDER = True
+        chat_sender = message.reply_to_message.sender_chat
     else:
+        CHAT_SENDER = False
         # Input is assumed to be a username
         try:
             user_id = context.bot.get_chat(input_value).id
