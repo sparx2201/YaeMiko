@@ -170,13 +170,16 @@ function(CallbackQueryHandler(showWhisper, pattern="^whisper_", block=False))
 
 # <==================================================== HELP ===================================================>
 __help__ = """
-➠ *Whisper inline function for secret chats.*
+Wʜɪꜱᴘʜᴇʀ ᴍᴏᴅᴜʟᴇ:
 
-➠ *Commands:*
+ ɪɴʟɪɴᴇ ꜰᴜɴᴄᴛɪᴏɴ ᴛᴏ ꜱᴇɴᴅ 
+ ꜱᴇᴄʀᴇᴛ ᴍᴇꜱꜱᴀɢᴇ/ᴡʜɪꜱᴘʜᴇʀ ᴛᴏ ᴘᴀʀᴛɪᴄᴜʟᴀʀ ᴜꜱᴇʀ
 
-» @JinX_Ubot your message @username
-» @JinX_Ubot @username your message
+*Commands:*
+
+ ‣ @JinX\_Ubot your message @username
+ ‣ @JinX\_Ubot @username your message
 """
 
-__mod_name__ = "WHISPER-MSG"
+__mod_name__ = "Wʜɪꜱᴘʜᴇʀ"
 # <==================================================== END ===================================================>
