@@ -9,7 +9,7 @@ from telegram import (
     InlineKeyboardMarkup,
 )
 from telegram.error import BadRequest
-from telegram.ext import CallbackContext, CommandHandler, run_async, CallbackQueryHandler
+from telegram.ext import CallbackContext, CommandHandler, CallbackQueryHandler
 from telegram.utils.helpers import mention_html
 from typing import Optional, List
 from telegram import TelegramError
@@ -593,15 +593,15 @@ __help__ = """
 
 __mod_name__ = "Bans/Mutes"
 
-BAN_HANDLER = CommandHandler(["ban", "sban"], ban, run_async=True)
-TEMPBAN_HANDLER = CommandHandler(["tban"], temp_ban, run_async=True)
-KICK_HANDLER = CommandHandler(["kick", "punch"], punch, run_async=True)
-UNBAN_HANDLER = CommandHandler("unban", unban, run_async=True)
-ROAR_HANDLER = CommandHandler("roar", selfunban, run_async=True)
+BAN_HANDLER = CommandHandler(["ban", "sban"], ban, block=True)
+TEMPBAN_HANDLER = CommandHandler(["tban"], temp_ban, block=True)
+KICK_HANDLER = CommandHandler(["kick", "punch"], punch, block=True)
+UNBAN_HANDLER = CommandHandler("unban", unban, block=True)
+ROAR_HANDLER = CommandHandler("roar", selfunban, block=True)
 UNBAN_BUTTON_HANDLER = CallbackQueryHandler(unbanb_btn, pattern=r"unbanb_")
-KICKME_HANDLER = DisableAbleCommandHandler(["kickme", "punchme"], punchme, run_async=True)
-SNIPE_HANDLER = CommandHandler("snipe", snipe, pass_args=True, run_async=True)
-BANME_HANDLER = CommandHandler("banme", banme, run_async=True)
+KICKME_HANDLER = DisableAbleCommandHandler(["kickme", "punchme"], punchme, block=True)
+SNIPE_HANDLER = CommandHandler("snipe", snipe, pass_args=True, block=True)
+BANME_HANDLER = CommandHandler("banme", banme, block=True)
 
 dispatcher.add_handler(BAN_HANDLER)
 dispatcher.add_handler(TEMPBAN_HANDLER)
