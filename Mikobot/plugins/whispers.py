@@ -86,13 +86,13 @@ async def mainwhisper(update: Update, context: ContextTypes.DEFAULT_TYPE):
             title=f"👤 Send a whisper message to {user}!",
             description="Only they can see it!",
             input_message_content=InputTextMessageContent(
-                f"🔐 A Whisper Message For {user}\nOnly they can see it!"
+                f"🔒 A Whisper Message For {user}\nOnly they can see it!"
             ),
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton(
-                            "📩 𝗦𝗵𝗼𝘄 𝗪𝗵𝗶𝘀𝗽𝗲𝗿 📩",
+                            "Sʜᴏᴡ Wʜɪsᴘᴇʀ 🔐",
                             callback_data=f"whisper_{whisperId}",
                         )
                     ]
@@ -174,8 +174,8 @@ __help__ = """
 
 ➠ *Commands:*
 
-» @MIKO_V2BOT your message @username
-» @MIKO_V2BOT @username your message
+» @JinX_Ubot your message @username
+» @JinX_Ubot @username your message
 """
 
 __mod_name__ = "WHISPER-MSG"
