@@ -343,7 +343,7 @@ async def help_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if mod_match:
             module = mod_match.group(1)
             text = (
-                "➲ *HELP SECTION OF* *{}* :\n".format(HELPABLE[module].__mod_name__)
+                "*{}* ᴍᴏᴅᴜʟᴇ:\n".format(HELPABLE[module].__mod_name__)
                 + HELPABLE[module].__help__
             )
             await query.message.edit_text(
@@ -397,48 +397,24 @@ async def stats_back(update: Update, context: ContextTypes.DEFAULT_TYPE):
         cpu = psutil.cpu_percent(interval=0.5)
         mem = psutil.virtual_memory().percent
         disk = psutil.disk_usage("/").percent
-        text = f"""
-𝙎𝙮𝙨𝙩𝙚𝙢 𝙨𝙩𝙖𝙩𝙨@𝙔𝙖𝙚𝙈𝙞𝙠𝙤_𝙍𝙤𝙭𝙗𝙤𝙩
-➖➖➖➖➖➖
-UPTIME ➼ {uptime}
-CPU ➼ {cpu}%
-RAM ➼ {mem}%
-DISK ➼ {disk}%
+        text = f"""▰▱▰▱▰▱▰▱▰▱▰▱▰▱▰▱
+*𝘑𝘪𝘯𝙓* 𝙎𝙮𝙨𝙩𝙚𝙢 𝙨𝙩𝙖𝙩𝙨
+┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+Uᴘᴛɪᴍᴇ ➼ {uptime}
 
-PYTHON ➼ {PYTHON_VERSION}
+Cᴘᴜ ➼ {cpu}%
+Dɪsᴋ ➼ {disk}%
+Rᴀᴍ ➼ {mem}%
 
-PTB ➼ {PTB_VERSION}
-TELETHON ➼ {TELETHON_VERSION}
-PYROGRAM ➼ {PYROGRAM_VERSION}
+Pʏᴛʜᴏɴ ➼ {PYTHON_VERSION}
+Pᴛʙ ➼ {PTB_VERSION}
+Tᴇʟᴇᴛʜᴏɴ ➼ {TELETHON_VERSION}
+Pʏʀᴏɢʀᴀᴍ ➼ {PYROGRAM_VERSION}
+▰▱▰▱▰▱▰▱▰▱▰▱▰▱▰▱
 """
         await query.answer(text=text, show_alert=True)
 
 
-async def gitsource_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    query = update.callback_query
-    await query.answer()
-
-    if query.data == "git_source":
-        source_link = "https://github.com/Infamous-Hydra/YaeMiko"
-        message_text = (
-            f"*Here is the link for the public source repo*:\n\n{source_link}"
-        )
-
-        # Adding the inline button
-        keyboard = [[InlineKeyboardButton(text="◁", callback_data="Miko_back")]]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-
-        await query.edit_message_text(
-            message_text,
-            parse_mode=ParseMode.MARKDOWN,
-            disable_web_page_preview=False,
-            reply_markup=reply_markup,
-        )
-
-
-async def repo(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    source_link = "https://github.com/Infamous-Hydra/YaeMiko"
-    message_text = f"*Here is the link for the public source repo*:\n\n{source_link}"
 
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
@@ -466,26 +442,17 @@ async def Miko_about_callback(update: Update, context: ContextTypes.DEFAULT_TYPE
             parse_mode=ParseMode.HTML,
             reply_markup=InlineKeyboardMarkup(
                 [
-                    [
-                        InlineKeyboardButton(
-                            text="ABOUT", callback_data="Miko_support"
-                        ),
-                        InlineKeyboardButton(text="COMMAND", callback_data="help_back"),
-                    ],
-                    [
-                        InlineKeyboardButton(text="INSIDER", callback_data="insider_"),
-                    ],
-                    [
-                        InlineKeyboardButton(text="◁", callback_data="Miko_back"),
-                    ],
+                    [InlineKeyboardButton(text="Iɴsɪᴅᴇʀ", callback_data="insider_"),],
+                    [InlineKeyboardButton(text="◁", callback_data="Miko_back"),],
                 ]
             ),
         )
+        
     elif query.data == "Miko_support":
         message_text = (
             "*Our bot leverages SQL, MongoDB, Telegram, MTProto for secure and efficient operations. It resides on a high-speed server, integrates numerous APIs, ensuring quick and versatile responses to user queries.*"
-            f"\n\n*If you find any bug in {BOT_NAME} Please report it at the support chat.*"
         )
+        
         await query.message.edit_text(
             text=message_text,
             parse_mode=ParseMode.MARKDOWN,
@@ -506,6 +473,7 @@ async def Miko_about_callback(update: Update, context: ContextTypes.DEFAULT_TYPE
                 ]
             ),
         )
+        
     elif query.data == "Miko_back":
         first_name = update.effective_user.first_name
         await query.message.edit_text(
@@ -530,7 +498,7 @@ async def get_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     [
                         [
                             InlineKeyboardButton(
-                                text="HELP",
+                                text="Hᴇʟᴘ",
                                 url="https://t.me/{}?start=ghelp_{}".format(
                                     context.bot.username, module
                                 ),
@@ -546,7 +514,7 @@ async def get_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 [
                     [
                         InlineKeyboardButton(
-                            text="OPEN IN PM",
+                            text="Oᴘᴇɴ ɪɴ PM",
                             url="https://t.me/{}?start=help".format(
                                 context.bot.username
                             ),
@@ -554,7 +522,7 @@ async def get_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     ],
                     [
                         InlineKeyboardButton(
-                            text="OPEN HERE",
+                            text="Oᴘᴇɴ Hᴇʀᴇ",
                             callback_data="help_back",
                         )
                     ],
@@ -769,10 +737,8 @@ def main():
 
     function(CommandHandler("settings", get_settings))
     function(CallbackQueryHandler(settings_button, pattern=r"stngs_"))
-    function(CommandHandler("repo", repo))
 
     function(CallbackQueryHandler(Miko_about_callback, pattern=r"Miko_"))
-    function(CallbackQueryHandler(gitsource_callback, pattern=r"git_source"))
     function(CallbackQueryHandler(stats_back, pattern=r"insider_"))
     function(CallbackQueryHandler(ai_handler_callback, pattern=r"ai_handler"))
     function(CallbackQueryHandler(more_ai_handler_callback, pattern=r"more_ai_handler"))
