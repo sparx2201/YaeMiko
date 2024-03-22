@@ -3,7 +3,7 @@ import random
 
 from time import sleep
 from telegram import (
-    ParseMode,
+    ChatMemberAdministrator,
     Update,
     InlineKeyboardButton,
     InlineKeyboardMarkup,
