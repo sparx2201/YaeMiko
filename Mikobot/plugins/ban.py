@@ -208,20 +208,25 @@ async def temp_ban(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
     bot, args = context.bot, context.args
     user_id, reason = await extract_user_and_text(message, context, args)
 
-    if not user_id:
-        await message.reply_text("I doubt that's a user.")
-        return log_message
+    if re.match(r'^\d+$', input_value):
+        user_id = int(input_value)
+    else:
+        # Input is assumed to be a username
+        try:
+            user_id = context.bot.get_chat(input_value).id
+        except Exception as e:
+            await message.reply_text("User not found or an error occurred.")
+            return log_message
 
+    # Perform ban action
     try:
-        member = await chat.get_member(user_id)
-    except BadRequest as excp:
-        if excp.message != "User not found":
-            raise
-        await message.reply_text("I can't seem to find this user.")
-        return log_message
-    if user_id == bot.id:
-        await message.reply_text("I'm not gonna BAN myself, are you crazy?")
-        return log_message
+        context.bot.kick_chat_member(chat.id, user_id)
+        await message.reply_text(f"User with ID {user_id} has been banned.")
+        log_message = f"User with ID {user_id} has been banned."
+    except Exception as e:
+        await message.reply_text("An error occurred while trying to ban the user.")
+
+    return log_message
 
     if await is_user_ban_protected(chat, user_id, member):
         await message.reply_text("I don't feel like it.")
