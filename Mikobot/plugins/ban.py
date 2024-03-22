@@ -86,19 +86,20 @@ async def ban(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
         await update.effective_message.reply_text(
             "Sorry son, but you're not worthy to wield the banhammer.",
         )
-        
         return log_message
 
     if user_id == bot.id:
         await message.reply_text("Oh yeah, ban myself, noob!")
         return log_message
 
-    if not user_id:
-        message.reply_text("⚠️ User not found.")
-        return log_message
-    try:
-        member = chat.get_member(user_id)
-    except BadRequest as excp:
+    if user_id is not None and user_id < 0:
+        CHAT_SENDER = True
+        chat_sender = message.reply_to_message.sender_chat
+    else:
+        CHAT_SENDER = False
+        try:
+            member = await chat.get_member(user_id)
+        except BadRequest as excp:
             if excp.message == "User not found":
                 raise
             elif excp == "Invalid user_id specified":
