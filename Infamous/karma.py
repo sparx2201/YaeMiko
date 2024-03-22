@@ -18,7 +18,7 @@ START_IMG = [
 
 ]
 
-HEY_IMG = "https://graph.org/file/99bee7df6e46e62a20fa4.jpg"
+HEY_IMG = "https://graph.org/file/eacb152f1a9eff5b3e8ea.jpg"
 
 ALIVE_ANIMATION = [
     "https://telegra.ph//file/f9e2b9cdd9324fc39970a.mp4",
