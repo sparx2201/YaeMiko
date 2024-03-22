@@ -14,8 +14,8 @@ from telegram.helpers import mention_html
 from typing import Optional, List
 from telegram.error import TelegramError
 
-import Mikobot.modules.sql.users_sql as sql
-from Mikobot.modules.disable import DisableAbleCommandHandler
+import Mikobot.plugins.sql.users_sql as sql
+from Mikobot.plugins.disable import DisableAbleCommandHandler
 from Mikobot import (
     DEV_USERS,
     LOGGER,
