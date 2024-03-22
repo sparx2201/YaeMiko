@@ -9,14 +9,13 @@ from telegram import (
     InlineKeyboardMarkup,
 )
 from telegram.error import BadRequest
-from telegram.ext import CallbackContext, Filters, CommandHandler, run_async, CallbackQueryHandler
+from telegram.ext import CallbackContext, CommandHandler, run_async, CallbackQueryHandler
 from telegram.utils.helpers import mention_html
 from typing import Optional, List
 from telegram import TelegramError
 
 import Mikobot.modules.sql.users_sql as sql
 from Mikobot.modules.disable import DisableAbleCommandHandler
-from Mikobot.modules.helper_funcs.filters import CustomFilters
 from Mikobot import (
     DEV_USERS,
     LOGGER,
@@ -600,8 +599,8 @@ KICK_HANDLER = CommandHandler(["kick", "punch"], punch, run_async=True)
 UNBAN_HANDLER = CommandHandler("unban", unban, run_async=True)
 ROAR_HANDLER = CommandHandler("roar", selfunban, run_async=True)
 UNBAN_BUTTON_HANDLER = CallbackQueryHandler(unbanb_btn, pattern=r"unbanb_")
-KICKME_HANDLER = DisableAbleCommandHandler(["kickme", "punchme"], punchme, filters=Filters.chat_type.groups, run_async=True)
-SNIPE_HANDLER = CommandHandler("snipe", snipe, pass_args=True, filters=CustomFilters.sudo_filter, run_async=True)
+KICKME_HANDLER = DisableAbleCommandHandler(["kickme", "punchme"], punchme, run_async=True)
+SNIPE_HANDLER = CommandHandler("snipe", snipe, pass_args=True, run_async=True)
 BANME_HANDLER = CommandHandler("banme", banme, run_async=True)
 
 dispatcher.add_handler(BAN_HANDLER)
