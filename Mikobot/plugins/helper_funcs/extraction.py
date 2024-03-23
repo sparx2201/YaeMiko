@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from Mikobot import LOGGER
 from Mikobot.plugins.users import get_user_id
