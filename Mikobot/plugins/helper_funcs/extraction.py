@@ -20,7 +20,7 @@ async def id_from_reply(message):
 
 async def extract_user(
     message: Message,
-    context: ContextTypes.async defAULT_TYPE,
+     context: ContextTypes.DEFAULT_TYPE,
     args: List[str],
 ) -> Optional[int]:
     return (await extract_user_and_text(message, context, args))[0]
@@ -28,7 +28,7 @@ async def extract_user(
 
 async def extract_user_and_text(
     message: Message,
-    context: ContextTypes.async defAULT_TYPE,
+     context: ContextTypes.DEFAULT_TYPE,
     args: List[str],
 ) -> Union[(Optional[int], Optional[str])]:
     prev_message = message.reply_to_message
@@ -103,7 +103,7 @@ async def extract_text(message) -> str:
 
 
 async def extract_unt_fedban(
-    message: Message, context: ContextTypes.async defAULT_TYPE, args: List[str]
+    message: Message,  context: ContextTypes.DEFAULT_TYPE, args: List[str]
 ) -> Union[(Optional[int], Optional[str])]:
     prev_message = message.reply_to_message
     split_text = message.text.split(None, 1)
@@ -174,7 +174,7 @@ async def extract_unt_fedban(
 
 
 async def extract_user_fban(
-    message: Message, context: ContextTypes.async defAULT_TYPE, args: List[str]
+    message: Message,  context: ContextTypes.DEFAULT_TYPE, args: List[str]
 ) -> Optional[int]:
     return (await extract_unt_fedban(message, context, args))[0]
 
