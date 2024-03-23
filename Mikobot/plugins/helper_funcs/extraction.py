@@ -4,6 +4,7 @@ from Mikobot import LOGGER
 from Mikobot.plugins.users import get_user_id
 from telegram import Message, MessageEntity
 from telegram.error import BadRequest
+from telegram.ext import ContextTypes
 
 
 def id_from_reply(message):
@@ -17,16 +18,22 @@ def id_from_reply(message):
     return user_id, res[1]
 
 
-def extract_user(message: Message, args: List[str]) -> Optional[int]:
-    return extract_user_and_text(message, args)[0]
+def extract_user(
+    message: Message,
+    context: ContextTypes.DEFAULT_TYPE,
+    args: List[str],
+) -> Optional[int]:
+    return (await extract_user_and_text(message, context, args))[0]
 
 
 def extract_user_and_text(
-    message: Message, args: List[str],
-) -> (Optional[int], Optional[str]):
+    message: Message,
+    context: ContextTypes.DEFAULT_TYPE,
+    args: List[str],
+) -> Union[(Optional[int], Optional[str])]:
     prev_message = message.reply_to_message
     split_text = message.text.split(None, 1)
-
+    
     if len(split_text) < 2:
         return id_from_reply(message)  # only option possible
 
@@ -71,7 +78,7 @@ def extract_user_and_text(
         return None, None
 
     try:
-        message.bot.get_chat(user_id)
+         await context.bot.get_chat(user_id)
     except BadRequest as excp:
         if excp.message in ("User_id_invalid", "Chat not found"):
             message.reply_text(
@@ -96,10 +103,11 @@ def extract_text(message) -> str:
 
 
 def extract_unt_fedban(
-    message: Message, args: List[str],
-) -> (Optional[int], Optional[str]):
+    message: Message, context: ContextTypes.DEFAULT_TYPE, args: List[str]
+) -> Union[(Optional[int], Optional[str])]:
     prev_message = message.reply_to_message
     split_text = message.text.split(None, 1)
+
 
     if len(split_text) < 2:
         return id_from_reply(message)  # only option possible
@@ -145,7 +153,7 @@ def extract_unt_fedban(
         return None, None
 
     try:
-        message.bot.get_chat(user_id)
+        await context.bot.get_chat(user_id)
     except BadRequest as excp:
         if excp.message in ("User_id_invalid", "Chat not found") and not isinstance(
             user_id, int,
@@ -165,5 +173,8 @@ def extract_unt_fedban(
     return user_id, text
 
 
-def extract_user_fban(message: Message, args: List[str]) -> Optional[int]:
-    return extract_unt_fedban(message, args)[0]
+def extract_user_fban(
+    message: Message, context: ContextTypes.DEFAULT_TYPE, args: List[str]
+) -> Optional[int]:
+    return (await extract_unt_fedban(message, context, args))[0]
+
