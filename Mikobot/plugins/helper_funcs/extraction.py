@@ -1,49 +1,34 @@
-# <============================================== IMPORTS =========================================================>
-from typing import List, Optional, Union
-
-from telegram import Message, MessageEntity
-from telegram.error import BadRequest
-from telegram.ext import ContextTypes
+from typing import List, Optional
 
 from Mikobot import LOGGER
 from Mikobot.plugins.users import get_user_id
+from telegram import Message, MessageEntity
+from telegram.error import BadRequest
 
-# <=======================================================================================================>
 
-
-# <================================================ FUNCTION =======================================================>
-async def id_from_reply(message: Message):
+def id_from_reply(message):
     prev_message = message.reply_to_message
-    if not prev_message or prev_message.forum_topic_created:
+    if not prev_message:
         return None, None
     user_id = prev_message.from_user.id
-    # if user id is from channel bot, then fetch channel id from sender_chat
-    if user_id == 136817688:
-        user_id = message.reply_to_message.sender_chat.id
     res = message.text.split(None, 1)
     if len(res) < 2:
         return user_id, ""
     return user_id, res[1]
 
 
-async def extract_user(
-    message: Message,
-    context: ContextTypes.DEFAULT_TYPE,
-    args: List[str],
-) -> Optional[int]:
-    return (await extract_user_and_text(message, context, args))[0]
+def extract_user(message: Message, args: List[str]) -> Optional[int]:
+    return extract_user_and_text(message, args)[0]
 
 
-async def extract_user_and_text(
-    message: Message,
-    context: ContextTypes.DEFAULT_TYPE,
-    args: List[str],
-) -> Union[(Optional[int], Optional[str])]:
+def extract_user_and_text(
+    message: Message, args: List[str],
+) -> (Optional[int], Optional[str]):
     prev_message = message.reply_to_message
     split_text = message.text.split(None, 1)
 
     if len(split_text) < 2:
-        return await id_from_reply(message)  # only option possible
+        return id_from_reply(message)  # only option possible
 
     text_to_parse = split_text[1]
 
@@ -59,9 +44,9 @@ async def extract_user_and_text(
 
     elif len(args) >= 1 and args[0][0] == "@":
         user = args[0]
-        user_id = await get_user_id(user)
+        user_id = get_user_id(user)
         if not user_id:
-            await message.reply_text(
+            message.reply_text(
                 "No idea who this user is. You'll be able to interact with them if "
                 "you reply to that person's message instead, or forward one of that user's messages.",
             )
@@ -80,16 +65,16 @@ async def extract_user_and_text(
             text = res[2]
 
     elif prev_message:
-        user_id, text = await id_from_reply(message)
+        user_id, text = id_from_reply(message)
 
     else:
         return None, None
 
     try:
-        await context.bot.get_chat(user_id)
+        message.bot.get_chat(user_id)
     except BadRequest as excp:
         if excp.message in ("User_id_invalid", "Chat not found"):
-            await message.reply_text(
+            message.reply_text(
                 "I don't seem to have interacted with this user before - please forward a message from "
                 "them to give me control! (like a voodoo doll, I need a piece of them to be able "
                 "to execute certain commands...)",
@@ -102,7 +87,7 @@ async def extract_user_and_text(
     return user_id, text
 
 
-async def extract_text(message) -> str:
+def extract_text(message) -> str:
     return (
         message.text
         or message.caption
@@ -110,14 +95,14 @@ async def extract_text(message) -> str:
     )
 
 
-async def extract_unt_fedban(
-    message: Message, context: ContextTypes.DEFAULT_TYPE, args: List[str]
-) -> Union[(Optional[int], Optional[str])]:
+def extract_unt_fedban(
+    message: Message, args: List[str],
+) -> (Optional[int], Optional[str]):
     prev_message = message.reply_to_message
     split_text = message.text.split(None, 1)
 
     if len(split_text) < 2:
-        return await id_from_reply(message)  # only option possible
+        return id_from_reply(message)  # only option possible
 
     text_to_parse = split_text[1]
 
@@ -133,9 +118,9 @@ async def extract_unt_fedban(
 
     elif len(args) >= 1 and args[0][0] == "@":
         user = args[0]
-        user_id = await get_user_id(user)
+        user_id = get_user_id(user)
         if not user_id and not isinstance(user_id, int):
-            await message.reply_text(
+            message.reply_text(
                 "I don't have that user in my db.  "
                 "You'll be able to interact with them if you reply to that person's message instead, or forward one of that user's messages.",
             )
@@ -154,19 +139,18 @@ async def extract_unt_fedban(
             text = res[2]
 
     elif prev_message:
-        user_id, text = await id_from_reply(message)
+        user_id, text = id_from_reply(message)
 
     else:
         return None, None
 
     try:
-        await context.bot.get_chat(user_id)
+        message.bot.get_chat(user_id)
     except BadRequest as excp:
         if excp.message in ("User_id_invalid", "Chat not found") and not isinstance(
-            user_id,
-            int,
+            user_id, int,
         ):
-            await message.reply_text(
+            message.reply_text(
                 "I don't seem to have interacted with this user before "
                 "please forward a message from them to give me control! "
                 "(like a voodoo doll, I need a piece of them to be able to execute certain commands...)",
@@ -181,10 +165,5 @@ async def extract_unt_fedban(
     return user_id, text
 
 
-async def extract_user_fban(
-    message: Message, context: ContextTypes.DEFAULT_TYPE, args: List[str]
-) -> Optional[int]:
-    return (await extract_unt_fedban(message, context, args))[0]
-
-
-# <================================================ END =======================================================>
+def extract_user_fban(message: Message, args: List[str]) -> Optional[int]:
+    return extract_unt_fedban(message, args)[0]
