@@ -7,7 +7,7 @@ from telegram.error import BadRequest
 from telegram.ext import ContextTypes
 
 
-def id_from_reply(message):
+async def id_from_reply(message):
     prev_message = message.reply_to_message
     if not prev_message:
         return None, None
@@ -18,17 +18,17 @@ def id_from_reply(message):
     return user_id, res[1]
 
 
-def extract_user(
+async def extract_user(
     message: Message,
-    context: ContextTypes.DEFAULT_TYPE,
+    context: ContextTypes.async defAULT_TYPE,
     args: List[str],
 ) -> Optional[int]:
     return (await extract_user_and_text(message, context, args))[0]
 
 
-def extract_user_and_text(
+async def extract_user_and_text(
     message: Message,
-    context: ContextTypes.DEFAULT_TYPE,
+    context: ContextTypes.async defAULT_TYPE,
     args: List[str],
 ) -> Union[(Optional[int], Optional[str])]:
     prev_message = message.reply_to_message
@@ -94,7 +94,7 @@ def extract_user_and_text(
     return user_id, text
 
 
-def extract_text(message) -> str:
+async def extract_text(message) -> str:
     return (
         message.text
         or message.caption
@@ -102,8 +102,8 @@ def extract_text(message) -> str:
     )
 
 
-def extract_unt_fedban(
-    message: Message, context: ContextTypes.DEFAULT_TYPE, args: List[str]
+async def extract_unt_fedban(
+    message: Message, context: ContextTypes.async defAULT_TYPE, args: List[str]
 ) -> Union[(Optional[int], Optional[str])]:
     prev_message = message.reply_to_message
     split_text = message.text.split(None, 1)
@@ -173,8 +173,8 @@ def extract_unt_fedban(
     return user_id, text
 
 
-def extract_user_fban(
-    message: Message, context: ContextTypes.DEFAULT_TYPE, args: List[str]
+async def extract_user_fban(
+    message: Message, context: ContextTypes.async defAULT_TYPE, args: List[str]
 ) -> Optional[int]:
     return (await extract_unt_fedban(message, context, args))[0]
 
