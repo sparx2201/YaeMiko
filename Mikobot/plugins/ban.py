@@ -98,13 +98,9 @@ async def ban(update: Update, context: ContextTypes.DEFAULT_TYPE) -> str:
     else:
         CHAT_SENDER = False
         try:
-            member = await chat.get_member(user_id)
-        except BadRequest as excp:
-            if excp.message != "User not found":
-                raise
-            elif excp == "Invalid user_id specified":
-                await message.reply_text("I Doubt that's a user.")
-            await message.reply_text("Can't find this person here.")
+            user_id = context.bot.get_chat(input_value).id
+        except Exception as e:
+            await message.reply_text("User not found or an error occurred.")
             return log_message
 
         if await is_user_ban_protected(chat, user_id, member) and user not in DEV_USERS:
