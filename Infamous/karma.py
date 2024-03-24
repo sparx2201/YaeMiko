@@ -59,14 +59,8 @@ GROUP_START_BTN = [
 
 ALIVE_BTN = [
     [
-        ib(text="Sᴜᴘᴘᴏʀᴛ", url=f"https://t.me/{SUPPORT_CHAT}"),
-        ib(text="Hᴇʟᴘ", callback_data="help_back"),
-    ],
-    [
-        ib(
-            text="Aᴅᴅ Mᴇ",
-            url=f"https://t.me/{BOT_USERNAME}?startgroup=true",
-        ),
+       ib(text="Aᴅᴅ Mᴇ", url=f"https://t.me/{BOT_USERNAME}?startgroup=true",
+        ib(text="Hᴇʟᴘ", url="https://t.me/{BOT_USERNAME}?start=help"),
     ],
 ]
 
