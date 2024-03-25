@@ -243,9 +243,10 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         else:
             first_name = update.effective_user.first_name
-           await update.effective_message.reply_photo(
-                photo=str(choice(START_IMG)),
-                caption=FIRST_PART_TEXT.format(escape_markdown(first_name)),
+           await update.effective_message.reply_text(
+                text=FIRST_PART_TEXT.format(escape_markdown(first_name)),
+                photo=str(choice(START_IMG),
+                disable_web_page_preview=False,
                 reply_markup=InlineKeyboardMarkup(START_BTN),
                 parse_mode=ParseMode.MARKDOWN,
             )
