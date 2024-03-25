@@ -242,8 +242,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 await IMPORTED["rules"].send_rules(update, args[0], from_pm=True)
 
         else:
-              await update.effective_message.reply_photo(HEY_IMG,
-                PM_START_TEXT,
+              await update.effective_message.reply_text(PM_START_TEXT,
+                HEY_IMG,
                 reply_markup=InlineKeyboardMarkup(START_BTN),
                 parse_mode=ParseMode.MARKDOWN,
             )
