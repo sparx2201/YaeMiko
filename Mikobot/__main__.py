@@ -246,6 +246,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             guu = await update.effective_message.reply_text("⚡️")
             await asyncio.sleep(1.0)
             await guu.delete()  # Await this line
+            await asyncio.sleep(1.1)
             first_name = update.effective_user.first_name
             lol = await update.effective_message.reply_photo(
                 photo=str(choice(START_IMG)),
