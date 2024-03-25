@@ -202,7 +202,7 @@ async def send_help(chat_id, text, keyboard=None):
         chat_id=chat_id,
         text=text,
         parse_mode=ParseMode.MARKDOWN,
-        disable_web_page_preview=True,
+        disable_web_page_preview=False,
         reply_markup=keyboard,
     )
 
@@ -246,7 +246,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 PM_START_TEXT,
                 reply_markup=InlineKeyboardMarkup(START_BTN),
                 parse_mode=ParseMode.MARKDOWN,
-                disable_web_page_preview=False,
+                disable_web_page_preview=True,
             )
             
     else:
