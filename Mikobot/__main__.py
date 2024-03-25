@@ -243,7 +243,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         else:
             await asyncio.sleep(0.2)
-            guu = await update.effective_message.reply_text("⚡️")
+            guu = await message.reply_text("⚡️")
             await asyncio.sleep(1.0)
             await guu.delete()  # Await this line
             await asyncio.sleep(1.1)
