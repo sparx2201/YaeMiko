@@ -245,7 +245,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
               first_name = update.effective_user.first_name
               await update.effective_message.reply_photo(HEY_IMG,
                FIRST_PART_TEXT.format(
-                    escape_markdown(first_name), escape_markdown(context.bot.first_name),
+                    escape_markdown(first_name), escape_markdown(context.bot.first_name)),
                 reply_markup=InlineKeyboardMarkup(START_BTN),
                 parse_mode=ParseMode.MARKDOWN,
             )
