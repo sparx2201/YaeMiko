@@ -248,7 +248,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     escape_markdown(first_name), escape_markdown(context.bot.first_name),
                 ),
                 parse_mode=ParseMode.MARKDOWN,
-                disable_web_page_preview=True,
             )
             
     else:
