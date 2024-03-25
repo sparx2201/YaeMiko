@@ -247,7 +247,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 photo=str(choice(START_IMG)),
                 caption=FIRST_PART_TEXT.format(escape_markdown(first_name)),
                 reply_markup=InlineKeyboardMarkup(START_BTN),
-                disable_web_page_preview=False,
                 parse_mode=ParseMode.MARKDOWN,
             )
             
