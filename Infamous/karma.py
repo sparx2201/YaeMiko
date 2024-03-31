@@ -21,7 +21,12 @@ START_IMG = [
 HEY_IMG = "https://graph.org/file/eacb152f1a9eff5b3e8ea.jpg"
 
 ALIVE_ANIMATION = [
-    "https://c.tenor.com/mZhJSl-Ed14AAAAC/tenor.gif",
+       "https://graph.org/file/c10e465f7d3373260ba24.mp4",
+       "https://graph.org/file/264868629a93976c6f552.mp4",
+       "https://graph.org/file/c224bd65cdd029853dc64.mp4",
+       "https://graph.org/file/b7d566bc89568f76ae8a6.mp4",
+       "https://graph.org/file/9ac63bf5f2775ecac0081.mp4",
+       "https://graph.org/file/6f0afd144edacfae3ec80.mp4",
 ]
 
 FIRST_PART_TEXT = "*ʜᴇʏ* `{}` . . ."
