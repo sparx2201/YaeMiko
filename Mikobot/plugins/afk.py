@@ -45,7 +45,6 @@ async def afk(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if reason:
             await update.effective_message.reply_text(
                 f"➲ {fname} is now away! \n\n➦ Reason: <code>{reason}</code> \n {notice}",
-                disable_web_page_preview=Flase 
                 parse_mode="html",
             )
         else:
