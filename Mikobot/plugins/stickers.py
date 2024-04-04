@@ -14,9 +14,9 @@ from PIL import Image, ImageDraw, ImageFont
 from telegram import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
-    TelegramError,
     Update,
 )
+from telegram.error import BadRequest
 from telegram.constants import ParseMode
 from telegram.ext import CallbackContext, CallbackQueryHandler, CommandHandler
 from telegram.utils.helpers import mention_html
@@ -187,7 +187,7 @@ def kang(update, context):
                 packname = f"a{str(packnum)}_{str(user.id)}_by_{context.bot.username}"
             else:
                 packname_found = 1
-        except TelegramError as e:
+        except BadRequest as e:
             if e.message == "Stickerset_invalid":
                 packname_found = 1
 
@@ -289,7 +289,7 @@ def kang(update, context):
                 print(e)
                 return
 
-            except TelegramError as e:
+            except BadRequest as e:
                 if (
                     e.message
                     == "Internal Server Error: sticker set not found (500)"
@@ -366,7 +366,7 @@ def kang(update, context):
                         packname = f"animated{str(packnum)}_{str(user.id)}_by_{context.bot.username}"
                     else:
                         packname_found = 1
-                except TelegramError as e:
+                except BadRequest as e:
                     if e.message == "Stickerset_invalid":
                         packname_found = 1
             try:
@@ -391,7 +391,7 @@ def kang(update, context):
                     reply_markup=edited_keyboard,
                     parse_mode=ParseMode.HTML,
                 )
-            except TelegramError as e:
+            except BadRequest as e:
                 if (
                     e.message
                     == "Internal Server Error: sticker set not found (500)"
@@ -446,7 +446,7 @@ def kang(update, context):
                         )
                     else:
                         packname_found = 1
-                except TelegramError as e:
+                except BadRequest as e:
                     if e.message == "Stickerset_invalid":
                         packname_found = 1
             try:
@@ -471,7 +471,7 @@ def kang(update, context):
                     reply_markup=edited_keyboard,
                     parse_mode=ParseMode.HTML,
                 )
-            except TelegramError as e:
+            except BadRequest as e:
                 if (
                     e.message
                     == "Internal Server Error: sticker set not found (500)"
@@ -562,7 +562,7 @@ def kang(update, context):
             msg.reply_text(" sᴏʀʀʏ ɪ ᴄᴀɴ'ᴛ ᴋᴀɴɢ ᴛʜᴀᴛ.")
             print(e)
             return
-        except TelegramError as e:
+        except BadRequest as e:
             if (
                 e.message
                 == "Internal Server Error: sticker set not found (500)"
@@ -697,7 +697,7 @@ def makepack_internal(
                 emojis=emoji,
             )
 
-    except TelegramError as e:
+    except BadRequest as e:
         print(e)
         if e.message == "Sticker set name is already occupied":
             msg.reply_text(
