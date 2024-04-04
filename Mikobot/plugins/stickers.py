@@ -709,7 +709,7 @@ def makepack_internal(
             )
         else:
             msg.reply_text(
-                f"{context.bot.first_name} was blocked by you.",
+                f"{context.bot.first_name} was run_asynced by you.",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
@@ -985,14 +985,14 @@ __mod_name__ = "𝐒ᴛɪᴄᴋᴇʀ"
 
 
 
-STICKERID_HANDLER = CommandHandler("stickerid", stickerid, block=True)
-GETSTICKER_HANDLER = CommandHandler("getsticker", getsticker, block=True)
-GETVIDSTICKER_HANDLER = CommandHandler("getvidsticker", getvidsticker, block=True)
-KANG_HANDLER = CommandHandler("kang", kang, block=True)
-DEL_HANDLER = CommandHandler("delsticker", delsticker, block=True)
-STICKERS_HANDLER = CommandHandler("stickers", cb_sticker, block=True)
-VIDEO_HANDLER = CommandHandler("getvideo", video, block=True)
-CBSCALLBACK_HANDLER = CallbackQueryHandler(cbs_callback, pattern="cbs_", block=True)
+STICKERID_HANDLER = CommandHandler("stickerid", stickerid, run_async=True)
+GETSTICKER_HANDLER = CommandHandler("getsticker", getsticker, run_async=True)
+GETVIDSTICKER_HANDLER = CommandHandler("getvidsticker", getvidsticker, run_async=True)
+KANG_HANDLER = CommandHandler("kang", kang, run_async=True)
+DEL_HANDLER = CommandHandler("delsticker", delsticker, run_async=True)
+STICKERS_HANDLER = CommandHandler("stickers", cb_sticker, run_async=True)
+VIDEO_HANDLER = CommandHandler("getvideo", video, run_async=True)
+CBSCALLBACK_HANDLER = CallbackQueryHandler(cbs_callback, pattern="cbs_", run_async=True)
 
 dispatcher.add_handler(VIDEO_HANDLER)
 dispatcher.add_handler(CBSCALLBACK_HANDLER)
