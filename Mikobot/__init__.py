@@ -175,6 +175,7 @@ DEV_USERS.add(OWNER_ID)
 # Initialize the application builder and add a handler
 dispatcher = Application.builder().token(TOKEN).build()
 function = dispatcher.add_handler
+telethn = TelegramClient(MemorySession(), API_ID, API_HASH)
 # <=======================================================================================================>
 
 # <================================================ BOOT MESSAGE=======================================================>
