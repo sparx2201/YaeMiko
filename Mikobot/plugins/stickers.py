@@ -977,7 +977,7 @@ __help__ = """
 » /kick <userhandle>: kicks a user out of the group, (via handle, or reply)
 
 ➠ NOTE:
-    Banning or UnBanning channels only work if you reply to their message, so don't use their username to ban/unban.
+    Banning or UnBanning channels only work if you reply to their message, so don't use their username to ban/unban."""
     
 
 
@@ -994,11 +994,11 @@ STICKERS_HANDLER = CommandHandler("stickers", cb_sticker, run_async=True)
 VIDEO_HANDLER = CommandHandler("getvideo", video, run_async=True)
 CBSCALLBACK_HANDLER = CallbackQueryHandler(cbs_callback, pattern="cbs_", run_async=True)
 
-dispatcher.add_handler(VIDEO_HANDLER)
-dispatcher.add_handler(CBSCALLBACK_HANDLER)
-dispatcher.add_handler(STICKERS_HANDLER)
-dispatcher.add_handler(STICKERID_HANDLER)
-dispatcher.add_handler(GETSTICKER_HANDLER)
-dispatcher.add_handler(GETVIDSTICKER_HANDLER)
-dispatcher.add_handler(KANG_HANDLER)
-dispatcher.add_handler(DEL_HANDLER)
+function(VIDEO_HANDLER)
+function(CBSCALLBACK_HANDLER)
+function(STICKERS_HANDLER)
+function(STICKERID_HANDLER)
+function(GETSTICKER_HANDLER)
+function(GETVIDSTICKER_HANDLER)
+function(KANG_HANDLER)
+function(DEL_HANDLER)
