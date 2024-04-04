@@ -14,10 +14,10 @@ from PIL import Image, ImageDraw, ImageFont
 from telegram import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
-    ParseMode,
     TelegramError,
     Update,
 )
+from telegram.constants import ParseMode
 from telegram.ext import CallbackContext, CallbackQueryHandler, CommandHandler
 from telegram.utils.helpers import mention_html
 
