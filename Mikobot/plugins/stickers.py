@@ -19,7 +19,7 @@ from telegram import (
 from telegram.error import BadRequest
 from telegram.constants import ParseMode
 from telegram.ext import CallbackContext, CallbackQueryHandler, CommandHandler
-from telegram.utils.helpers import mention_html
+from telegram.helpers import mention_html
 
 from Mikobot import dispatcher
 from Mikobot import telethn as bot
