@@ -1,6 +1,5 @@
 
-from Mikobot import DEMONS, DEV_USERS, DRAGONS, TIGERS, WOLVES
-from Mikobot.plugins.helper_funcs import telethn
+from Mikobot import DEMONS, DEV_USERS, DRAGONS, TIGERS, WOLVES, telethn
 
 IMMUNE_USERS = DRAGONS + WOLVES + DEMONS + TIGERS + DEV_USERS
 
