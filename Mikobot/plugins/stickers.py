@@ -988,7 +988,7 @@ __mod_name__ = "𝐒ᴛɪᴄᴋᴇʀ"
 STICKERID_HANDLER = CommandHandler("stickerid", stickerid, block=True)
 GETSTICKER_HANDLER = CommandHandler("getsticker", getsticker, block=True)
 GETVIDSTICKER_HANDLER = CommandHandler("getvidsticker", getvidsticker, block=True)
-KANG_HANDLER = CommandHandler("kang", kang, pass_args=True, block=True)
+KANG_HANDLER = CommandHandler("kang", kang, block=True)
 DEL_HANDLER = CommandHandler("delsticker", delsticker, block=True)
 STICKERS_HANDLER = CommandHandler("stickers", cb_sticker, block=True)
 VIDEO_HANDLER = CommandHandler("getvideo", video, block=True)
