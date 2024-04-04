@@ -22,7 +22,7 @@ from telegram.ext import CallbackContext, CallbackQueryHandler, CommandHandler
 from telegram.helpers import mention_html
 
 from Mikobot import dispatcher
-from Mikobot import telethn as bot
+from Mikobot.plugins.helper_funcs import telethn as bot
 from Mikobot.events import register as asux
 
 combot_stickers_url = "https://combot.org/telegram/stickers?q="
