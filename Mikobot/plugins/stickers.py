@@ -219,13 +219,13 @@ async def kang(update, context):
             msg.reply_text("ʏᴇᴀ, ɪ ᴄᴀɴ'ᴛ ᴋᴀɴɢ ᴛʜᴀᴛ.")
         kang_file = await context.bot.get_file(file_id)
         if not is_animated and not is_video and not is_gif:
-            kang_file.download("kangsticker.png")
+             await kang_file.download("kangsticker.png")
         elif is_animated:
-            kang_file.download("kangsticker.tgs")
+             await kang_file.download("kangsticker.tgs")
         elif is_video and not is_gif:
-            kang_file.download("kangsticker.webm")
+            await kang_file.download("kangsticker.webm")
         else:
-            kang_file.download("kang.mp4")
+            await kang_file.download("kang.mp4")
             convert_gif("kang.mp4")
 
         if args:
