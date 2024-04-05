@@ -1,4 +1,5 @@
 import requests
+from io import BytesIO
 import urllib
 import math
 import os
@@ -193,9 +194,15 @@ async def kang(update, context):
                 packname_found = 1
 
     kangsticker = "kangsticker.png"
-     response = requests.get(kang_file.file_path)
-    with open(kangsticker, "wb") as f:
-        f.write(response.content)
+    response = requests.get(kang_file.file_path)
+    if response.status_code == 200:
+        with open(kangsticker, "wb") as f:
+            f.write(response.content)
+        # If it's an image, you may want to use BytesIO to convert it to a file-like object
+        sticker_file = BytesIO(response.content)
+        # Use sticker_file as needed in your code
+    else:
+        print("Failed to download sticker")
 
     is_animated = False
     is_video = False
