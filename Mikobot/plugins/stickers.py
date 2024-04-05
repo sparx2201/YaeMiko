@@ -1,5 +1,4 @@
-
-import urllib.request
+import requests
 import urllib
 import math
 import os
@@ -194,7 +193,10 @@ async def kang(update, context):
                 packname_found = 1
 
     kangsticker = "kangsticker.png"
-    urllib.request.urlretrieve(kang_file.file_path, kangsticker)
+     response = requests.get(kang_file.file_path)
+    with open(kangsticker, "wb") as f:
+        f.write(response.content)
+
     is_animated = False
     is_video = False
     is_gif = False
