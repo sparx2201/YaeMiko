@@ -193,6 +193,7 @@ async def kang(update, context):
                 packname_found = 1
 
     kangsticker = "kangsticker.png"
+    urllib.request.urlretrieve(kang_file.file_path, kangsticker)
     is_animated = False
     is_video = False
     is_gif = False
