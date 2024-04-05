@@ -217,7 +217,7 @@ async def kang(update, context):
             is_gif = True
         else:
             msg.reply_text("ʏᴇᴀ, ɪ ᴄᴀɴ'ᴛ ᴋᴀɴɢ ᴛʜᴀᴛ.")
-        kang_file = context.bot.get_file(file_id)
+        kang_file = await context.bot.get_file(file_id)
         if not is_animated and not is_video and not is_gif:
             kang_file.download("kangsticker.png")
         elif is_animated:
