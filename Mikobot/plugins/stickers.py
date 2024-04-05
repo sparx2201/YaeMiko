@@ -1,4 +1,4 @@
-import urllib.request
+import urllib.request.urlretriev
 import urllib
 import math
 import os
