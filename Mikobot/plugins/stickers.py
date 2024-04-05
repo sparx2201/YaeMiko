@@ -181,7 +181,7 @@ async def kang(update, context):
 
     while packname_found == 0:
         try:
-            stickerset = context.bot.get_sticker_set(packname)
+            stickerset = await context.bot.get_sticker_set(packname)
             if len(stickerset.stickerss) >= max_stickers:
                 packnum += 1
                 packname = f"a{str(packnum)}_{str(user.id)}_by_{context.bot.username}"
@@ -360,7 +360,7 @@ async def kang(update, context):
             max_stickers = 50
             while packname_found == 0:
                 try:
-                    stickerset = context.bot.get_sticker_set(packname)
+                    stickerset = await context.bot.get_sticker_set(packname)
                     if len(stickerset.stickers) >= max_stickers:
                         packnum += 1
                         packname = f"animated{str(packnum)}_{str(user.id)}_by_{context.bot.username}"
@@ -433,7 +433,7 @@ async def kang(update, context):
             max_stickers = 50
             while packname_found == 0:
                 try:
-                    stickerset = context.bot.get_sticker_set(packname)
+                    stickerset = await context.bot.get_sticker_set(packname)
                     if len(stickerset.stickers) >= max_stickers:
                         packnum += 1
                         packname = (
