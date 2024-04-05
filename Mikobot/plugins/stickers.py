@@ -14,7 +14,7 @@ from telegram import (
 from telegram.constants import ParseMode
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext
-from telegram.utils.helpers import mention_html
+from telegram.helpers import mention_html
 
 from Mikobot import dispatcher
 from Mikobot.plugins.disable import DisableAbleCommandHandler
