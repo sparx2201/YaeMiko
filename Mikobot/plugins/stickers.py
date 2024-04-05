@@ -462,7 +462,7 @@ __mod_name__ = "Sᴛɪᴄᴋᴇʀ"
 
 STICKERID_HANDLER = CommandHandler("stickerid", stickerid, )
 GETSTICKER_HANDLER = CommandHandler("getsticker", getsticker, )
-KANG_HANDLER = CommandHandler("kang", kang, admin_ok=True, )
+KANG_HANDLER = CommandHandler("kang", kang, )
 STICKERS_HANDLER = CommandHandler("stickers", cb_sticker, )
 
 dispatcher.add_handler(STICKERS_HANDLER)
