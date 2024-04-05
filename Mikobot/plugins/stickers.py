@@ -22,7 +22,7 @@ from Mikobot.plugins.disable import DisableAbleCommandHandler
 combot_stickers_url = "https://combot.org/telegram/stickers?q="
 
 
-def stickerid(update: Update, context: CallbackContext):
+async def stickerid(update: Update, context: CallbackContext):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.sticker:
         update.effective_message.reply_text(
@@ -42,7 +42,7 @@ def stickerid(update: Update, context: CallbackContext):
         )
 
 
-def cb_sticker(update: Update, context: CallbackContext):
+async def cb_sticker(update: Update, context: CallbackContext):
     msg = update.effective_message
     split = msg.text.split(" ", 1)
     if len(split) == 1:
@@ -62,7 +62,7 @@ def cb_sticker(update: Update, context: CallbackContext):
     msg.reply_text(reply, parse_mode=ParseMode.MARKDOWN)
 
 
-def getsticker(update: Update, context: CallbackContext):
+async def getsticker(update: Update, context: CallbackContext):
     bot = context.bot
     msg = update.effective_message
     chat_id = update.effective_chat.id
@@ -78,7 +78,7 @@ def getsticker(update: Update, context: CallbackContext):
         )
 
 
-def kang(update: Update, context: CallbackContext):
+async def kang(update: Update, context: CallbackContext):
     msg = update.effective_message
     user = update.effective_user
     args = context.args
@@ -379,7 +379,7 @@ def kang(update: Update, context: CallbackContext):
         pass
 
 
-def makepack_internal(
+async def makepack_internal(
     update,
     context,
     msg,
@@ -460,10 +460,10 @@ __help__ = """
 
 __mod_name__ = "Sᴛɪᴄᴋᴇʀ"
 
-STICKERID_HANDLER = DisableAbleCommandHandler("stickerid", stickerid, run_async=True)
-GETSTICKER_HANDLER = DisableAbleCommandHandler("getsticker", getsticker, run_async=True)
-KANG_HANDLER = DisableAbleCommandHandler("kang", kang, admin_ok=True, run_async=True)
-STICKERS_HANDLER = DisableAbleCommandHandler("stickers", cb_sticker, run_async=True)
+STICKERID_HANDLER = DisableAbleCommandHandler("stickerid", stickerid, )
+GETSTICKER_HANDLER = DisableAbleCommandHandler("getsticker", getsticker, )
+KANG_HANDLER = DisableAbleCommandHandler("kang", kang, admin_ok=True, )
+STICKERS_HANDLER = DisableAbleCommandHandler("stickers", cb_sticker, )
 
 dispatcher.add_handler(STICKERS_HANDLER)
 dispatcher.add_handler(STICKERID_HANDLER)
