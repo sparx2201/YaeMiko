@@ -88,7 +88,7 @@ async def kang(update: Update, context: CallbackContext):
     max_stickers = 120
     while packname_found == 0:
         try:
-            stickerset = await context.bot.get_sticker_set(packname)
+            stickerset = await await context.bot.get_sticker_set(packname)
             if len(stickerset.stickers) >= max_stickers:
                 packnum += 1
                 packname = (
@@ -219,7 +219,7 @@ async def kang(update: Update, context: CallbackContext):
             max_stickers = 50
             while packname_found == 0:
                 try:
-                    stickerset = context.bot.get_sticker_set(packname)
+                    stickerset = await context.bot.get_sticker_set(packname)
                     if len(stickerset.stickers) >= max_stickers:
                         packnum += 1
                         packname = (
