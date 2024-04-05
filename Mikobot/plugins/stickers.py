@@ -798,7 +798,7 @@ Credit = "Abishnoi69"
 
 
 @asux(pattern="^/mmf ?(.*)")
-async async def handler(event):
+async def handler(event):
     if event.fwd_from:
         return
 
@@ -835,7 +835,7 @@ async async def handler(event):
     os.remove(meme)
 
 
-async async def drawText(image_path, text):
+async def drawText(image_path, text):
     img = Image.open(image_path)
 
     os.remove(image_path)
