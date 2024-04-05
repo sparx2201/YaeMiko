@@ -28,7 +28,7 @@ from Mikobot.events import register as asux
 combot_stickers_url = "https://combot.org/telegram/stickers?q="
 
 
-def convert_gif(input):
+async def convert_gif(input):
     """ғᴜɴᴄᴛɪᴏɴ ᴛᴏ ᴄᴏɴᴠᴇʀᴛ ᴍᴘ4 ᴛᴏ ᴡᴇʙᴍ(ᴠᴘ9)!(ᴀʙɪsʜɴᴏɪ)"""
 
     vid = cv2.VideoCapture(input)
@@ -68,7 +68,7 @@ def convert_gif(input):
     return converted_name
 
 
-def stickerid(update: Update, context: CallbackContext):
+async def stickerid(update: Update, context: CallbackContext):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.sticker:
         update.effective_message.reply_text(
@@ -91,7 +91,7 @@ def stickerid(update: Update, context: CallbackContext):
 scraper = CloudScraper()
 
 
-def get_cbs_data(query, page, user_id):
+async def get_cbs_data(query, page, user_id):
     # returns (text, buttons)
     text = scraper.get(f"{combot_stickers_url}{urlquote(query)}&page={page}").text
     soup = BeautifulSoup(text, "lxml")
@@ -126,7 +126,7 @@ def get_cbs_data(query, page, user_id):
     return text, buttons
 
 
-def cb_sticker(update: Update, context: CallbackContext):
+async def cb_sticker(update: Update, context: CallbackContext):
     msg = update.effective_message
     query = " ".join(msg.text.split()[1:])
     if not query:
@@ -140,7 +140,7 @@ def cb_sticker(update: Update, context: CallbackContext):
     msg.reply_text(text, parse_mode=ParseMode.HTML, reply_markup=buttons)
 
 
-def cbs_callback(update: Update, context: CallbackContext):
+async def cbs_callback(update: Update, context: CallbackContext):
     query = update.callback_query
     _, page, user_id = query.data.split("_", 2)
     if int(user_id) != query.from_user.id:
@@ -152,7 +152,7 @@ def cbs_callback(update: Update, context: CallbackContext):
     query.answer()
 
 
-def getsticker(update: Update, context: CallbackContext):
+async def getsticker(update: Update, context: CallbackContext):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.sticker:
         file_id = msg.reply_to_message.sticker.file_id
@@ -170,7 +170,7 @@ def getsticker(update: Update, context: CallbackContext):
         )
 
 
-def kang(update, context):
+async def kang(update, context):
     msg = update.effective_message
     args = context.args
     packnum = 0
@@ -648,7 +648,7 @@ def kang(update, context):
         pass
 
 
-def makepack_internal(
+async def makepack_internal(
     update,
     context,
     msg,
@@ -734,7 +734,7 @@ def makepack_internal(
         msg.reply_text("Failed to create sticker pack. Possibly due to blek mejik.")
 
 
-def getsticker(update: Update, context: CallbackContext):
+async def getsticker(update: Update, context: CallbackContext):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.sticker:
         file_id = msg.reply_to_message.sticker.file_id
@@ -750,7 +750,7 @@ def getsticker(update: Update, context: CallbackContext):
         )
 
 
-def getvidsticker(update: Update, context: CallbackContext):
+async def getvidsticker(update: Update, context: CallbackContext):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.sticker:
         file_id = msg.reply_to_message.sticker.file_id
@@ -766,7 +766,7 @@ def getvidsticker(update: Update, context: CallbackContext):
         )
 
 
-def delsticker(update, context):
+async def delsticker(update, context):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.sticker:
         file_id = msg.reply_to_message.sticker.file_id
@@ -778,7 +778,7 @@ def delsticker(update, context):
         )
 
 
-def video(update: Update, context: CallbackContext):
+async def video(update: Update, context: CallbackContext):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.animation:
         file_id = msg.reply_to_message.animation.file_id
@@ -798,7 +798,7 @@ Credit = "Abishnoi69"
 
 
 @asux(pattern="^/mmf ?(.*)")
-async def handler(event):
+async async def handler(event):
     if event.fwd_from:
         return
 
@@ -835,7 +835,7 @@ async def handler(event):
     os.remove(meme)
 
 
-async def drawText(image_path, text):
+async async def drawText(image_path, text):
     img = Image.open(image_path)
 
     os.remove(image_path)
@@ -985,14 +985,14 @@ __mod_name__ = "𝐒ᴛɪᴄᴋᴇʀ"
 
 
 
-STICKERID_HANDLER = CommandHandler("stickerid", stickerid, run_async=True)
-GETSTICKER_HANDLER = CommandHandler("getsticker", getsticker, run_async=True)
-GETVIDSTICKER_HANDLER = CommandHandler("getvidsticker", getvidsticker, run_async=True)
-KANG_HANDLER = CommandHandler("kang", kang, run_async=True)
-DEL_HANDLER = CommandHandler("delsticker", delsticker, run_async=True)
-STICKERS_HANDLER = CommandHandler("stickers", cb_sticker, run_async=True)
-VIDEO_HANDLER = CommandHandler("getvideo", video, run_async=True)
-CBSCALLBACK_HANDLER = CallbackQueryHandler(cbs_callback, pattern="cbs_", run_async=True)
+STICKERID_HANDLER = CommandHandler("stickerid", stickerid, )
+GETSTICKER_HANDLER = CommandHandler("getsticker", getsticker, )
+GETVIDSTICKER_HANDLER = CommandHandler("getvidsticker", getvidsticker, )
+KANG_HANDLER = CommandHandler("kang", kang, )
+DEL_HANDLER = CommandHandler("delsticker", delsticker, )
+STICKERS_HANDLER = CommandHandler("stickers", cb_sticker, )
+VIDEO_HANDLER = CommandHandler("getvideo", video, )
+CBSCALLBACK_HANDLER = CallbackQueryHandler(cbs_callback, pattern="cbs_", )
 
 dispatcher.add_handler(VIDEO_HANDLER)
 dispatcher.add_handler(CBSCALLBACK_HANDLER)
