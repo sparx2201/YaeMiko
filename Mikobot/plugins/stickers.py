@@ -1,4 +1,5 @@
 import urllib.request
+import urllib
 import math
 import os
 import textwrap
@@ -194,7 +195,6 @@ async def kang(update, context):
     kangsticker = "kangsticker.png"
     is_animated = False
     is_video = False
-    # convert gif method
     is_gif = False
     file_id = ""
 
@@ -645,6 +645,111 @@ async def kang(update, context):
             os.remove("kangsticker.webm")
         elif os.path.isfile("kang.mp4"):
             os.remove("kang.mp4")
+        elif os.path.isfile("kangsticker.jpg"):
+            os.remove("kangsticker.jpg")
+        elif os.path.isfile("kangsticker.jpeg"):
+            os.remove("kangsticker.jpeg")
+    except Exception as e:
+        print(e)
+
+def convert_gif(videoname):
+    try:
+        os.system(
+            f"ffmpeg -y -i {videoname} -vf scale=320:-1 -r 10 {videoname[:-4]}.gif"
+        )
+    except Exception as e:
+        print(e)
+
+async def makepack_internal(
+    update,
+    context,
+    msg,
+    user,
+    sticker_emoji,
+    packname,
+    packnum,
+    png_sticker=None,
+    tgs_sticker=None,
+    webm_sticker=None,
+):
+    max_stickers = 120
+    packname_found = 0
+
+    while packname_found == 0:
+        try:
+            stickerset = await context.bot.get_sticker_set(packname)
+            if len(stickerset.stickers) >= max_stickers:
+                packnum += 1
+                packname = f"a{str(packnum)}_{str(user.id)}_by_{context.bot.username}"
+            else:
+                packname_found = 1
+        except BadRequest as e:
+            if e.message == "Stickerset_invalid":
+                packname_found = 1
+
+    adding_process = msg.reply_text(
+        "<b>ᴡᴀɪᴛ.... ғᴏʀ ᴀ ᴍᴏᴍᴇɴᴛ ..</b>",
+        parse_mode=ParseMode.HTML,
+    )
+    try:
+        context.bot.add_sticker_to_set(
+            user_id=user.id,
+            name=packname,
+            emojis=sticker_emoji,
+            png_sticker=png_sticker,
+            tgs_sticker=tgs_sticker,
+            webm_sticker=webm_sticker,
+        )
+        edited_keyboard = InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        text="⎋ ᴘᴀᴄᴋ ⎋", url=f"t.me/addstickers/{packname}"
+                    )
+                ]
+            ]
+        )
+        adding_process.edit_text(
+            f"<b>ʏᴏᴜʀ sᴛɪᴄᴋᴇʀ ʜᴀs ʙᴇᴇɴ ᴀᴅᴅᴇᴅ!</b>"
+            f"\nᴇᴍᴏᴊɪ ɪs ➼ : {sticker_emoji}",
+            reply_markup=edited_keyboard,
+            parse_mode=ParseMode.HTML,
+        )
+    except BadRequest as e:
+        if (
+            e.message
+            == "Internal Server Error: sticker set not found (500)"
+        ):
+            edited_keyboard = InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton(
+                            text="⎋ ᴘᴀᴄᴋ ⎋", url=f"t.me/addstickers/{packname}"
+                        )
+                    ]
+                ]
+            )
+            adding_process.edit_text(
+                f"<b>ʏᴏᴜʀ sᴛɪᴄᴋᴇʀ ʜᴀs ʙᴇᴇɴ ᴀᴅᴅᴇᴅ!</b>"
+                f"\nᴇᴍᴏᴊɪ ɪs ➼ : {sticker_emoji}",
+                reply_markup=edited_keyboard,
+                parse_mode=ParseMode.HTML,
+            )
+        elif e.message == "Invalid sticker emojis":
+            msg.reply_text("Invalid emoji(s).")
+        elif e.message == "Stickerset_invalid":
+            makepack_internal(
+                update,
+                context,
+                msg,
+                user,
+                sticker_emoji,
+                packname,
+                packnum,
+                png_sticker=open("kangsticker.png", "rb"),
+            )
+            adding_process.delete()
+        print(e)
     except Exception as e:
         print(e)
 
