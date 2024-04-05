@@ -217,15 +217,16 @@ async def kang(update, context):
             is_gif = True
         else:
             msg.reply_text("ʏᴇᴀ, ɪ ᴄᴀɴ'ᴛ ᴋᴀɴɢ ᴛʜᴀᴛ.")
+
         kang_file = await context.bot.get_file(file_id)
         if not is_animated and not is_video and not is_gif:
-             await kang_file.download("kangsticker.png")
+            urllib.request.urlretrieve(kang_file.file_path, kangsticker)
         elif is_animated:
-             await kang_file.download("kangsticker.tgs")
+            urllib.request.urlretrieve(kang_file.file_path, "kangsticker.tgs")
         elif is_video and not is_gif:
-            await kang_file.download("kangsticker.webm")
+            urllib.request.urlretrieve(kang_file.file_path, "kangsticker.webm")
         else:
-            await kang_file.download("kang.mp4")
+            urllib.request.urlretrieve(kang_file.file_path, "kang.mp4")
             convert_gif("kang.mp4")
 
         if args:
@@ -644,9 +645,8 @@ async def kang(update, context):
             os.remove("kangsticker.webm")
         elif os.path.isfile("kang.mp4"):
             os.remove("kang.mp4")
-    except Exception:
-        pass
-
+    except Exception as e:
+        print(e)
 
 async def makepack_internal(
     update,
