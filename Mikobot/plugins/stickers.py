@@ -17,7 +17,7 @@ from telegram.ext import CallbackContext
 from telegram.helpers import mention_html
 
 from Mikobot import dispatcher
-from Mikobot.plugins.disable import DisableAbleCommandHandler
+from Mikobot.plugins.disable import CommandHandler
 
 combot_stickers_url = "https://combot.org/telegram/stickers?q="
 
@@ -460,10 +460,10 @@ __help__ = """
 
 __mod_name__ = "Sᴛɪᴄᴋᴇʀ"
 
-STICKERID_HANDLER = DisableAbleCommandHandler("stickerid", stickerid, )
-GETSTICKER_HANDLER = DisableAbleCommandHandler("getsticker", getsticker, )
-KANG_HANDLER = DisableAbleCommandHandler("kang", kang, admin_ok=True, )
-STICKERS_HANDLER = DisableAbleCommandHandler("stickers", cb_sticker, )
+STICKERID_HANDLER = CommandHandler("stickerid", stickerid, )
+GETSTICKER_HANDLER = CommandHandler("getsticker", getsticker, )
+KANG_HANDLER = CommandHandler("kang", kang, admin_ok=True, )
+STICKERS_HANDLER = CommandHandler("stickers", cb_sticker, )
 
 dispatcher.add_handler(STICKERS_HANDLER)
 dispatcher.add_handler(STICKERID_HANDLER)
