@@ -9,10 +9,10 @@ from PIL import Image
 from telegram import (
     InlineKeyboardButton,
     InlineKeyboardMarkup,
-    ParseMode,
-    TelegramError,
     Update,
 )
+from telegram.constants import ParseMode
+from telegram.error import
 from telegram.ext import CallbackContext
 from telegram.utils.helpers import mention_html
 
@@ -101,7 +101,7 @@ def kang(update: Update, context: CallbackContext):
                 )
             else:
                 packname_found = 1
-        except TelegramError as e:
+        exceptBadRequest as e:
             if e.message == "Stickerset_invalid":
                 packname_found = 1
     kangsticker = "kangsticker.png"
@@ -174,7 +174,7 @@ def kang(update: Update, context: CallbackContext):
                 print(e)
                 return
 
-            except TelegramError as e:
+            exceptBadRequest as e:
                 if e.message == "Stickerset_invalid":
                     makepack_internal(
                         update,
@@ -232,7 +232,7 @@ def kang(update: Update, context: CallbackContext):
                         )
                     else:
                         packname_found = 1
-                except TelegramError as e:
+                exceptBadRequest as e:
                     if e.message == "Stickerset_invalid":
                         packname_found = 1
             try:
@@ -247,7 +247,7 @@ def kang(update: Update, context: CallbackContext):
                     + f"\nEmoji is: {sticker_emoji}",
                     parse_mode=ParseMode.MARKDOWN,
                 )
-            except TelegramError as e:
+            exceptBadRequest as e:
                 if e.message == "Stickerset_invalid":
                     makepack_internal(
                         update,
@@ -316,7 +316,7 @@ def kang(update: Update, context: CallbackContext):
             msg.reply_text("I can only kang images m8.")
             print(e)
             return
-        except TelegramError as e:
+        exceptBadRequest as e:
             if e.message == "Stickerset_invalid":
                 makepack_internal(
                     update,
@@ -413,7 +413,7 @@ def makepack_internal(
                 emojis=emoji,
             )
 
-    except TelegramError as e:
+    exceptBadRequest as e:
         print(e)
         if e.message == "Sticker set name is already occupied":
             msg.reply_text(
