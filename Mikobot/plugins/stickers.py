@@ -159,7 +159,7 @@ async def kang(update: Update, context: CallbackContext):
             urlemoji = msg.text.split(" ")
             png_sticker = urlemoji[1]
             sticker_emoji = urlemoji[2] if len(urlemoji) > 2 else "🤔"
-            urllib.urlretrieve(png_sticker, kangsticker)
+            urllib.request.urlretrieve(png_sticker, kangsticker)
             im = Image.open(kangsticker)
             maxsize = (512, 512)
             if im.size[0] < 512 or im.size[1] < 512:
