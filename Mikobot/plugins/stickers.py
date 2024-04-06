@@ -63,7 +63,7 @@ async def cb_sticker(update: Update, context: CallbackContext):
         link = result["href"]
         reply += f"\n• [{title.get_text()}]({link})"
     
-    await msg.reply_text(reply, parse_mode=ParseMode.MARKDOWN
+    await msg.reply_text(reply, parse_mode=ParseMode.MARKDOWN)
 
 async def getsticker(update: Update, context: CallbackContext):
     bot = context.bot
