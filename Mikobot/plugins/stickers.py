@@ -72,7 +72,7 @@ async def getsticker(update: Update, context: CallbackContext):
 
     if msg.reply_to_message and msg.reply_to_message.sticker:
         file_id = msg.reply_to_message.sticker.file_id
-        new_file = await bot.get_file(file_id)
+        new_file = await bot.download_file(new_file.file_path, "sticker.png")
         await new_file.download("sticker.png")
         with open("sticker.png", "rb") as sticker_file:
             await bot.send_document(chat_id, document=sticker_file)
