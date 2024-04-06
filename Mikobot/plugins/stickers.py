@@ -123,9 +123,9 @@ async def kang(update: Update, context: CallbackContext):
 
         kang_file = await context.bot.get_file(file_id)
         if not is_animated:
-           await kang_file.download(os.path.join(os.getcwd(), kangsticker.png))
+           await kang_file.download(os.path.join(os.getcwd(), kangsticker))
         else:
-           await kang_file.download(os.path.join(os.getcwd(), kangsticker.tgs))
+           await kang_file.download(os.path.join(os.getcwd(), kangsticker))
 
         if args:
             sticker_emoji = str(args[0])
