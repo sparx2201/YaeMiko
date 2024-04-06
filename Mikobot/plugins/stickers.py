@@ -122,8 +122,6 @@ async def kang(update: Update, context: CallbackContext):
             msg.reply_text("Yea, I can't kang that.")
 
         kang_file = await context.bot.get_file(file_id)
-        if not is_animated:
-           await kang_file.download(os.path.join(os.getcwd(), kangsticker))
         else:
            await kang_file.download(os.path.join(os.getcwd(), kangsticker))
 
