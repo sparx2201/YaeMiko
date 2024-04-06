@@ -122,12 +122,11 @@ async def kang(update: Update, context: CallbackContext):
             msg.reply_text("Yea, I can't kang that.")
 
         kang_file = await context.bot.get_file(file_id)
-        else:
-           await kang_file.download(os.path.join(os.getcwd(), kangsticker))
+       elif kang_file.download(os.path.join(os.getcwd(), kangsticker))
 
         if args:
             sticker_emoji = str(args[0])
-        elif msg.reply_to_message.sticker and msg.reply_to_message.sticker.emoji:
+        msg.reply_to_message.sticker and msg.reply_to_message.sticker.emoji:
             sticker_emoji = msg.reply_to_message.sticker.emoji
         else:
             sticker_emoji = "🤔"
