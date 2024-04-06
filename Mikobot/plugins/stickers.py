@@ -65,17 +65,18 @@ async def getsticker(update: Update, context: CallbackContext):
     bot = context.bot
     msg = update.effective_message
     chat_id = update.effective_chat.id
+
     if msg.reply_to_message and msg.reply_to_message.sticker:
         file_id = msg.reply_to_message.sticker.file_id
-        new_file = bot.get_file(file_id)
-        new_file.download("sticker.png")
-        bot.send_document(chat_id, document=open("sticker.png", "rb"))
+        new_file = await bot.get_file(file_id)
+        await new_file.download("sticker.png")
+        with open("sticker.png", "rb") as sticker_file:
+            await bot.send_document(chat_id, document=sticker_file)
         os.remove("sticker.png")
     else:
-        update.effective_message.reply_text(
+        await update.effective_message.reply_text(
             "Please reply to a sticker for me to upload its PNG."
         )
-
 
 async def kang(update: Update, context: CallbackContext):
     msg = update.effective_message
