@@ -21,7 +21,7 @@ from Mikobot.plugins.disable import CommandHandler
 
 combot_stickers_url = "https://combot.org/telegram/stickers?q="
 
-async def stickerid(update: Update, context: CallbackContext):
+async def Stickerid(update: Update, context: CallbackContext):
     msg = update.effective_message
     if msg.reply_to_message and msg.reply_to_message.sticker:
         update.effective_message.reply_text(
