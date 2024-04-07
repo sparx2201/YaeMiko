@@ -151,7 +151,7 @@ if file_id:
                 await msg.reply_text("I can only kang images m8.")
                 print(e)
 
-       elif args:
+        elif args:
           try:
             urlemoji = msg.text.split(" ")
             png_sticker = urlemoji[1]
