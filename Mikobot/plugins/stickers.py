@@ -151,8 +151,8 @@ if file_id:
                 await msg.reply_text("I can only kang images m8.")
                 print(e)
 
-    elif args:
-        try:
+       elif args:
+          try:
             urlemoji = msg.text.split(" ")
             png_sticker = urlemoji[1]
             sticker_emoji = urlemoji[2] if len(urlemoji) > 2 else "🤔"
