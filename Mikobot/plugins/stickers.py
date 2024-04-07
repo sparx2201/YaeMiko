@@ -127,8 +127,6 @@ if file_id:
                 f.write(response.content)
     else:
         await kang_file.download("kangsticker.tgs")
-    else:
-         await msg.reply_text("No file found to download.")
 
 if args:
             sticker_emoji = str(args[0])
