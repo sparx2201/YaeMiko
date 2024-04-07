@@ -128,7 +128,7 @@ if file_id:
         else:
             sticker_emoji = "🤔"
 
-        if not is_animated:
+    if not is_animated:
             try:
                 im = Image.open(kangsticker)
                 maxsize = (512, 512)
@@ -151,7 +151,7 @@ if file_id:
                 await msg.reply_text("I can only kang images m8.")
                 print(e)
 
-        elif args:
+    elif args:
           try:
             urlemoji = msg.text.split(" ")
             png_sticker = urlemoji[1]
