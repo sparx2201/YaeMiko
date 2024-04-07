@@ -128,7 +128,7 @@ if file_id:
         else:
             sticker_emoji = "🤔"
 
-            if not is_animated:
+        if not is_animated:
             try:
                 im = Image.open(kangsticker)
                 maxsize = (512, 512)
@@ -147,7 +147,7 @@ if file_id:
                     parse_mode=ParseMode.MARKDOWN,
                 )
 
-            except OSError as e:
+        except OSError as e:
                 await msg.reply_text("I can only kang images m8.")
                 print(e)
 
