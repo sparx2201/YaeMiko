@@ -117,19 +117,13 @@ async def kang(update: Update, context: CallbackContext):
             await msg.reply_text("Yea, I can't kang that.")
 
     if file_id:
-        # No need to download the file directly
+        file_data = await context.bot.get_file(file_id)
         file_path = "kangsticker.png" if not is_animated else "kangsticker.tgs"
-        # Save the file path based on its type
-        if msg.reply_to_message.sticker and msg.reply_to_message.sticker.file_unique_id:
-            file_path = f"{file_path[:-4]}_{msg.reply_to_message.sticker.file_unique_id}{file_path[-4:]}"
-        elif msg.reply_to_message.photo:
-            file_path = f"{file_path[:-4]}_{msg.reply_to_message.photo[-1].file_unique_id}{file_path[-4:]}"
-        elif msg.reply_to_message.document and msg.reply_to_message.document.file_unique_id:
-            file_path = f"{file_path[:-4]}_{msg.reply_to_message.document.file_unique_id}{file_path[-4:]}"
         
-        # Respond with the file path
-        await msg.reply_text(f"File path: {file_path}")
-
+        # Save the file data to a local file
+        with open(file_path, "wb") as sticker_file:
+            sticker_file.write(file_data)
+            
         if args:
             sticker_emoji = str(args[0])
         elif msg.reply_to_message.sticker and msg.reply_to_message.sticker.emoji:
