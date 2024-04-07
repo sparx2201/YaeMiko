@@ -120,32 +120,33 @@ async def kang(update: Update, context: CallbackContext):
         file_path = "kangsticker.png" if not is_animated else "kangsticker.tgs"
         file_data = await kang_file.download()
         with open(file_path, "wb") as sticker_file:
-             sticker_file.write(file_data.read())
+            sticker_file.write(file_data.read())
 
-            if args:
-                sticker_emoji = str(args[0])
-            elif msg.reply_to_message.sticker and msg.reply_to_message.sticker.emoji:
-                sticker_emoji = msg.reply_to_message.sticker.emoji
-            else:
-                sticker_emoji = "🤔"
+    if args:
+        sticker_emoji = str(args[0])
+    elif msg.reply_to_message.sticker and msg.reply_to_message.sticker.emoji:
+        sticker_emoji = msg.reply_to_message.sticker.emoji
+    else:
+        sticker_emoji = "🤔"
 
-            if not is_animated:
-                im = Image.open(kangsticker)
-                maxsize = (512, 512)
-                if im.size[0] < 512 or im.size[1] < 512:
-                    im.thumbnail(maxsize)
-                im.save(kangsticker, "PNG")
-                context.bot.add_sticker_to_set(
-                    user_id=user.id,
-                    name=packname,
-                    png_sticker=open("kangsticker.png", "rb"),
-                    emojis=sticker_emoji,
-                )
-                await msg.reply_text(
-                    f"Sticker successfully added to [pack](t.me/addstickers/{packname})"
-                    + f"\nEmoji is: {sticker_emoji}",
-                    parse_mode=ParseMode.MARKDOWN,
-                )
+    if not is_animated:
+        try:
+            im = Image.open(kangsticker)
+            maxsize = (512, 512)
+            if im.size[0] < 512 or im.size[1] < 512:
+                im.thumbnail(maxsize)
+            im.save(kangsticker, "PNG")
+            context.bot.add_sticker_to_set(
+                user_id=user.id,
+                name=packname,
+                png_sticker=open("kangsticker.png", "rb"),
+                emojis=sticker_emoji,
+            )
+            await msg.reply_text(
+                f"Sticker successfully added to [pack](t.me/addstickers/{packname})"
+                + f"\nEmoji is: {sticker_emoji}",
+                parse_mode=ParseMode.MARKDOWN,
+            )
         except OSError as e:
             await msg.reply_text("I can only kang images m8.")
             print(e)
@@ -222,6 +223,7 @@ async def kang(update: Update, context: CallbackContext):
         else:
             packs += f"[pack](t.me/addstickers/{packname})"
         await msg.reply_text(packs, parse_mode=ParseMode.MARKDOWN)
+
     try:
         if os.path.isfile("kangsticker.png"):
             os.remove("kangsticker.png")
