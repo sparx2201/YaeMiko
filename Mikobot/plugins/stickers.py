@@ -128,7 +128,7 @@ if file_id:
         else:
             sticker_emoji = "🤔"
 
-    if not is_animated:
+            if not is_animated:
             try:
                 im = Image.open(kangsticker)
                 maxsize = (512, 512)
