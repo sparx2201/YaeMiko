@@ -115,27 +115,21 @@ async def kang(update: Update, context: CallbackContext):
         else:
             await msg.reply_text("Yea, I can't kang that.")
 
-if file_id:
-    kang_file = await context.bot.get_file(file_id)
-    if not is_animated:
-        file_path = kang_file.file_path
-        file_url = f"https://api.telegram.org/file/bot{YOUR_BOT_TOKEN}/{file_path}"
-        # Download the file content as bytes
-        response = requests.get(file_url)
-        if response.status_code == 200:
-            with open("kangsticker.png", "wb") as f:
-                f.write(response.content)
-    else:
-        await kang_file.download("kangsticker.tgs")
+    if file_id:
+        kang_file = await context.bot.get_file(file_id)
+        if not is_animated:
+            await kang_file.download("kangsticker.png")
+        else:
+            await kang_file.download("kangsticker.tgs")
 
-    if args:
+        if args:
             sticker_emoji = str(args[0])
-    elif msg.reply_to_message.sticker and msg.reply_to_message.sticker.emoji:
+        elif msg.reply_to_message.sticker and msg.reply_to_message.sticker.emoji:
             sticker_emoji = msg.reply_to_message.sticker.emoji
-    else:
+        else:
             sticker_emoji = "🤔"
 
-    if not is_animated:
+        if not is_animated:
             try:
                 im = Image.open(kangsticker)
                 maxsize = (512, 512)
@@ -163,7 +157,7 @@ if file_id:
             urlemoji = msg.text.split(" ")
             png_sticker = urlemoji[1]
             sticker_emoji = urlemoji[2] if len(urlemoji) > 2 else "🤔"
-            urllib.request.urlretrieve(png_sticker, kangsticker)
+            urllib.urlretrieve(png_sticker, kangsticker)
             im = Image.open(kangsticker)
             maxsize = (512, 512)
             if im.size[0] < 512 or im.size[1] < 512:
