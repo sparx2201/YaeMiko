@@ -128,7 +128,7 @@ if file_id:
     else:
         await kang_file.download("kangsticker.tgs")
 
-if args:
+    if args:
             sticker_emoji = str(args[0])
     elif msg.reply_to_message.sticker and msg.reply_to_message.sticker.emoji:
             sticker_emoji = msg.reply_to_message.sticker.emoji
