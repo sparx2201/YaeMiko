@@ -115,14 +115,20 @@ async def kang(update: Update, context: CallbackContext):
         else:
             await msg.reply_text("Yea, I can't kang that.")
 
-    if file_id:
-        kang_file = await context.bot.get_file(file_id)
-        if not is_animated:
-            file_path = kang_file.file_path
-            file_url = f"https://api.telegram.org/file/bot7045231345:AAE1XuKHhRf2nDAvHSrV00SY0GnATQWGFkM/kang_file.file_path"
-            urllib.request.urlopen(file_url, "kangsticker.png")
-        else:
-            await kang_file.download("kangsticker.tgs")
+if file_id:
+    kang_file = await context.bot.get_file(file_id)
+    if not is_animated:
+        file_path = kang_file.file_path
+        file_url = f"https://api.telegram.org/file/bot{YOUR_BOT_TOKEN}/{file_path}"
+        # Download the file content as bytes
+        response = requests.get(file_url)
+        if response.status_code == 200:
+            with open("kangsticker.png", "wb") as f:
+                f.write(response.content)
+    else:
+        await kang_file.download("kangsticker.tgs")
+else:
+    await msg.reply_text("No file found to download.")
 
         if args:
             sticker_emoji = str(args[0])
