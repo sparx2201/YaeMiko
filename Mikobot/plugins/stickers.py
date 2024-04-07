@@ -130,7 +130,7 @@ if file_id:
     else:
          await msg.reply_text("No file found to download.")
 
-    if args:
+if args:
             sticker_emoji = str(args[0])
     elif msg.reply_to_message.sticker and msg.reply_to_message.sticker.emoji:
             sticker_emoji = msg.reply_to_message.sticker.emoji
