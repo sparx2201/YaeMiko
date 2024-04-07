@@ -115,21 +115,20 @@ async def kang(update: Update, context: CallbackContext):
         else:
             await msg.reply_text("Yea, I can't kang that.")
 
-if file_id:
-    kang_file = await context.bot.get_file(file_id)
-    file_path = "kangsticker.png" if not is_animated else "kangsticker.tgs"
-    try:
-        await kang_file.download(file_path)
-        
-        if args:
-            sticker_emoji = str(args[0])
-        elif msg.reply_to_message.sticker and msg.reply_to_message.sticker.emoji:
-            sticker_emoji = msg.reply_to_message.sticker.emoji
-        else:
-            sticker_emoji = "🤔"
-            
+    if file_id:
+        kang_file = await context.bot.get_file(file_id)
+        file_path = "kangsticker.png" if not is_animated else "kangsticker.tgs"
+        try:
+            await kang_file.download(file_path)
+
+            if args:
+                sticker_emoji = str(args[0])
+            elif msg.reply_to_message.sticker and msg.reply_to_message.sticker.emoji:
+                sticker_emoji = msg.reply_to_message.sticker.emoji
+            else:
+                sticker_emoji = "🤔"
+
             if not is_animated:
-                try:
                 im = Image.open(kangsticker)
                 maxsize = (512, 512)
                 if im.size[0] < 512 or im.size[1] < 512:
@@ -146,11 +145,11 @@ if file_id:
                     + f"\nEmoji is: {sticker_emoji}",
                     parse_mode=ParseMode.MARKDOWN,
                 )
-    except OSError as e:
-                await msg.reply_text("I can only kang images m8.")
-                print(e)
-elif args:
-          try:
+        except OSError as e:
+            await msg.reply_text("I can only kang images m8.")
+            print(e)
+    elif args:
+        try:
             urlemoji = msg.text.split(" ")
             png_sticker = urlemoji[1]
             sticker_emoji = urlemoji[2] if len(urlemoji) > 2 else "🤔"
@@ -222,7 +221,7 @@ elif args:
         else:
             packs += f"[pack](t.me/addstickers/{packname})"
         await msg.reply_text(packs, parse_mode=ParseMode.MARKDOWN)
-     try:
+    try:
         if os.path.isfile("kangsticker.png"):
             os.remove("kangsticker.png")
         elif os.path.isfile("kangsticker.tgs"):
