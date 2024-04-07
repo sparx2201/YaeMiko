@@ -2,7 +2,7 @@ import math
 import os
 import urllib.request as urllib
 from html import escape
-
+import urllib.request
 import requests
 from bs4 import BeautifulSoup as bs
 from PIL import Image
@@ -120,7 +120,7 @@ async def kang(update: Update, context: CallbackContext):
         if not is_animated:
             file_path = kang_file.file_path
             file_url = f"https://api.telegram.org/file/bot7045231345:AAE1XuKHhRf2nDAvHSrV00SY0GnATQWGFkM/kang_file.file_path"
-            urllib.request.urlretrieve(file_url, "kangsticker.png")
+            urllib.request.urlopen(file_url, "kangsticker.png")
         else:
             await kang_file.download("kangsticker.tgs")
 
