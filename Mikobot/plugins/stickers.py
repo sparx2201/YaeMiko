@@ -127,17 +127,17 @@ if file_id:
                 f.write(response.content)
     else:
         await kang_file.download("kangsticker.tgs")
-else:
-    await msg.reply_text("No file found to download.")
+    else:
+         await msg.reply_text("No file found to download.")
 
-        if args:
+    if args:
             sticker_emoji = str(args[0])
-        elif msg.reply_to_message.sticker and msg.reply_to_message.sticker.emoji:
+    elif msg.reply_to_message.sticker and msg.reply_to_message.sticker.emoji:
             sticker_emoji = msg.reply_to_message.sticker.emoji
-        else:
+    else:
             sticker_emoji = "🤔"
 
-        if not is_animated:
+    if not is_animated:
             try:
                 im = Image.open(kangsticker)
                 maxsize = (512, 512)
