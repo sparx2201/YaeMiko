@@ -100,7 +100,6 @@ async def kang(update: Update, context: CallbackContext):
             if e.message == "Stickerset_invalid":
                 break
 
-    kangsticker = "kangsticker.png"
     is_animated = False
     file_id = ""
 
@@ -117,10 +116,13 @@ async def kang(update: Update, context: CallbackContext):
             await msg.reply_text("Yea, I can't kang that.")
 
     kang_file = await context.bot.get_file(file_id)
-    if not is_animated:
-       await kang_file.download_to_drive("kangsticker.png")
+    
+    if is_animated:
+        await kang_file.download_to_drive("kangsticker.tgs")
+        sticker_format = "animated"
     else:
-       await kang_file.download_to_drive("kangsticker.tgs")
+        await kang_file.download_to_drive("kangsticker.png")
+        sticker_format = "static"
 
     if args:
         sticker_emoji = str(args[0])
@@ -129,34 +131,24 @@ async def kang(update: Update, context: CallbackContext):
     else:
         sticker_emoji = "🤔"
 
-    if not is_animated:
-        # Open the saved image file
-        im = Image.open(kangsticker)
-        maxsize = (512, 512)
-        if im.size[0] < 512 or im.size[1] < 512:
-            im.thumbnail(maxsize)
-        im.save(kangsticker, "PNG")
-        
-        # Add sticker to set
-        await context.bot.add_sticker_to_set(
-            user_id=user.id,
-            name=packname,
-            sticker=open("kangsticker.png", "rb"),
-        )
-        await msg.reply_text(
-            f"Sticker successfully added to [pack](t.me/addstickers/{packname})"
-            + f"\nEmoji is: {sticker_emoji}",
-            parse_mode=ParseMode.MARKDOWN,
-        )
-    else:
-        packs = "Please reply to a sticker, or image to kang it!\nOh, by the way. here are your packs:\n"
-        if packnum > 0:
-            firstpackname = f"a{user.id}_by_{context.bot.username}"
-            for i in range(1, packnum + 1):
-                packs += f"[pack{i}](t.me/addstickers/{firstpackname})\n"
-        else:
-            packs += f"[pack](t.me/addstickers/{packname})"
-        await msg.reply_text(packs, parse_mode=ParseMode.MARKDOWN)
+    # Add sticker to set
+    await context.bot.add_sticker_to_set(
+        user_id=user.id,
+        name=packname,
+        sticker=kang_file,
+    )
+    
+    await makepack_internal(
+        update,
+        context,
+        msg,
+        user,
+        sticker_emoji,
+        packname,
+        packnum,
+        png_sticker=None,
+        tgs_sticker=None,
+    )
 
     # Remove the temporary files if they exist
     try:
@@ -166,7 +158,6 @@ async def kang(update: Update, context: CallbackContext):
             os.remove("kangsticker.tgs")
     except Exception as e:
         print(e)
-
 
 async def makepack_internal(
     update,
@@ -182,14 +173,15 @@ async def makepack_internal(
     name = user.first_name[:50]
     extra_version = "" if packnum <= 0 else f" {packnum}"
     try:
-        if sticker:
+        if png_sticker or tgs_sticker:
             success = await context.bot.create_new_sticker_set(
                 user_id=user.id,
                 name=packname,
                 title=f"{name}'s kang pack{extra_version}",
-                stickers=sticker,
-                
-)
+                stickers=[png_sticker] if png_sticker else [tgs_sticker],
+            )
+        else:
+            success = False
       
     except BadRequest as e:
         print(e)
@@ -219,6 +211,7 @@ async def makepack_internal(
         )
     else:
         await msg.reply_text("Failed to create sticker pack. Possibly due to blek mejik.")
+
 
 
 __help__ = """
