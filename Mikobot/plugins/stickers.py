@@ -85,7 +85,6 @@ async def getsticker(update: Update, context: CallbackContext):
 async def kang(update: Update, context: CallbackContext):
     msg = update.effective_message
     user = update.effective_user
-    args = context.args
     packnum = 0
     packname = f"a{user.id}_by_{context.bot.username}"
     max_stickers = 120
@@ -103,41 +102,39 @@ async def kang(update: Update, context: CallbackContext):
     is_animated = False
     file_id = ""
 
-    if msg.reply_to_message:
-        if msg.reply_to_message.sticker:
-            if msg.reply_to_message.sticker.is_animated:
-                is_animated = True
-            file_id = msg.reply_to_message.sticker.file_id
-        elif msg.reply_to_message.photo:
-            file_id = msg.reply_to_message.photo[-1].file_id
-        elif msg.reply_to_message.document:
-            file_id = msg.reply_to_message.document.file_id
-        else:
-            await msg.reply_text("Yea, I can't kang that.")
+    if msg.reply_to_message and msg.reply_to_message.sticker:
+        sticker = msg.reply_to_message.sticker
+        file_id = sticker.file_id
+        is_animated = sticker.is_animated
+
+    if not file_id:
+        await msg.reply_text("Please reply to a sticker to kang it.")
+        return
 
     kang_file = await context.bot.get_file(file_id)
-    
-    if is_animated:
-        await kang_file.download_to_drive("kangsticker.tgs")
-        sticker_format = "animated"
-    else:
-        await kang_file.download_to_drive("kangsticker.png")
-        sticker_format = "static"
 
-    if args:
-        sticker_emoji = str(args[0])
-    elif msg.reply_to_message.sticker and msg.reply_to_message.sticker.emoji:
+    sticker_format = "static" if not is_animated else "animated"
+    download_path = f"kangsticker.{sticker_format}"
+
+    try:
+        await kang_file.download_to_drive(download_path)
+    except Exception as e:
+        print(f"Error downloading sticker: {e}")
+        await msg.reply_text("Failed to download the sticker.")
+        return
+
+    sticker_emoji = "🤔"  # Default emoji
+
+    if msg.reply_to_message.sticker and msg.reply_to_message.sticker.emoji:
         sticker_emoji = msg.reply_to_message.sticker.emoji
-    else:
-        sticker_emoji = "🤔"
 
     # Add sticker to set
     await context.bot.add_sticker_to_set(
         user_id=user.id,
         name=packname,
-        sticker=kang_file,
+        sticker=open(download_path, "rb"),
     )
-    
+
     await makepack_internal(
         update,
         context,
@@ -146,18 +143,15 @@ async def kang(update: Update, context: CallbackContext):
         sticker_emoji,
         packname,
         packnum,
-        png_sticker=None,
-        tgs_sticker=None,
+        download_path,
     )
 
-    # Remove the temporary files if they exist
+    # Remove the temporary file
     try:
-        if os.path.isfile("kangsticker.png"):
-            os.remove("kangsticker.png")
-        elif os.path.isfile("kangsticker.tgs"):
-            os.remove("kangsticker.tgs")
+        if os.path.isfile(download_path):
+            os.remove(download_path)
     except Exception as e:
-        print(e)
+        print(f"Error removing temporary file: {e}")
 
 async def makepack_internal(
     update,
@@ -167,22 +161,17 @@ async def makepack_internal(
     emoji,
     packname,
     packnum,
-    png_sticker=None,
-    tgs_sticker=None,
+    sticker_path,
 ):
     name = user.first_name[:50]
     extra_version = "" if packnum <= 0 else f" {packnum}"
     try:
-        if png_sticker or tgs_sticker:
-            success = await context.bot.create_new_sticker_set(
-                user_id=user.id,
-                name=packname,
-                title=f"{name}'s kang pack{extra_version}",
-                stickers=[png_sticker] if png_sticker else [tgs_sticker],
-            )
-        else:
-            success = False
-      
+        success = await context.bot.create_new_sticker_set(
+            user_id=user.id,
+            name=packname,
+            title=f"{name}'s kang pack{extra_version}",
+            stickers=[sticker_path],
+        )
     except BadRequest as e:
         print(e)
         if e.message == "Sticker set name is already occupied":
