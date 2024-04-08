@@ -142,7 +142,7 @@ async def kang(update: Update, context: CallbackContext):
             user_id=user.id,
             name=packname,
             sticker=open("kangsticker.png", "rb"),
-            emojis=sticker_emoji,
+            emoji=sticker_emoji,
         )
         await msg.reply_text(
             f"Sticker successfully added to [pack](t.me/addstickers/{packname})"
@@ -189,7 +189,7 @@ async def makepack_internal(
                 name=packname,
                 title=f"{name}'s kang pack{extra_version}",
                 png_sticker=png_sticker,
-                emojis=emoji,
+                emoji=emoji,
             )
         if tgs_sticker:
             success = await context.bot.create_new_sticker_set(
@@ -197,7 +197,7 @@ async def makepack_internal(
                 name=packname,
                 title=f"{name}'s animated kang pack{extra_version}",
                 tgs_sticker=tgs_sticker,
-                emojis=emoji,
+                emoji=emoji,
             )
     except BadRequest as e:
         print(e)
