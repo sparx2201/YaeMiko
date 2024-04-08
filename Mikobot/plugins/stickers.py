@@ -182,22 +182,14 @@ async def makepack_internal(
     name = user.first_name[:50]
     extra_version = "" if packnum <= 0 else f" {packnum}"
     try:
-        if png_sticker:
+        if sticker:
             success = await context.bot.create_new_sticker_set(
                 user_id=user.id,
                 name=packname,
                 title=f"{name}'s kang pack{extra_version}",
-                png_sticker=png_sticker,
-                emojis=emoji,
-            )
-        if tgs_sticker:
-            success = await context.bot.create_new_sticker_set(
-                user_id=user.id,
-                name=packname,
-                title=f"{name}'s animated kang pack{extra_version}",
-                tgs_sticker=tgs_sticker,
-                emojis=emoji,
-            )
+                sticker=sticker,
+)
+      
     except BadRequest as e:
         print(e)
         if e.message == "Sticker set name is already occupied":
