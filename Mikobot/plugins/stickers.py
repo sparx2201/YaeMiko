@@ -141,7 +141,7 @@ async def kang(update: Update, context: CallbackContext):
         context.bot.add_sticker_to_set(
             user_id=user.id,
             name=packname,
-            png_sticker=open("kangsticker.png", "rb"),
+            sticker=open("kangsticker.png", "rb"),
             emojis=sticker_emoji,
         )
         await msg.reply_text(
