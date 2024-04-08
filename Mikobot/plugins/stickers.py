@@ -142,7 +142,6 @@ async def kang(update: Update, context: CallbackContext):
             user_id=user.id,
             name=packname,
             sticker=open("kangsticker.png", "rb"),
-            emojis=sticker_emoji,
         )
         await msg.reply_text(
             f"Sticker successfully added to [pack](t.me/addstickers/{packname})"
