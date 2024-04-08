@@ -187,7 +187,8 @@ async def makepack_internal(
                 user_id=user.id,
                 name=packname,
                 title=f"{name}'s kang pack{extra_version}",
-                sticker=sticker,
+                stickers=sticker,
+                
 )
       
     except BadRequest as e:
