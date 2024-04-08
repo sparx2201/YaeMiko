@@ -138,7 +138,7 @@ async def kang(update: Update, context: CallbackContext):
         im.save(kangsticker, "PNG")
         
         # Add sticker to set
-       await context.bot.add_sticker_to_set(
+        await context.bot.add_sticker_to_set(
             user_id=user.id,
             name=packname,
             sticker=open("kangsticker.png", "rb"),
