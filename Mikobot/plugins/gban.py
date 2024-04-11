@@ -239,10 +239,19 @@ async def gban(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if gban_time > 60:
         gban_time = round((gban_time / 60), 2)
-        await message.reply_text("Done! Gbanned.", parse_mode=ParseMode.HTML)
+        await message.reply_animation("https://graph.org/file/ab4c4619a9e1a8b2d64d0.mp4",
+                                      caption=f"GBANNED\n"
+                                      f"<b>Banned User:</b> {mention_html(user_chat.id, user_chat.first_name)}\n"
+                                      f"<b>Banned User ID:</b> <code>{user_chat.id}</code>\n", 
+                                      f"<b>Dragon:</b> {escape_markdown(user.first_name)}\n",
+                                      parse_mode=ParseMode.HTML)
     else:
-        await message.reply_text("Done! Gbanned.", parse_mode=ParseMode.HTML)
-
+        await message.reply_animation("https://graph.org/file/ab4c4619a9e1a8b2d64d0.mp4",
+                                      caption=f"GBANNED\n"
+                                      f"<b>Banned User:</b> {mention_html(user_chat.id, user_chat.first_name)}\n"
+                                      f"<b>Banned User ID:</b> <code>{user_chat.id}</code>\n", 
+                                      f"<b>Dragon:</b> {escape_markdown(user.first_name)}\n",
+                                      parse_mode=ParseMode.HTML)
     try:
         await bot.send_message(
             user_id,
