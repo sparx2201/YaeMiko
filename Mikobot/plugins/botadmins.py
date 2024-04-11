@@ -52,18 +52,19 @@ async def botstaff(update: Update, context: ContextTypes.DEFAULT_TYPE):
         reply = ""
 
     true_sudo = list(set(DRAGONS) - set(DEV_USERS))
-    reply += "\n\n➪ <b> DRAGONS :</b>\n"
+    reply += "\n\n◊ <b> DRAGONS :</b>\n"
     reply += "\n".join(await get_users_list(context, true_sudo)) or "No Sudo Users"
 
-    reply += "\n\n➪ <b> DEMONS :</b>\n"
+    reply += "\n\n◊ <b> DEMONS :</b>\n"
     reply += "\n".join(await get_users_list(context, DEMONS)) or "No Demon Users"
 
-    reply += "\n\n➪ <b> TIGERS :</b>\n"
+    reply += "\n\n◊ <b> TIGERS :</b>\n"
     reply += "\n".join(await get_users_list(context, TIGERS)) or "No Tiger Users"
 
-    reply += "\n\n➪ <b>WOLVES :</b>\n"
+    reply += "\n\n◊ <b>WOLVES :</b>\n"
     reply += (
-        "\n".join(await get_users_list(context, WOLVES))
+        "\n".join(await get_users_list(context, WOLVES))\n\n<b>‣ 𝘊𝘩𝘦𝘤𝘬 𝘠𝘰𝘶𝘳 <a href=https://telegra.ph/Disaster-Levels-04-11>𝘋𝘪𝘴𝘢𝘴𝘵𝘦𝘳 𝘓𝘦𝘷𝘦𝘭</a></b>
+        
         or "No additional whitelisted users"
     )
 
