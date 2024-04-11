@@ -244,7 +244,7 @@ async def gban(update: Update, context: ContextTypes.DEFAULT_TYPE):
                                       f"<b>Banned User:</b> {mention_html(user_chat.id, user_chat.first_name)}\n"
                                       f"<b>Banned User ID:</b> <code>{user_chat.id}</code>\n" 
                                       f"<b>Dragon:</b> {html.escape(user.first_name)}
-                                      "f"\n<b>Reason:</b> <code>{reason}</code>",
+                                      f"\n<b>Reason:</b> <code>{reason}</code>",
                                       parse_mode=ParseMode.HTML)
     
     else:
