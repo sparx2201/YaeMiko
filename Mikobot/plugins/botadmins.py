@@ -63,6 +63,8 @@ async def botstaff(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     reply += "\n\n◊ <b>WOLVES :</b>\n"
     reply += ("\n".join(await get_users_list(context, WOLVES)) or "No additional whitelisted users")
+
+    reply += "\n\n◊ <b> ‣ 𝘊𝘩𝘦𝘤𝘬 𝘠𝘰𝘶𝘳 𝘋𝘪𝘴𝘢𝘴𝘵𝘦𝘳 𝘓𝘦𝘷𝘦𝘭 </b>\n"
        
     await update.message.reply_text(reply, parse_mode=ParseMode.HTML)
     LOGGER.info(
