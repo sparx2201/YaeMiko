@@ -12,8 +12,8 @@ from Mikobot import tbot as client
 
 # <=======================================================================================================>
 
-BASE_URL = "https://lexica.qewertyy.me"
-SESSION_HEADERS = {"Host": "lexica.qewertyy.me"}
+BASE_URL = "https://ai.qewertyy.dev/create"
+SESSION_HEADERS = {"Host": "ai.qewertyy.dev"}
 
 
 # <=============================================== CLASS + FUNCTION ========================================================>
