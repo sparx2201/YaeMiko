@@ -9,7 +9,7 @@ from telegram.constants import ParseMode
 from telegram.error import TelegramError
 from telegram.ext import CommandHandler, ContextTypes
 
-from Mikobot import DEMONS, DEV_USERS, DRAGONS, LOGGER, OWNER_ID, WOLVES, function
+from Mikobot import DEMONS, DEV_USERS, DRAGONS, LOGGER, OWNER_ID, WOLVES, TIGERS, function
 from Mikobot.plugins.helper_funcs.chat_status import support_plus
 from Mikobot.utils.parser import mention_html
 
@@ -46,23 +46,22 @@ async def botstaff(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         owner = await get_chat_member(context, OWNER_ID)
         owner_info = await mention_html(owner.user.first_name, owner.user.id)
-        reply = f"✪ <b>CREATOR :</b> {owner_info} (<code>{OWNER_ID}</code>)\n"
+        reply = f"✦ <b>OWNER :</b> {owner_info} (<code>{OWNER_ID}</code>)\n"
     except TelegramError as e:
         LOGGER.error(f"Error getting owner information: {e}")
         reply = ""
 
-    true_dev = list(set(DEV_USERS) - {OWNER_ID})
-    reply += "\n\n➪ <b>SPECIAL GRADE USERS :</b>\n"
-    reply += "\n".join(await get_users_list(context, true_dev)) or "No Dev Users"
-
     true_sudo = list(set(DRAGONS) - set(DEV_USERS))
-    reply += "\n\n➪ <b>A GRADE USERS :</b>\n"
+    reply += "\n\n➪ <b> DRAGONS :</b>\n"
     reply += "\n".join(await get_users_list(context, true_sudo)) or "No Sudo Users"
 
-    reply += "\n\n➪ <b>B GRADE USERS :</b>\n"
+    reply += "\n\n➪ <b> DEMONS :</b>\n"
     reply += "\n".join(await get_users_list(context, DEMONS)) or "No Demon Users"
 
-    reply += "\n\n➪ <b>NORMAL GRADE USERS :</b>\n"
+    reply += "\n\n➪ <b> TIGERS :</b>\n"
+    reply += "\n".join(await get_users_list(context, TIGERS)) or "No Tiger Users"
+
+    reply += "\n\n➪ <b>WOLVES :</b>\n"
     reply += (
         "\n".join(await get_users_list(context, WOLVES))
         or "No additional whitelisted users"
