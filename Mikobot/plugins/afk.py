@@ -44,12 +44,12 @@ async def afk(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         if reason:
             await update.effective_message.reply_text(
-                f"➲ {fname} is now away! \n\n➦ Reason: {reason} \n {notice}",
+                f" {fname} ɪs ɴᴏᴡ ᴀᴡᴀʏ!",
                 parse_mode="html",
             )
         else:
             await update.effective_message.reply_text(
-                "➲ {} is now away!{}".format(fname, notice),
+                " {} ɪs ɴᴏᴡ ᴀᴡᴀʏ!{}".format(fname, notice),
             )
     except BadRequest:
         pass
@@ -74,18 +74,18 @@ async def no_longer_afk(update: Update, context: ContextTypes.DEFAULT_TYPE):
         firstname = update.effective_user.first_name
         try:
             options = [
-                "➲ {} is here!",
-                "➲ {} is back!",
-                "➲ {} is now in the chat!",
-                "➲ {} is awake!",
-                "➲ {} is back online!",
-                "➲ {} is finally here!",
-                "➲ Welcome back! {}",
+                " {} ɪs ʜᴇʀᴇ!",
+                " {} ɪs ʙᴀᴄᴋ!",
+                " {} ɪs ɴᴏᴡ ɪɴ ᴛʜᴇ ᴄʜᴀᴛ!",
+                " {} ɪs ᴀᴡᴀᴋᴇ!",
+                " {} ɪs ʙᴀᴄᴋ ᴏɴʟɪɴᴇ!",
+                " {} ɪs ғɪɴᴀʟʟʏ ʜᴇʀᴇ!",
+                " Wᴇʟᴄᴏᴍᴇ ʙᴀᴄᴋ! {}",
             ]
             chosen_option = random.choice(options)
             await update.effective_message.reply_text(
                 chosen_option.format(firstname)
-                + f"\n\nYou were AFK for: <code>{time}</code>",
+                + f"\nYᴏᴜ ᴡᴇʀᴇ Aғᴋ ғᴏʀ: {time}",
                 parse_mode="html",
             )
         except:
@@ -160,17 +160,17 @@ async def check_afk(
         time = humanize.naturaldelta(datetime.now() - user.time)
 
         if not user.reason:
-            res = "➲ {} is afk.\n\n➦ Last seen {} ago.".format(
+            res = "{} ɪs Aғᴋ.\nSɪɴᴄᴇ: {}.".format(
                 fst_name,
                 time,
             )
             await update.effective_message.reply_text(res)
         else:
             res = (
-                "➲ {} is afk.\n\n➦ Reason: <code>{}</code>\n➦ Last seen {} ago.".format(
+                "{} ɪs Aғᴋ.\nSɪɴᴄᴇ: {}\nRᴇᴀsᴏɴ: {}".format(
                     html.escape(fst_name),
+                    time, 
                     html.escape(user.reason),
-                    time,
                 )
             )
             await update.effective_message.reply_text(res, parse_mode="html")
@@ -180,11 +180,9 @@ async def check_afk(
 
 
 __help__ = """
-» /afk <reason>*:* mark yourself as AFK (away from keyboard).
+‣ /afk, brb, !afk <reason>*:* ᴍᴀʀᴋ ʏᴏᴜʀsᴇʟғ ᴀs Aғᴋ (ᴀᴡᴀʏ ғʀᴏᴍ ᴋᴇʏʙᴏᴀʀᴅ).
 
-» brb , !afk <reason>*:* same as the afk command - but not a command.
-
-➠ *When marked as AFK, any mentions will be replied to with a message to say you're not available!*
+Wʜᴇɴ ᴍᴀʀᴋᴇᴅ ᴀs Aғᴋ, ᴀɴʏ ᴍᴇɴᴛɪᴏɴs ᴡɪʟʟ ʙᴇ ʀᴇᴘʟɪᴇᴅ ᴛᴏ ᴡɪᴛʜ ᴀ ᴍᴇssᴀɢᴇ ᴛᴏ sᴀʏ ʏᴏᴜ'ʀᴇ ɴᴏᴛ ᴀᴠᴀɪʟᴀʙʟᴇ!
 """
 
 # <================================================ HANDLER =======================================================>
@@ -204,7 +202,7 @@ function(AFK_REGEX_HANDLER, AFK_GROUP)
 function(NO_AFK_HANDLER, AFK_GROUP)
 function(AFK_REPLY_HANDLER, AFK_REPLY_GROUP)
 
-__mod_name__ = "AFK"
+__mod_name__ = "Aғᴋ"
 __command_list__ = ["afk"]
 __handlers__ = [
     (AFK_HANDLER, AFK_GROUP),
