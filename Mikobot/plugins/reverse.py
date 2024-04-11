@@ -62,7 +62,7 @@ async def reverseImageSearch(_: Client, m: t.Message):
             htmlMessage += "<br/><br/><h3>URLS</h3><br/>"
             htmlMessage += f"<br/>".join([f"{url}" for url in urls])
             htmlMessage += (
-                "<br/><br/>By <a href='https://lexica.qewertyy.me'>LexicaAPI</a>"
+                "<br/><br/>By <a href='https://lexica.qewertyy.dev'>LexicaAPI</a>"
             )
             telegraph_page = telegraph.create_page(
                 "More Results", html_content=htmlMessage
@@ -82,7 +82,7 @@ async def reverseImageSearch(_: Client, m: t.Message):
 async def reverse_image_search(search_engine, img_url) -> dict:
     try:
         response = await state.post(
-            f"https://lexica.qewertyy.me/image-reverse/{search_engine}?img_url={img_url}",
+            f"https://lexica.qewertyy.dev/image-reverse/{search_engine}?img_url={img_url}",
         )
         if response.status_code != 200:
             return None
