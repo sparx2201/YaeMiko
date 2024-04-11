@@ -243,14 +243,14 @@ async def gban(update: Update, context: ContextTypes.DEFAULT_TYPE):
                                       caption=f"GBANNED\n"
                                       f"<b>Banned User:</b> {mention_html(user_chat.id, user_chat.first_name)}\n"
                                       f"<b>Banned User ID:</b> <code>{user_chat.id}</code>\n" 
-                                      f"<b>Dragon:</b> {html.escape(first_name)}",
+                                      f"<b>Dragon:</b> {html.escape(user.first_name)}",
                                       parse_mode=ParseMode.HTML)
     else:
         await message.reply_animation("https://graph.org/file/ab4c4619a9e1a8b2d64d0.mp4",
                                       caption=f"GBANNED\n"
                                       f"<b>Banned User:</b> {mention_html(user_chat.id, user_chat.first_name)}\n"
                                       f"<b>Banned User ID:</b> <code>{user_chat.id}</code>\n" 
-                                      f"<b>Dragon:</b> {html.escape(first_name)}",
+                                      f"<b>Dragon:</b> {html.escape(user.first_name)}",
                                       parse_mode=ParseMode.HTML)
     try:
         await bot.send_message(
