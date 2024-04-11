@@ -245,10 +245,10 @@ async def gban(update: Update, context: ContextTypes.DEFAULT_TYPE):
                                       f"<b>Banned User ID:</b> <code>{user_chat.id}</code>\n" 
                                       f"<b>Dragon:</b> {html.escape(user.first_name)}",
                                       parse_mode=ParseMode.HTML)
-            if reason:
-        if chat.type == chat.SUPERGROUP and chat.username:
+      if reason:
+      if chat.type == chat.SUPERGROUP and chat.username:
            caption += f'\n<b>Reason:</b> <a href="https://telegram.me/{chat.username}/{message.message_id}">{reason}</a>'
-        else:
+      else:
            caption += f"\n<b>Reason:</b> <code>{reason}</code>"
     else:
         await message.reply_animation("https://graph.org/file/ab4c4619a9e1a8b2d64d0.mp4",
@@ -257,7 +257,7 @@ async def gban(update: Update, context: ContextTypes.DEFAULT_TYPE):
                                       f"<b>Banned User ID:</b> <code>{user_chat.id}</code>\n" 
                                       f"<b>Dragon:</b> {html.escape(user.first_name)}",
                                       parse_mode=ParseMode.HTML)
-            if reason:
+        if reason:
         if chat.type == chat.SUPERGROUP and chat.username:
             caption += f'\n<b>Reason:</b> <a href="https://telegram.me/{chat.username}/{message.message_id}">{reason}</a>'
         else:
