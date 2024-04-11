@@ -64,10 +64,10 @@ async def botstaff(update: Update, context: ContextTypes.DEFAULT_TYPE):
     reply += "\n\n◊ <b>WOLVES :</b>\n"
     reply += ("\n".join(await get_users_list(context, WOLVES)) or "No additional whitelisted users")
 
-    reply += '\n\n‣ <b> 𝘊𝘩𝘦𝘤𝘬 𝘠𝘰𝘶𝘳 <a href="https://telegra.ph/Disaster-Levels-04-11"> 𝘋𝘪𝘴𝘢𝘴𝘵𝘦𝘳 𝘓𝘦𝘷𝘦𝘭</a> </b>\n'
+    reply += '\n\n‣ 𝘊𝘩𝘦𝘤𝘬 𝘠𝘰𝘶𝘳 <a href="https://telegra.ph/Disaster-Levels-04-11"> 𝘋𝘪𝘴𝘢𝘴𝘵𝘦𝘳 𝘓𝘦𝘷𝘦𝘭</a> \n'
 
        
-    await update.message.reply_text(reply, parse_mode=ParseMode.HTML)
+    await update.message.reply_text(reply, parse_mode=ParseMode.HTML, disable_web_page_preview = True,)
     LOGGER.info(
         f"{update.message.from_user.id} fetched botstaff in {update.message.chat.id}"
     )
