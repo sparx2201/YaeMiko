@@ -240,18 +240,28 @@ async def gban(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if gban_time > 60:
         gban_time = round((gban_time / 60), 2)
         await message.reply_animation("https://graph.org/file/ab4c4619a9e1a8b2d64d0.mp4",
-                                      caption=f"GBANNED\n"
+                                      caption=f"#GBANNED\n\n"
                                       f"<b>Banned User:</b> {mention_html(user_chat.id, user_chat.first_name)}\n"
                                       f"<b>Banned User ID:</b> <code>{user_chat.id}</code>\n" 
                                       f"<b>Dragon:</b> {html.escape(user.first_name)}",
                                       parse_mode=ParseMode.HTML)
+            if reason:
+        if chat.type == chat.SUPERGROUP and chat.username:
+           caption += f'\n<b>Reason:</b> <a href="https://telegram.me/{chat.username}/{message.message_id}">{reason}</a>'
+        else:
+           caption += f"\n<b>Reason:</b> <code>{reason}</code>"
     else:
         await message.reply_animation("https://graph.org/file/ab4c4619a9e1a8b2d64d0.mp4",
-                                      caption=f"GBANNED\n"
+                                      caption=f"#GBANNED\n\n"
                                       f"<b>Banned User:</b> {mention_html(user_chat.id, user_chat.first_name)}\n"
                                       f"<b>Banned User ID:</b> <code>{user_chat.id}</code>\n" 
                                       f"<b>Dragon:</b> {html.escape(user.first_name)}",
                                       parse_mode=ParseMode.HTML)
+            if reason:
+        if chat.type == chat.SUPERGROUP and chat.username:
+            caption += f'\n<b>Reason:</b> <a href="https://telegram.me/{chat.username}/{message.message_id}">{reason}</a>'
+        else:
+            caption += f"\n<b>Reason:</b> <code>{reason}</code>"
     try:
         await bot.send_message(
             user_id,
