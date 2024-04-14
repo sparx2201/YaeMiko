@@ -92,22 +92,7 @@ async def close_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
 
 
-@app.on_message(filters.command("pyroping"))
-async def ping(_, m: Message):
-    LOGGER.info(f"{m.from_user.id} used ping cmd in {m.chat.id}")
-    start = time()
-    replymsg = await m.reply_text(text="Pinging...", quote=True)
-    delta_ping = time() - start
 
-    up = strftime("%Hh %Mm %Ss", gmtime(time() - UPTIME))
-    image_url = "https://telegra.ph/file/f215a1c4adf25a5bad81b.jpg"
-
-    # Send the image as a reply
-    await replymsg.reply_photo(
-        photo=image_url,
-        caption=f"<b>Pyro-Pong!</b>\n{delta_ping * 1000:.3f} ms\n\nUptime: <code>{up}</code>",
-    )
-    await replymsg.delete()
 
 
 # <=======================================================================================================>
@@ -120,18 +105,16 @@ function(CallbackQueryHandler(close_callback, pattern="^close$", block=False))
 
 # <================================================= HELP ======================================================>
 __help__ = """
-➠ *Commands*:
+ *Commands*:
 
-» /instadl, /insta <link>: Get instagram contents like reel video or images.
+▸ /instadl, /insta <link>: Get instagram contents like reel video or images.
 
-» /pyroping: see pyroping.
+▸ /hyperlink <text> <link> : Creates a markdown hyperlink with the provided text and link.
 
-» /hyperlink <text> <link> : Creates a markdown hyperlink with the provided text and link.
+▸ /pickwinner <participant1> <participant2> ... : Picks a random winner from the provided list of participants.
 
-» /pickwinner <participant1> <participant2> ... : Picks a random winner from the provided list of participants.
-
-» /id: reply to get user id.
+▸ /id: reply to get user id.
 """
 
-__mod_name__ = "EXTRA"
+__mod_name__ = "Exᴛʀᴀ"
 # <================================================ END =======================================================>
