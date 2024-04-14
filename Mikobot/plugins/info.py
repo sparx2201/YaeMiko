@@ -12,7 +12,7 @@ from telegram.helpers import mention_html
 
 from Database.sql.approve_sql import is_approved
 from Infamous.karma import START_IMG
-from Mikobot import DEV_USERS, DRAGONS, INFOPIC, OWNER_ID, function
+from Mikobot import DRAGONS, INFOPIC, OWNER_ID, function
 from Mikobot.__main__ import STATS, USER_INFO
 from Mikobot.plugins.helper_funcs.chat_status import support_plus
 from Mikobot.plugins.users import get_user_id
@@ -80,45 +80,42 @@ async def info(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if chat_obj.type == ChatType.PRIVATE:
         if chat_obj.username:
-            head = f"⇨【 <b>USER INFORMATION</b> 】⇦\n\n"
+            head = f"〘 𝙐𝙎𝙀𝙍 𝙄𝙉𝙁𝙊𝙍𝙈𝘼𝙏𝙄𝙊𝙉 〙\n\n"
             if chat_obj.username.endswith("bot"):
-                head = f"⇨【 <b>BOT INFORMATION</b> 】⇦\n\n"
+                head = f"〘 𝘽𝙊𝙏 𝙄𝙉𝙁𝙊𝙍𝙈𝘼𝙏𝙄𝙊𝙉 〙\n\n"
 
-        head += f"➲ <b>ID:</b> <code>{chat_obj.id}</code>"
-        head += f"\n➲ <b>First Name:</b> {chat_obj.first_name}"
+        head += f"➥ <b>ID:</b> <code>{chat_obj.id}</code>"
+        head += f"\n➥ <b>First Name:</b> {chat_obj.first_name}"
         if chat_obj.last_name:
-            head += f"\n➲ <b>Last Name:</b> {chat_obj.last_name}"
+            head += f"\n➥ <b>Last Name:</b> {chat_obj.last_name}"
         if chat_obj.username:
-            head += f"\n➲ <b>Username:</b> @{chat_obj.username}"
-        head += f"\n➲ <b>Permalink:</b> {mention_html(chat_obj.id, 'link')}"
+            head += f"\n➥ <b>Username:</b> @{chat_obj.username}"
+        head += f"\n➥ <b>Permalink:</b> {mention_html(chat_obj.id, 'link')}"
 
         if chat_obj.username and not chat_obj.username.endswith("bot"):
             head += f"\n\n💎 <b>Premium User:</b> {premium}"
 
         if chat_obj.bio:
-            head += f"\n\n<b>➲ Bio:</b> {chat_obj.bio}"
+            head += f"\n\n<b>➥ Bio:</b> {chat_obj.bio}"
 
         chat_member = await chat.get_member(chat_obj.id)
         if isinstance(chat_member, ChatMemberAdministrator):
-            head += f"\n➲ <b>Presence:</b> {chat_member.status}"
+            head += f"\n➥ <b>Presence:</b> {chat_member.status}"
             if chat_member.custom_title:
-                head += f"\n➲ <b>Admin Title:</b> {chat_member.custom_title}"
+                head += f"\n➥ <b>Admin Title:</b> {chat_member.custom_title}"
         else:
-            head += f"\n➲ <b>Presence:</b> {chat_member.status}"
+            head += f"\n➥ <b>Presence:</b> {chat_member.status}"
 
         if is_approved(chat.id, chat_obj.id):
-            head += f"\n➲ <b>Approved:</b> This user is approved in this chat."
+            head += f"\n➥ <b>Approved:</b> This user is approved in this chat."
 
         disaster_level_present = False
 
         if chat_obj.id == OWNER_ID:
-            head += "\n\n👑 <b>The disaster level of this person is My Owner.</b>"
-            disaster_level_present = True
-        elif chat_obj.id in DEV_USERS:
-            head += "\n\n🐉 <b>This user is a member of Infamous Hydra.</b>"
+            head += "\n\n👑 <b>𝘛𝘩𝘪𝘴 𝘱𝘦𝘳𝘴𝘰𝘯 𝘪𝘴 𝘮𝘺 𝘖𝘸𝘯𝘦𝘳. 𝘋𝘰𝘯'𝘵 𝘮𝘦𝘴𝘴 𝘸𝘪𝘵𝘩 𝘩𝘪𝘮;\n𝘪𝘧 𝘺𝘰𝘶 𝘥𝘰, 𝘐 𝘸𝘪𝘭𝘭 𝘩𝘶𝘳𝘵 𝘺𝘰𝘶 𝘣𝘢𝘥𝘭𝘺.</b>"
             disaster_level_present = True
         elif chat_obj.id in DRAGONS:
-            head += "\n\n🐲 <b>The disaster level of this person is Dragon.</b>"
+            head += "\n\n🐲 <b>𝘛𝘩𝘪𝘴 𝘶𝘴𝘦𝘳 𝘪𝘴 𝘮𝘺 𝘤𝘶𝘵𝘦 𝘋𝘳𝘢𝘨𝘰𝘯.\n𝘐 𝘸𝘪𝘭𝘭 𝘩𝘶𝘳𝘵 𝘺𝘰𝘶 𝘣𝘢𝘥𝘭𝘺 𝘪𝘧 𝘺𝘰𝘶 𝘩𝘶𝘳𝘵 𝘵𝘩𝘦𝘮.</b>"
             disaster_level_present = True
         if disaster_level_present:
             head += " [?]"
@@ -189,7 +186,7 @@ async def info(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 @support_plus
 async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    stats = "📊 <b>Miko-Bot's Statistics:</b>\n\n" + "\n".join(
+    stats = "📊 <b> 𝘑𝘪𝘯𝘟's Statistics:</b>\n\n" + "\n".join(
         [mod.__stats__() for mod in STATS]
     )
     result = re.sub(r"(\d+)", r"<code>\1</code>", stats)
@@ -203,7 +200,7 @@ async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 __help__ = """
-*Overall information about user:*
+*Gᴇᴛ ᴏᴠᴇʀᴀʟʟ ɪɴꜰᴏʀᴍᴀᴛɪᴏɴ ᴀʙᴏᴜᴛ ᴜꜱᴇʀ:*
 
 » /info : Fetch information.
 """
@@ -215,7 +212,7 @@ INFO_HANDLER = CommandHandler(("info", "book"), info, block=False)
 function(STATS_HANDLER)
 function(INFO_HANDLER)
 
-__mod_name__ = "INFO"
+__mod_name__ = "Iɴꜰᴏ"
 __command_list__ = ["info"]
 __handlers__ = [INFO_HANDLER, STATS_HANDLER]
 # <================================================ END =======================================================>
