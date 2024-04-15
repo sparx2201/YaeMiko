@@ -74,7 +74,7 @@ async def generate_image_handler(event, model_id):
                 await reply_message.delete()
 
                 # Send the generated image
-                await event.respond(file=img_url, text="*Created By: @JinX_Ubot*")
+                await event.reply(file=img_url)
             break  # Exit the loop when images are available
         else:
             # Wait for a few seconds before checking again
