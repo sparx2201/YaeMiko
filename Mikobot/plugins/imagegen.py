@@ -133,7 +133,7 @@ async def creative_handler(event):
     await generate_image_handler(event, model_id=16)
 
 
-@client.on(events.NewMessage(pattern=r"/DallE"))
+@client.on(events.NewMessage(pattern=r"/create"))
 async def creative_handler(event):
     await generate_image_handler(event, model_id=33)
 
