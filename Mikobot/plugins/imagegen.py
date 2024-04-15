@@ -12,8 +12,8 @@ from Mikobot import tbot as client
 
 # <=======================================================================================================>
 
-BASE_URL = "https://ai.qewertyy.dev/create"
-SESSION_HEADERS = {"Host": "ai.qewertyy.dev"}
+BASE_URL = "https://lexica.qewertyy.dev"
+SESSION_HEADERS = {"Host": "lexica.qewertyy.dev"}
 
 
 # <=============================================== CLASS + FUNCTION ========================================================>
@@ -128,5 +128,13 @@ async def darkv_handler(event):
 async def creative_handler(event):
     await generate_image_handler(event, model_id=12)
 
+@client.on(events.NewMessage(pattern=r"/lexica"))
+async def creative_handler(event):
+    await generate_image_handler(event, model_id=16)
+
+
+@client.on(events.NewMessage(pattern=r"/DallE"))
+async def creative_handler(event):
+    await generate_image_handler(event, model_id=33)
 
 # <================================================ END =======================================================>
