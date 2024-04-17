@@ -3,58 +3,95 @@
 # PROVIDED BY: https://github.com/Team-ProjectCodeX
 
 # <============================================== IMPORTS =========================================================>
+import asyncio
 import requests
-import time
-import os
-from pyrogram import filters
-from REPO import app
+import aiohttp
+from telethon import events
 
-# Command handler for /generate
-@app.on_message(filters.command('create'))
-async def generate_image(client, message):
-    # Get the prompt from the command
-    prompt = ' '.join(message.command[1:])
+from Mikobot import tbot as client
 
-    # Send a message to inform the user to wait
-    wait_message = await message.reply_text("Please wait while I generate the image...")
-    StartTime = time.time()
+# <=======================================================================================================>
+
+BASE_URL = "https://lexica.qewertyy.dev"
+SESSION_HEADERS = {"Host": "lexica.qewertyy.dev"}
 
 
-    # API endpoint URL
-    url = 'https://ai-api.magicstudio.com/api/ai-art-generator'
+# <=============================================== CLASS + FUNCTION ========================================================>
+class AsyncClient:
+    def __init__(self):
+        self.url = BASE_URL
+        self.session = aiohttp.ClientSession()
 
-    # Form data for the request
-    form_data = {
-        'prompt': prompt,
-        'output_format': 'bytes',
-        'request_timestamp': str(int(time.time())),
-        'user_is_subscribed': 'false',
-    }
-
-    # Send a POST request to the API
-    response = requests.post(url, data=form_data)
-
-    if response.status_code == 200:
+    async def generate(self, model_id, prompt, negative_prompt):
+        data = {
+            "model_id": model_id,
+            "prompt": prompt,
+            "negative_prompt": negative_prompt if negative_prompt else "",
+            "num_images": 1,
+        }
         try:
-            if response.content:
-                destination_dir = ''
-                destination_path = os.path.join(destination_dir, 'generated_image.jpg')
+            async with self.session.post(
+                f"{self.url}/models/inference", data=data, headers=SESSION_HEADERS
+            ) as resp:
+                return await resp.json()
+        except Exception as e:
+            print(f"Request failed: {str(e)}")
 
-                # Save the image to the destination path
-                with open(destination_path, 'wb') as f:
-                    f.write(response.content)
+    async def get_images(self, task_id, request_id):
+        data = {"task_id": task_id, "request_id": request_id}
+        try:
+            async with self.session.post(
+                f"{self.url}/models/inference/task", data=data, headers=SESSION_HEADERS
+            ) as resp:
+                return await resp.json()
+        except Exception as e:
+            print(f"Request failed: {str(e)}")
 
-                # Delete the wait message
-                await wait_message.delete()
+
+async def generate_image_handler(event, model_id):
+    command_parts = event.text.split(" ", 1)
+    if len(command_parts) < 2:
+        await event.reply("Please provide a prompt.")
+        return
+
+    prompt = command_parts[1]
+    negative_prompt = ""
+
+    # Send the initial "Generating your image, wait sometime" message
+    reply_message = await event.reply("Generating your image...")
+
+    client = AsyncClient()
+    response = await client.generate(model_id, prompt, negative_prompt)
+    task_id = response["task_id"]
+    request_id = response["request_id"]
+
+    while True:
+        generated_images = await client.get_images(task_id, request_id)
+
+        if "img_urls" in generated_images:
+            for img_url in generated_images["img_urls"]:
+                # Delete the initial reply message
+                await reply_message.delete()
 
                 # Send the generated image
-                await message.reply_photo(destination_path, caption=f"Here's the generated image!\nTime Taken: {time.time() - StartTime}")
+                await client.send_message(chat, '@jinx_ubot', file=img_url )
+                
+            break  # Exit the loop when images are available
+        else:
+            # Wait for a few seconds before checking again
+            await asyncio.sleep(5)
 
-                # Delete the generated image after sending
-                os.remove(destination_path)
-            else:
-                await wait_message.edit_text("Failed to generate the image.")
-        except Exception as e:
-            await wait_message.edit_text("Error: {}".format(e))
-    else:
-        await wait_message.edit_text("Error: {}".format(response.status_code))
+        # Optionally, you can add a timeout to avoid an infinite loop
+        timeout_seconds = 180  # 10 minutes (adjust as needed)
+        if timeout_seconds <= 0:
+            await reply_message.edit("Image generation timed out.")
+            break
+
+        timeout_seconds -= 5  # Decrement timeout by 5 seconds
+
+
+@client.on(events.NewMessage(pattern=r"/create"))
+async def creative_handler(event):
+    await generate_image_handler(event, model_id=33)
+
+# <================================================ END =======================================================>
