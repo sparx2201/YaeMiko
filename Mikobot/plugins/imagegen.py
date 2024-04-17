@@ -74,7 +74,7 @@ async def generate_image_handler(event, model_id):
                 await reply_message.delete()
 
                 # Send the generated image
-                 await event.reply(document=img_url)
+            await event.reply(document=img_url)
 
                 
             break  # Exit the loop when images are available
