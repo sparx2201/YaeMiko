@@ -74,7 +74,8 @@ async def generate_image_handler(event, model_id):
                 await reply_message.delete()
 
                 # Send the generated image
-                await client.send_message(chat, '@jinx_ubot', file=img_url )
+                await client.send_file(event.chat_id, file=img_url, caption='Your caption here')
+
                 
             break  # Exit the loop when images are available
         else:
