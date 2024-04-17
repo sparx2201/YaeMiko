@@ -74,7 +74,7 @@ async def generate_image_handler(event, model_id):
                 await reply_message.delete()
 
                 # Send the generated image
-                await event.reply(file=img_url, text='Your caption here')
+            await self._client.send_file(event.chat_id, img_url, caption='Your caption here')
             break  # Exit the loop when images are available
         else:
             # Wait for a few seconds before checking again
