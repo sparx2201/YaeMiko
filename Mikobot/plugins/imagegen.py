@@ -91,6 +91,6 @@ async def generate_image_handler(event, model_id, message):
 
 @client.on(events.NewMessage(pattern=r"/create"))
 async def creative_handler(event):
-    await generate_image_handler(event, model_id=33)
+    await generate_image_handler(event, message, model_id=33)
 
 # <================================================ END =======================================================>
