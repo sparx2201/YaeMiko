@@ -5,9 +5,14 @@
 # <============================================== IMPORTS =========================================================>
 import asyncio
 import aiohttp
-from telethon import events
+from telethon import TelegramClient, events
 
-from Mikobot import tbot as client
+# Initialize your Telegram client
+api_id = YOUR_API_ID
+api_hash = 'YOUR_API_HASH'
+
+client = TelegramClient('session_name', api_id, api_hash)
+client.start()
 
 BASE_URL = "https://lexica.qewertyy.dev"
 SESSION_HEADERS = {"Host": "lexica.qewertyy.dev"}
@@ -71,7 +76,7 @@ async def generate_image_handler(event, model_id):
 
                 # Send the generated image with a caption
                 caption_text = "Your caption here"
-                await client.send_message(event.chat_id, img_url, caption=caption_text)
+                await client.client.send_file(event.chat_id, file=img_url, caption=caption_text)
             break  # Exit the loop when images are available
         else:
             # Wait for a few seconds before checking again
@@ -89,6 +94,9 @@ async def generate_image_handler(event, model_id):
 @client.on(events.NewMessage(pattern=r"/create"))
 async def creative_handler(event):
     await generate_image_handler(event, model_id=33)
+
+# Run the client
+client.run_until_disconnected()
 
 
 # <================================================ END =======================================================>
