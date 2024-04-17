@@ -4,19 +4,15 @@
 
 # <============================================== IMPORTS =========================================================>
 import asyncio
-import requests
 import aiohttp
 from telethon import events
 
 from Mikobot import tbot as client
 
-# <=======================================================================================================>
-
 BASE_URL = "https://lexica.qewertyy.dev"
 SESSION_HEADERS = {"Host": "lexica.qewertyy.dev"}
 
 
-# <=============================================== CLASS + FUNCTION ========================================================>
 class AsyncClient:
     def __init__(self):
         self.url = BASE_URL
@@ -48,7 +44,7 @@ class AsyncClient:
             print(f"Request failed: {str(e)}")
 
 
-async def generate_image_handler(event, model_id, message):
+async def generate_image_handler(event, model_id):
     command_parts = event.text.split(" ", 1)
     if len(command_parts) < 2:
         await event.reply("Please provide a prompt.")
@@ -73,8 +69,9 @@ async def generate_image_handler(event, model_id, message):
                 # Delete the initial reply message
                 await reply_message.delete()
 
-                # Send the generated image
-            await message.reply_photo(img_url, caption=f"Here's the generated image!")
+                # Send the generated image with a caption
+                caption_text = "Your caption here"
+                await client.send_file(event.chat_id, img_url, caption=caption_text)
             break  # Exit the loop when images are available
         else:
             # Wait for a few seconds before checking again
@@ -91,6 +88,7 @@ async def generate_image_handler(event, model_id, message):
 
 @client.on(events.NewMessage(pattern=r"/create"))
 async def creative_handler(event):
-    await generate_image_handler(event, message, model_id=33)
+    await generate_image_handler(event, model_id=33)
+
 
 # <================================================ END =======================================================>
