@@ -4,7 +4,7 @@
 
 # <============================================== IMPORTS =========================================================>
 import asyncio
-
+import requests
 import aiohttp
 from telethon import events
 
@@ -48,7 +48,7 @@ class AsyncClient:
             print(f"Request failed: {str(e)}")
 
 
-async def generate_image_handler(event, model_id):
+async def generate_image_handler(event, model_id, message):
     command_parts = event.text.split(" ", 1)
     if len(command_parts) < 2:
         await event.reply("Please provide a prompt.")
@@ -74,7 +74,7 @@ async def generate_image_handler(event, model_id):
                 await reply_message.delete()
 
                 # Send the generated image
-                await event.reply(file=img_url)
+                 await message.reply_photo(img_url, caption=f"Here's the generated image!")
             break  # Exit the loop when images are available
         else:
             # Wait for a few seconds before checking again
