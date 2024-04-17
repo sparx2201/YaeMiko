@@ -8,8 +8,8 @@ import aiohttp
 from telethon import TelegramClient, events
 
 # Initialize your Telegram client
-api_id = YOUR_API_ID
-api_hash = 'YOUR_API_HASH'
+api_id = '20089597'
+api_hash = 'f96267b63570057fd76e610ab3e79527'
 
 client = TelegramClient('session_name', api_id, api_hash)
 client.start()
