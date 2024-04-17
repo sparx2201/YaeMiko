@@ -71,7 +71,7 @@ async def generate_image_handler(event, model_id):
 
                 # Send the generated image with a caption
                 caption_text = "Your caption here"
-                await client.send_file(event.chat_id, img_url, caption=caption_text)
+                await client.send_message(event.chat_id, img_url, caption=caption_text)
             break  # Exit the loop when images are available
         else:
             # Wait for a few seconds before checking again
