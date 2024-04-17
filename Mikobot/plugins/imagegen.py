@@ -12,7 +12,7 @@ api_id = '20089597'
 api_hash = 'f96267b63570057fd76e610ab3e79527'
 
 client = TelegramClient('session_name', api_id, api_hash)
-client.start()
+client.start(7045231345:AAE1XuKHhRf2nDAvHSrV00SY0GnATQWGFkM)
 
 BASE_URL = "https://lexica.qewertyy.dev"
 SESSION_HEADERS = {"Host": "lexica.qewertyy.dev"}
