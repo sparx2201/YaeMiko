@@ -10,9 +10,10 @@ from telethon import TelegramClient, events
 # Initialize your Telegram client
 api_id = '20089597'
 api_hash = 'f96267b63570057fd76e610ab3e79527'
+phone_or_token = '7045231345:AAE1XuKHhRf2nDAvHSrV00SY0GnATQWGFkM'
 
 client = TelegramClient('session_name', api_id, api_hash)
-client.start(7045231345:AAE1XuKHhRf2nDAvHSrV00SY0GnATQWGFkM)
+client.start(bot_token=phone_or_token)
 
 BASE_URL = "https://lexica.qewertyy.dev"
 SESSION_HEADERS = {"Host": "lexica.qewertyy.dev"}
