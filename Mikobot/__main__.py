@@ -69,21 +69,17 @@ async def ai_handler_callback(update: Update, context: ContextTypes.DEFAULT_TYPE
     if query.data == "ai_handler":
         await query.answer()
         await query.message.edit_text(
-            "🧠 *Artificial Intelligence Functions*:\n\n"
+            "*Artificial Intelligence Functions*:\n\n"
             "All Commands:\n"
-            "➽ /askgpt <write query>: A chatbot using GPT for responding to user queries.\n\n"
-            "➽ /palm <write prompt>: Performs a Palm search using a chatbot.\n\n"
-            "➽ /upscale <reply to image>: Upscales your image quality.",
+            "▸ /askgpt <write query>: A chatbot using GPT for responding to user queries.\n\n"
+            "▸ /upscale <reply to image>: Upscales your image quality."
+            "▸ /palm <write prompt>: Performs a Palm search using a chatbot.\n\n"
+            "▸ /create <write prompt>: To create AI generated image",
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
-                        InlineKeyboardButton(
-                            "𝙈𝙊𝙍𝙀 𝙄𝙈𝘼𝙂𝙀 𝙂𝙀𝙉 ➪", callback_data="more_ai_handler"
-                        ),
-                    ],
-                    [
-                        InlineKeyboardButton("» 𝙃𝙊𝙈𝙀 «", callback_data="Miko_back"),
+                        InlineKeyboardButton("» Hᴏᴍᴇ «", callback_data="Miko_back"),
                     ],
                 ],
             ),
