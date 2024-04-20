@@ -74,7 +74,7 @@ async def ai_handler_callback(update: Update, context: ContextTypes.DEFAULT_TYPE
             "▸ /askgpt <write query>: A chatbot using GPT for responding to user queries.\n\n"
             "▸ /upscale <reply to image>: Upscales your image quality.\n\n"
             "▸ /palm <write prompt>: Performs a Palm search using a chatbot.\n\n"
-            "▸ /create <write prompt>: To create AI generated image"\n,
+            "▸ /create <write prompt>: To create AI generated image\n",
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=InlineKeyboardMarkup(
                 [
