@@ -167,7 +167,7 @@ async def check_afk(
             await update.effective_message.reply_text(res)
         else:
             res = (
-                "{} ɪs Aғᴋ.\nSɪɴᴄᴇ: {}\nRᴇᴀsᴏɴ: {}".format(
+                "{} ɪs Aғᴋ.\nSɪɴᴄᴇ: {}\n\nRᴇᴀsᴏɴ: {}".format(
                     html.escape(fst_name),
                     time, 
                     html.escape(user.reason),
