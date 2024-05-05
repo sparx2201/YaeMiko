@@ -38,7 +38,7 @@ async def getid(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if reply:
         text += f"[Replied Message ID:](https://t.me/{chat.username}/{reply.message_id}) `{reply.message_id}`\n"
-        text += f"[Replied User ID:](tg://user?id={reply.from_user.id}) `{reply.from_user.id}`\n\n"
+        text += f"{reply.from_user.mention} : `{reply.from_user.id}`\n\n"
 
     if reply and reply.forward_from_chat:
         text += f"The forwarded channel, {reply.forward_from_chat.title}, has an id of `{reply.forward_from_chat.id}`\n\n"
@@ -51,8 +51,6 @@ async def getid(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "CAACAgIAAx0CanzPTAABASPCZQdU9NbQIol5TW1GU2zV4KfjDMEAAnccAALIWZhJPyYLf3FzPHswBA"
     )
 
-    # Send the sticker
-    await update.message.reply_sticker(sticker=sticker_id)
 
     # Send the text message as a caption
     await update.message.reply_text(
