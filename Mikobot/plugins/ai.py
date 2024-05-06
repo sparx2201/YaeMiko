@@ -16,7 +16,7 @@ from Mikobot.state import state
 # <=======================================================================================================>
 
 # <================================================ CONSTANTS =====================================================>
-API_URL = "https://lexica.qewertyy.dev/models"
+API_URL = "https://lexica.qewertyy.me/models"
 PALM_MODEL_ID = 0
 GPT_MODEL_ID = 5
 
@@ -63,19 +63,20 @@ async def gpt_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
     args = context.args
     input_text = " ".join(args)
 
-    if input_text.startswith("Jinx"):
-        # If the input text starts with "Jinx", treat it as if /ask command is used
-        command_args = input_text.split()[1:]  # Remove "Jinx" from the input text
-        context.args = command_args  # Update context.args with the modified command arguments
-        await ask(update, context)  # Call the ask function (or your equivalent) with modified arguments
+    # Check if the word "Jinx" is in the input text
+    if "jinx" in input_text.lower():
+        # Call the ask function (or your equivalent) with the input text
+        await ask(update, context)
     else:
-        # If input does not start with "Jinx", proceed with normal GPT processing
+        # If "Jinx" is not in the input text, proceed with normal GPT processing
         if not args:
             await context.bot.send_message(
                 chat_id=update.effective_chat.id,
                 text="Error: Missing input text after /ask command.",
             )
             return
+            
+    input_text = " ".join(args)
 
     result_msg = await context.bot.send_message(
         chat_id=update.effective_chat.id, text="💬"
@@ -110,7 +111,7 @@ async def upscale_image(update: Update, context: ContextTypes.DEFAULT_TYPE):
             b = base64.b64encode(f).decode("utf-8")
 
             response = await state.post(
-                "https://api.qewertyy.dev/upscale",
+                "https://lexica.qewertyy.me/upscale",
                 data={"image_data": b},
             )
 
