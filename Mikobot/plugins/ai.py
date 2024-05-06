@@ -61,12 +61,20 @@ async def palm_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def gpt_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
     args = context.args
-    if not args:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text="Error: Missing input text after /askgpt command.",
-        )
-        return
+    input_text = " ".join(args)
+
+    # Check if the word "Jinx" is in the input text
+    if "jinx" in input_text.lower():
+        # Call the ask function (or your equivalent) with the input text
+        await ask(update, context)
+    else:
+        # If "Jinx" is not in the input text, proceed with normal GPT processing
+        if not args:
+            await context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text="Error: Missing input text after /ask command.",
+            )
+            return
 
     input_text = " ".join(args)
 
