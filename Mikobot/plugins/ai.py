@@ -61,21 +61,13 @@ async def palm_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def gpt_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
     args = context.args
-    input_text = " ".join(args)
+    if not args:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="Error: Missing input text after /askgpt command.",
+        )
+        return
 
-    # Check if the word "Jinx" is in the input text
-    if "jinx" in input_text.lower():
-        # Call the ask function (or your equivalent) with the input text
-        await ask(update, context)
-    else:
-        # If "Jinx" is not in the input text, proceed with normal GPT processing
-        if not args:
-            await context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text="Error: Missing input text after /ask command.",
-            )
-            return
-            
     input_text = " ".join(args)
 
     result_msg = await context.bot.send_message(
@@ -145,5 +137,5 @@ async def upscale_image(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # Register the upscale_image command handler
 function(CommandHandler("upscale", upscale_image, block=False))
 function(CommandHandler("palm", palm_chatbot, block=False))
-function(CommandHandler("ask", gpt_chatbot, block=False))
+function(CommandHandler("askgpt", gpt_chatbot, block=False))
 # <================================================ END =======================================================>
