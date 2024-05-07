@@ -61,21 +61,12 @@ async def palm_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 
-# Enable logging
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
-
 async def gpt_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    logging.info("Received message: %s", update.message.text)  # Log the received message
-    
-    # Check if the message text starts with "Jinx" followed by space using a regex match
-    if re.match(r'^jinx\s+', update.message.text, re.IGNORECASE):
+    # Check if the message text starts with "Jinx" (case insensitive)
+    if update.message.text.lower().startswith("jinx"):
         # Extract the text after "Jinx"
-        input_text = re.sub(r'^jinx\s+', '', update.message.text, flags=re.IGNORECASE).strip()
-        logging.info("Extracted input text: %s", input_text)  # Log the extracted input text
-        
+        input_text = update.message.text[len("Jinx"):].strip()
         context.args = input_text.split()  # Update context.args with the extracted text as arguments
-        logging.info("Arguments for ask function: %s", context.args)  # Log the arguments for ask function
-        
         await ask(update, context)  # Call the ask function (or your equivalent) with modified arguments
     else:
         # If "Jinx" is not at the start of the message text, proceed with normal GPT processing
