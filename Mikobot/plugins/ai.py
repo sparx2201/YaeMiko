@@ -60,7 +60,7 @@ async def palm_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def gpt_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Check if the message text starts with "Jinx" (case insensitive) using a regex match
+    # Check if the message text starts with "Jinx" followed by space using a regex match
     if re.match(r'^jinx\s+', update.message.text, re.IGNORECASE):
         # Extract the text after "Jinx"
         input_text = re.sub(r'^jinx\s+', '', update.message.text, flags=re.IGNORECASE).strip()
@@ -87,7 +87,6 @@ async def gpt_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
         await result_msg.delete()
         await context.bot.send_message(chat_id=update.effective_chat.id, text=api_response)
-
 
 # Define the upscale_image function
 async def upscale_image(update: Update, context: ContextTypes.DEFAULT_TYPE):
