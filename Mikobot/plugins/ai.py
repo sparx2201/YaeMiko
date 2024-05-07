@@ -4,7 +4,7 @@
 
 # <============================================== IMPORTS =========================================================>
 import base64
-
+import re
 from telegram import Update
 from telegram.constants import ParseMode
 from telegram.ext import CommandHandler, ContextTypes
@@ -60,25 +60,33 @@ async def palm_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def gpt_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    args = context.args
-    if not args:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text="Error: Missing input text after /ask command.",
+    # Check if the message text starts with "Jinx" (case insensitive) using a regex match
+    if re.match(r'^jinx\s+', update.message.text, re.IGNORECASE):
+        # Extract the text after "Jinx"
+        input_text = re.sub(r'^jinx\s+', '', update.message.text, flags=re.IGNORECASE).strip()
+        context.args = input_text.split()  # Update context.args with the extracted text as arguments
+        await ask(update, context)  # Call the ask function (or your equivalent) with modified arguments
+    else:
+        # If "Jinx" is not at the start of the message text, proceed with normal GPT processing
+        args = context.args
+        input_text = " ".join(args)
+
+        if not args:
+            await context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text="Error: Missing input text after /ask command.",
+            )
+            return
+
+        result_msg = await context.bot.send_message(
+            chat_id=update.effective_chat.id, text="💬"
         )
-        return
 
-    input_text = " ".join(args)
+        api_params = {"model_id": GPT_MODEL_ID, "prompt": input_text}
+        api_response = await get_api_response("GPT", api_params, API_URL)
 
-    result_msg = await context.bot.send_message(
-        chat_id=update.effective_chat.id, text="💬"
-    )
-
-    api_params = {"model_id": GPT_MODEL_ID, "prompt": input_text}
-    api_response = await get_api_response("GPT", api_params, API_URL)
-
-    await result_msg.delete()
-    await context.bot.send_message(chat_id=update.effective_chat.id, text=api_response)
+        await result_msg.delete()
+        await context.bot.send_message(chat_id=update.effective_chat.id, text=api_response)
 
 
 # Define the upscale_image function
