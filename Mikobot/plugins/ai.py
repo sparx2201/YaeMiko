@@ -61,34 +61,46 @@ async def palm_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 
+import re
+import shlex
+User
 async def gpt_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # Check if the message text starts with "Jinx" (case insensitive)
-    if update.message.text.lower().startswith("jinx"):
-        # Extract the text after "Jinx"
-        input_text = update.message.text[len("Jinx"):].strip()
-        context.args = input_text.split()  # Update context.args with the extracted text as arguments
-        await ask(update, context)  # Call the ask function (or your equivalent) with modified arguments
-    else:
-        # If "Jinx" is not at the start of the message text, proceed with normal GPT processing
-        args = context.args
-        input_text = " ".join(args)
-
-        if not args:
-            await context.bot.send_message(
-                chat_id=update.effective_chat.id,
-                text="Error: Missing input text after /ask command.",
-            )
-            return
-
-        result_msg = await context.bot.send_message(
-            chat_id=update.effective_chat.id, text="💬"
+    args = context.args
+    if not args:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="Error: Missing input text after /ask command.",
         )
+        return
 
-        api_params = {"model_id": GPT_MODEL_ID, "prompt": input_text}
+    input_text = shlex.join(args)
+
+    # Check if the input text starts with "Jinx"
+    if re.match(r"^Jinx", input_text, re.IGNORECASE):
+        # Handle the "Jinx" case here
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="You said Jinx!",
+        )
+        return
+
+    result_msg = await context.bot.send_message(
+        chat_id=update.effective_chat.id, text="💬"
+    )
+
+    api_params = {"model_id": GPT_MODEL_ID, "prompt": input_text}
+    try:
         api_response = await get_api_response("GPT", api_params, API_URL)
+    except Exception as e:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text=f"Error: Failed to get API response. {str(e)}",
+        )
+        return
 
-        await result_msg.delete()
-        await context.bot.send_message(chat_id=update.effective_chat.id, text=api_response)
+    await result_msg.delete()
+    await context.bot.send_message(chat_id=update.effective_chat.id, text=api_response)
+
 
 
 # Define the upscale_image function
