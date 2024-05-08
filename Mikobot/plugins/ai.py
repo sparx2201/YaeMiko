@@ -63,7 +63,7 @@ async def palm_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 import re
 import shlex
-User
+
 async def gpt_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
     args = context.args
     if not args:
