@@ -61,54 +61,27 @@ async def palm_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 
-import re
-import shlex
-
 async def gpt_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
     args = context.args
     if not args:
-        await update.message.reply_text("Error: Missing input text after /ask command.")
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="Error: Missing input text after /askgpt command.",
+        )
         return
 
-    input_text = shlex.join(args)
-
-    # Check if the input text starts with "Jinx"
-    match = re.match(r"^Jinx\s+(.+)", input_text, re.IGNORECASE)
-    if match:
-        # Use the text after "Jinx" as the input for the GPT model
-        input_text = match.group(1)
-
-        result_msg = await update.message.reply_text("💬")
-
-        api_params = {"model_id": GPT_MODEL_ID, "prompt": input_text}
-        try:
-            api_response = await get_api_response("GPT", api_params, API_URL)
-        except Exception as e:
-            await update.message.reply_text(f"Error: Failed to get API response. {str(e)}")
-            return
-
-        await result_msg.delete()
-        await update.message.reply_text(api_response)
-
-        return
-
+    input_text = " ".join(args)
 
     result_msg = await context.bot.send_message(
         chat_id=update.effective_chat.id, text="💬"
     )
 
     api_params = {"model_id": GPT_MODEL_ID, "prompt": input_text}
-    try:
-        api_response = await get_api_response("GPT", api_params, API_URL)
-    except Exception as e:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text=f"Error: Failed to get API response. {str(e)}",
-        )
-        return
+    api_response = await get_api_response("GPT", api_params, API_URL)
 
     await result_msg.delete()
     await context.bot.send_message(chat_id=update.effective_chat.id, text=api_response)
+
 
 
 
@@ -165,8 +138,13 @@ async def upscale_image(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 # <================================================ HANDLER =======================================================>
+
+REGEX_HANDLER = DisableAbleMessageHandler(
+    filters.Regex(r"^(?i:(Jinx))( .*)?$"), ask, friendly="ask", block=False
+)
+
 # Register the upscale_image command handler
 function(CommandHandler("upscale", upscale_image, block=False))
 function(CommandHandler("palm", palm_chatbot, block=False))
-function(CommandHandler("ask", gpt_chatbot, block=False))
+function(CommandHandler("ask", gpt_chatbot, block=False), REGEX_HANDLER)
 # <================================================ END =======================================================>
