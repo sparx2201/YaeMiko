@@ -62,23 +62,27 @@ async def palm_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 
-def gpt_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if update.message.text.startswith("Jinx"):
-        args = update.message.text.split("Jinx")[1].split()
-        input_text = " ".join(args)
-    else:
-        args = update.message.text.split()[1:]
-        input_text = " ".join(args)
+async def gpt_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    args = context.args
+    if not args:
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="Error: Missing input text after /askgpt command.",
+        )
+        return
 
-    result_msg = context.bot.send_message(
+    input_text = " ".join(args)
+
+    result_msg = await context.bot.send_message(
         chat_id=update.effective_chat.id, text="💬"
     )
 
     api_params = {"model_id": GPT_MODEL_ID, "prompt": input_text}
-    api_response = asyncio.run_coroutine_threadsafe(get_api_response("GPT", api_params, API_URL), context.bot.loop)
+    api_response = await get_api_response("GPT", api_params, API_URL)
 
-    result_msg.delete()
-    context.bot.send_message(chat_id=update.effective_chat.id, text=api_response.result())
+    await result_msg.delete()
+    await context.bot.send_message(chat_id=update.effective_chat.id, text=api_response)
+
 
 
 
@@ -140,6 +144,5 @@ async def upscale_image(update: Update, context: ContextTypes.DEFAULT_TYPE):
 function(CommandHandler("upscale", upscale_image, block=False))
 function(CommandHandler("palm", palm_chatbot, block=False))
 function(CommandHandler("ask", gpt_chatbot, block=False))
-function(MessageHandler(Filters.text & ~Filters.command, gpt_chatbot, block=False))
 
 # <================================================ END =======================================================>
