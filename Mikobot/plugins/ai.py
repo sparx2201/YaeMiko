@@ -62,12 +62,15 @@ async def palm_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 
-async def gpt_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    args = context.args
-    if not args:
+async def gpt_chatbot(update, context):
+    if update.message.text.startswith("/ask"):
+        args = update.message.text.split("/ask")[1].split()
+    elif re.match(r"^Jinx\s+", update.message.text):
+        args = update.message.text.split("Jinx")[1].split()
+    else:
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text="Error: Missing input text after /askgpt command.",
+            text="Error: Invalid input. Please use /ask or start your message with 'Jinx'.",
         )
         return
 
@@ -143,5 +146,5 @@ async def upscale_image(update: Update, context: ContextTypes.DEFAULT_TYPE):
 # Register the upscale_image command handler
 function(CommandHandler("upscale", upscale_image, block=False))
 function(CommandHandler("palm", palm_chatbot, block=False))
-function(CommandHandler("ask", gpt_chatbot, block=False))
+
 # <================================================ END =======================================================>
