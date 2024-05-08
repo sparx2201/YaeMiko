@@ -20,7 +20,7 @@ from Mikobot.state import state
 # <================================================ CONSTANTS =====================================================>
 API_URL = "https://lexica.qewertyy.dev/models"
 PALM_MODEL_ID = 0
-GPT_MODEL_ID = 5
+GPT_MODEL_ID = 19
 
 # <================================================ FUNCTIONS =====================================================>
 
@@ -67,7 +67,7 @@ async def gpt_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not args:
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text="Error: Missing input text after /askgpt command.",
+            text="Error: Missing input text after /ask command.",
         )
         return
 
