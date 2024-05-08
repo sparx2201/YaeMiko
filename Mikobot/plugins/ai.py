@@ -9,6 +9,7 @@ import logging
 from telegram import Update
 from telegram.constants import ParseMode
 from telegram.ext import CommandHandler, ContextTypes
+from Mikobot.plugins.disable import DisableAbleCommandHandler, DisableAbleMessageHandler
 
 from Mikobot import LOGGER as logger
 from Mikobot import function
