@@ -36,7 +36,7 @@ async def get_api_response(model_id, api_params, api_url):
             return f"Error: Request failed with status code {response.status_code}."
     except state.RequestError as e:
         return f"Error: An error occurred while calling the {model_id} API. {e}"
-
+    pass
 
 async def palm_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
     args = context.args
@@ -67,22 +67,31 @@ import shlex
 async def gpt_chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
     args = context.args
     if not args:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text="Error: Missing input text after /ask command.",
-        )
+        await update.message.reply_text("Error: Missing input text after /ask command.")
         return
 
     input_text = shlex.join(args)
 
     # Check if the input text starts with "Jinx"
-    if re.match(r"^Jinx", input_text, re.IGNORECASE):
-        # Handle the "Jinx" case here
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text="You said Jinx!",
-        )
+    match = re.match(r"^Jinx\s+(.+)", input_text, re.IGNORECASE)
+    if match:
+        # Use the text after "Jinx" as the input for the GPT model
+        input_text = match.group(1)
+
+        result_msg = await update.message.reply_text("💬")
+
+        api_params = {"model_id": GPT_MODEL_ID, "prompt": input_text}
+        try:
+            api_response = await get_api_response("GPT", api_params, API_URL)
+        except Exception as e:
+            await update.message.reply_text(f"Error: Failed to get API response. {str(e)}")
+            return
+
+        await result_msg.delete()
+        await update.message.reply_text(api_response)
+
         return
+
 
     result_msg = await context.bot.send_message(
         chat_id=update.effective_chat.id, text="💬"
