@@ -140,12 +140,8 @@ async def upscale_image(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # <================================================ HANDLER =======================================================>
 
-REGEX_HANDLER = DisableAbleMessageHandler(
-    filters.Regex(r"^(?i:(Jinx))( .*)?$"), ask, friendly="ask", block=False
-)
-
 # Register the upscale_image command handler
 function(CommandHandler("upscale", upscale_image, block=False))
 function(CommandHandler("palm", palm_chatbot, block=False))
-function(CommandHandler("ask", gpt_chatbot, block=False), REGEX_HANDLER)
+function(CommandHandler("ask", gpt_chatbot, block=False))
 # <================================================ END =======================================================>
