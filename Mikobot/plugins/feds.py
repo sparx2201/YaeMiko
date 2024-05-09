@@ -1324,7 +1324,9 @@ async def fed_broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     chat,
                     title + text,
                     parse_mode="markdown",
-                    message_thread_id=msg.message_thread_id if chat.is_forum else None,
+                    message_thread_id=msg.message_thread_id 
+		    if chat.is_forum 
+		    else None,
                 )
             except TelegramError:
                 try:
