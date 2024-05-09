@@ -1318,6 +1318,7 @@ async def fed_broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
         chat_list = sql.all_fed_chats(fed_id)
         failed = 0
         for chat in chat_list:
+	    chat = await bot.get_chat(chat_id)
             title = "*New broadcast from Fed {}*\n".format(fedinfo["fname"])
             try:
                 await bot.sendMessage(
@@ -1342,7 +1343,7 @@ async def fed_broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     )
                     continue
                 failed += 1
-                LOGGER.warning("Couldn't send broadcast to {}".format(str(chat)))
+                LOGGER.warning("Couldn't send broadcast to %s (%s)", chat, chat.type)
 
         send_text = "The federation broadcast is complete"
         if failed >= 1:
