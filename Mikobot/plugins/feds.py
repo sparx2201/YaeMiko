@@ -17,7 +17,7 @@ from telegram import (
 )
 from telegram.constants import ParseMode
 from telegram.error import BadRequest, Forbidden, TelegramError
-from telegram.ext import CallbackQueryHandler, CommandHandler, ContextTypes
+from telegram.ext import CallbackQueryHandler, CommandHandler, ContextTypes, CallbackContext
 from telegram.helpers import mention_html, mention_markdown
 
 import Database.sql.feds_sql as sql
