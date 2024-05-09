@@ -1287,7 +1287,9 @@ async def fed_broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
     chat = update.effective_chat
 
-    if chat.type == "private":
+    chat_obj = await bot.get_chat(chat.id)  # Get the Chat object
+
+    if chat_obj.type == "private":
         await send_message(
             update.effective_message,
             "This command is specific to the group, not to our pm!",
@@ -1349,7 +1351,6 @@ async def fed_broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 failed,
             )
         await update.effective_message.reply_text(send_text)
-
 
 async def fed_ban_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
     bot, args, chat_data = context.bot, context.args, context.chat_data
