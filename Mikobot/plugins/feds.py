@@ -1319,15 +1319,16 @@ async def fed_broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
         chat_list = sql.all_fed_chats(fed_id)
         failed = 0
         for chat in chat_list:
-            if chat.type == "private":
+            if chat_obj.type == "private":  # Corrected line
                 continue
+            chat_obj = await bot.get_chat(chat.id)  # Get the Chat object
             title = "*New broadcast from Fed {}*\n".format(fedinfo["fname"])
             try:
                 await bot.sendMessage(
                     chat,
                     title + text,
                     parse_mode="markdown",
-                    message_thread_id=msg.message_thread_id if chat.is_forum else None,
+                    message_thread_id=msg.message_thread_id if chat_obj.is_forum else None,
                 )
             except TelegramError:
                 try:
@@ -1351,7 +1352,7 @@ async def fed_broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 failed,
             )
         await update.effective_message.reply_text(send_text)
-
+	    
 async def fed_ban_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
     bot, args, chat_data = context.bot, context.args, context.chat_data
     chat = update.effective_chat
