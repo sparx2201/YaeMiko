@@ -1295,7 +1295,6 @@ async def fed_broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     if args:
-        chat = update.effective_chat
         fed_id = sql.get_fed_id(chat.id)
         fedinfo = sql.get_fed_info(fed_id)
         if is_user_fed_owner(fed_id, user.id) is False:
@@ -1318,16 +1317,15 @@ async def fed_broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
         chat_list = sql.all_fed_chats(fed_id)
         failed = 0
         for chat in chat_list:
-	    chat = await bot.get_chat(chat_id)
+            if chat.type == "private":
+                continue
             title = "*New broadcast from Fed {}*\n".format(fedinfo["fname"])
             try:
                 await bot.sendMessage(
                     chat,
                     title + text,
                     parse_mode="markdown",
-                    message_thread_id=msg.message_thread_id 
-		    if chat.is_forum 
-		    else None,
+                    message_thread_id=msg.message_thread_id if chat.is_forum else None,
                 )
             except TelegramError:
                 try:
@@ -1343,8 +1341,8 @@ async def fed_broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
                     )
                     continue
                 failed += 1
-                LOGGER.warning("Couldn't send broadcast to %s (%s)", chat, chat.type)
-
+                LOGGER.warning("Couldn't send broadcast to {}".format(str(chat)))
+		    
         send_text = "The federation broadcast is complete"
         if failed >= 1:
             send_text += "{} the group failed to receive the message, probably because it left the Federation.".format(
