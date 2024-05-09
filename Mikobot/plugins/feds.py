@@ -1281,28 +1281,21 @@ async def get_frules(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.effective_message.reply_text(text, parse_mode=ParseMode.MARKDOWN)
 
 
-async def fed_broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    bot, args = context.bot, context.args
+def fed_broadcast(update: Update, context: CallbackContext):
+    bot = context.bot
     msg = update.effective_message
     user = update.effective_user
     chat = update.effective_chat
 
-    chat_obj = await bot.get_chat(chat.id)  # Get the Chat object
-
-    if chat_obj.type == "private":
-        await send_message(
-            update.effective_message,
-            "This command is specific to the group, not to our pm!",
-        )
+    if chat.type == "private":
+        update.effective_message.reply_text("This command is specific to the group, not to our pm!")
         return
 
-    if args:
+    if context.args:
         fed_id = sql.get_fed_id(chat.id)
         fedinfo = sql.get_fed_info(fed_id)
         if is_user_fed_owner(fed_id, user.id) is False:
-            await update.effective_message.reply_text(
-                "Only federation owners can do this!"
-            )
+            update.effective_message.reply_text("Only federation owners can do this!")
             return
         # Parsing md
         raw_text = msg.text
@@ -1318,40 +1311,33 @@ async def fed_broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
         text += "\n\n- {}".format(mention_markdown(user.id, broadcaster))
         chat_list = sql.all_fed_chats(fed_id)
         failed = 0
-        for chat in chat_list:
-            if chat_obj.type == "private":  # Corrected line
-                continue
-            chat_obj = await bot.get_chat(chat.id)  # Get the Chat object
+        for chat_id in chat_list:
+            chat = bot.get_chat(chat_id)
             title = "*New broadcast from Fed {}*\n".format(fedinfo["fname"])
             try:
-                await bot.sendMessage(
-                    chat,
-                    title + text,
-                    parse_mode="markdown",
-                    message_thread_id=msg.message_thread_id if chat_obj.is_forum else None,
-                )
+                bot.send_message(chat_id, title + text, parse_mode="markdown")
             except TelegramError:
                 try:
-                    await dispatcher.bot.getChat(chat)
-                except Forbidden:
+                    bot.get_chat(chat_id)
+                except Unauthorized:
                     failed += 1
-                    sql.chat_leave_fed(chat)
+                    sql.chat_leave_fed(chat_id)
                     LOGGER.info(
-                        "Chat {} has left fed {} because I was kicked".format(
-                            chat,
+                        "Chat {} has left fed {} because I was punched".format(
+                            chat_id,
                             fedinfo["fname"],
                         ),
                     )
                     continue
                 failed += 1
-                LOGGER.warning("Couldn't send broadcast to {}".format(str(chat)))
-		    
+                LOGGER.warning("Couldn't send broadcast to {}".format(str(chat_id)))
+
         send_text = "The federation broadcast is complete"
         if failed >= 1:
             send_text += "{} the group failed to receive the message, probably because it left the Federation.".format(
                 failed,
             )
-        await update.effective_message.reply_text(send_text)
+        update.effective_message.reply_text(send_text)
 	    
 async def fed_ban_list(update: Update, context: ContextTypes.DEFAULT_TYPE):
     bot, args, chat_data = context.bot, context.args, context.chat_data
