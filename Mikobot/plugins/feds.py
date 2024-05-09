@@ -590,7 +590,7 @@ async def fed_ban(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     message = update.effective_message
 
-    user_id, reason = extract_unt_fedban(message, context, args)
+    user_id, reason = await extract_unt_fedban(message, context, args)
 
     fban, fbanreason, fbantime = sql.get_fban_user(fed_id, user_id)
 
