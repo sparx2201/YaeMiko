@@ -78,7 +78,7 @@ async def generate_image_handler(event, model_id):
                 await reply_message.edit("Image generation timed out.")
                 break
 
-            timeout_seconds -= 5
+            timeout_seconds -= 180
 
         if not tasks:
             break
