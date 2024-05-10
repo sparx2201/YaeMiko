@@ -4,7 +4,7 @@ from inspect import getfullargspec
 import requests
 from telegram.ext import filters, CommandHandler, MessageHandler
 #from telegram.utils.request import Request
-
+from Mikobot import dispatcher, function
 from Mikobot import tbot as app
 from Mikobot.utils.post import post
 
