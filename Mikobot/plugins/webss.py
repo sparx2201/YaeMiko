@@ -1,9 +1,9 @@
 from base64 import b64decode
 from io import BytesIO
 from inspect import getfullargspec
-
+import requests
 from telegram.ext import filters, CommandHandler, MessageHandler
-from telegram.utils.request import Request
+#from telegram.utils.request import Request
 
 from Mikobot import tbot as app
 from Mikobot.utils.post import post
