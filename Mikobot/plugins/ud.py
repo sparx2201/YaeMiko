@@ -5,6 +5,21 @@ from telegram.constants import ParseMode
 from Mikobot import dispatcher
 from Mikobot.plugins.disable import DisableAbleCommandHandler
 
+import html
+
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.constants import ChatMemberStatus
+from telegram.error import BadRequest
+from telegram.ext import CallbackQueryHandler, ContextTypes
+from telegram.helpers import mention_html
+
+import Database.sql.approve_sql as sql
+from Mikobot import DRAGONS, dispatcher
+
+from Mikobot.plugins.helper_funcs.chat_status import check_admin
+from Mikobot.plugins.helper_funcs.extraction import extract_user
+from Mikobot.plugins.log_channel import loggable
+
 
 async def ud(update: Update, context: CallbackContext):
     message = update.effective_message
