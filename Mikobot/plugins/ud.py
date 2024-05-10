@@ -3,7 +3,7 @@ from telegram import Update
 from telegram.ext import CallbackContext
 from telegram.constants import ParseMode
 from Mikobot import dispatcher
-from Mikobot.modules.disable import DisableAbleCommandHandler
+from Mikobot.plugins.disable import DisableAbleCommandHandler
 
 
 def ud(update: Update, context: CallbackContext):
