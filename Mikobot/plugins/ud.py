@@ -1,7 +1,7 @@
 import requests
-from telegram import ParseMode, Update
+from telegram import Update
 from telegram.ext import CallbackContext
-
+from telegram.constants import ParseMode
 from Mikobot import dispatcher
 from Mikobot.modules.disable import DisableAbleCommandHandler
 
