@@ -41,8 +41,6 @@ async def eor(update, context, **kwargs):
     return await func(**{k: v for k, v in kwargs.items() if k in spec})
 
 
-take_ss_handler = CommandHandler(["webss", "ss", "webshot"], take_ss)
-@app.add_handler(take_ss_handler)
 
 
 async def take_ss(update, context):
@@ -71,8 +69,12 @@ async def take_ss(update, context):
     except Exception as e:
         await m.edit(str(e))
 
+take_ss_handler = CommandHandler(["webss", "ss", "webshot"], take_ss, block=False)
+function(take_ss_handler)
+
 
 __help__ = """
 » /webss *:* Sᴇɴᴅs ᴛʜᴇ sᴄʀᴇᴇɴsʜᴏᴛ ᴏғ ᴛʜᴇ ɢɪᴠᴇɴ ᴜʀʟ.
 """
 __mod_name__ = "Wᴇʙsʜᴏᴛ"
+
