@@ -63,7 +63,7 @@ async def generate_image_handler(event, model_id):
     timeout_seconds = 180
 
     while True:
-        done, _ = await asyncio.wait(tasks, timeout=5)
+        done, _ = await asyncio.wait(tasks, timeout=180)
 
         for task in done:
             generated_images = task.result()
