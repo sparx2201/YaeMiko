@@ -42,7 +42,7 @@ async def eor(update, context, **kwargs):
 
 
 take_ss_handler = CommandHandler(["webss", "ss", "webshot"], take_ss)
-app.add_handler(take_ss_handler)
+@app.add_handler(take_ss_handler)
 
 
 async def take_ss(update, context):
