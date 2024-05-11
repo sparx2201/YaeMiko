@@ -1,18 +1,23 @@
 from inspect import getfullargspec
 from io import BytesIO
 from telegram import Message, Update, User
-from telegram.ext import CommandHandler, ContextTypes, MessageHandler, filters
+from telegram.ext import CommandHandler, ContextTypes, MessageHandler, filters, Updater 
+from telegram.error import TelegramError
 
 from Mikobot import tbot as app
 from Mikobot import aiohttpsession as session
 from Mikobot import dispatcher
 
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 async def post(url: str, *args, **kwargs):
-    async with session.post(url, *args, **kwargs) as resp:
-        try:
-            data = await resp.json()
-        except Exception:
-            data = await resp.text()
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, *args, **kwargs) as resp:
+            try:
+                data = await resp.json()
+            except Exception:
+                data = await resp.text()
     return data
 
 async def take_screenshot(url: str, full: bool = False):
@@ -33,11 +38,11 @@ async def take_screenshot(url: str, full: bool = False):
     if "image" not in data:
         return None
     b = data["image"].replace("data:image/jpeg;base64,", "")
-    file = BytesIO(b64decode(b))
+    file = io.BytesIO(base64.b64decode(b))
     file.name = "webss.jpg"
     return file
 
-def get_reply_to(message: Message):
+def get_reply_to(message: telegram.Message):
     try:
         return message.reply_to_message.message_id
     except AttributeError:
