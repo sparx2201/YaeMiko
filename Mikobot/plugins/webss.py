@@ -12,12 +12,11 @@ import base64
 import io
 import telegram
 
-from Mikobot import tbot as app
+from Mikobot import app
 from Mikobot import aiohttpsession as session
 from Mikobot import dispatcher
 
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
-logger = logging.getLogger(__name__)
+API_URL = "https://webscreenshot.vercel.app/api"
 
 async def post(url: str, *args, **kwargs):
     async with aiohttp.ClientSession() as session:
@@ -29,7 +28,7 @@ async def post(url: str, *args, **kwargs):
     return data
 
 async def take_screenshot(url: str, full: bool = False):
-    url = url if url.startswith("http") else f"https://{url}"
+    url = f"https://{url}" if not url.startswith("http") else url
     payload = {
         "url": url,
         "width": 1920,
@@ -39,73 +38,46 @@ async def take_screenshot(url: str, full: bool = False):
     }
     if full:
         payload["full"] = True
-    data = await post(
-        "https://webscreenshot.vercel.app/api",
-        data=payload,
-    )
+    data = await post(API_URL, json=payload)
     if "image" not in data:
         return None
     b = data["image"].replace("data:image/jpeg;base64,", "")
-    file = io.BytesIO(base64.b64decode(b))
+    file = BytesIO(base64.b64decode(b))
     file.name = "webss.jpg"
     return file
 
-def get_reply_to(message: telegram.Message):
-    try:
-        return message.reply_to_message.message_id
-    except AttributeError:
-        try:
-            return message.reply_to_message_id
-        except AttributeError:
-            return None
+async def eor(message: Message, **kwargs):
+    return await message.edit(**kwargs)
 
-async def eor(update: Update, msg: Message, **kwargs):
-    reply_to = get_reply_to(msg)
-
-    if reply_to is not None:
-        if hasattr(msg, 'edit_text'):
-            func = msg.edit_text
-        else:
-            func = msg.reply_text
-    else:
-        func = update.callback_query.msg.reply_text
-
-    spec = getfullargspec(func).args
-    return await func(**{k: v for k, v in kwargs.items() if k in spec})
-
-async def take_ss(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    message = update.message
-    if message is None:
-        return
-
-    ctx_args = context.args
-    if len(ctx_args) < 1:
-        return await eor(message, text="ɢɪᴠᴇ ᴀ ᴜʀʟ ᴛᴏ ғᴇᴛᴄʜ sᴄʀᴇᴇɴsʜᴏᴛ.")
-
-    if len(ctx_args) == 1:
-        url = ctx_args[0]
+@app.on_message(filters.command(["webshot", "screenshot", "ss", "webss"], prefixes=["/"]))
+async def take_ss(client, message: Message):
+    args = message.text.split()
+    if len(args) < 2:
+        return await eor(message, text="Usage: /webshot [URL] (yes|no)")
+    if len(args) == 2:
+        url = args[1]
         full = False
-    elif len(ctx_args) == 2:
-        url = ctx_args[0]
-        full = ctx_args[1].lower().strip() in ["yes", "y", "1", "true"]
+    elif len(args) == 3:
+        url = args[1]
+        full = args[2].lower().strip() in ["yes", "y", "1", "true"]
     else:
-        return await eor(message, text="ɪɴᴠᴀʟɪᴅ ᴄᴏᴍᴍᴀɴᴅ.")
+        return await eor(message, text="Invalid arguments.")
 
-    m = await eor(message, text="ᴄᴀᴘᴛᴜʀɪɴɢ sᴄʀᴇᴇɴsʜᴏᴛ...")
+    m = await eor(message, text="Capturing screenshot...")
 
     try:
         photo = await take_screenshot(url, full)
         if not photo:
-            return await m.edit("ғᴀɪʟᴇᴅ ᴛᴏ ᴛᴀᴋᴇ sᴄʀᴇᴇɴsʜᴏᴛ.")
+            return await m.edit("Failed to take screenshot.")
 
-        m = await m.edit("ᴜᴘʟᴏᴀᴅɪɴɢ...")
+        m = await m.edit("Uploading...")
 
-        await message.reply_document(photo)
+        await message.reply_photo(photo)
         await m.delete()
     except Exception as e:
         await m.edit(str(e))
 
-dispatcher.add_handler(CommandHandler(["webss", "ss", "webshot"], take_ss, block=False))
+
 
 
 
