@@ -49,7 +49,7 @@ async def take_screenshot(url: str, full: bool = False):
 async def eor(message: Message, **kwargs):
     return await message.edit(**kwargs)
 
-@app.on_message(filters.command(["webshot", "screenshot", "ss", "webss"], prefixes=["/"]))
+@app.on_message(filters.Command(["webshot", "screenshot", "ss", "webss"], prefixes=["/"]))
 async def take_ss(client, message: Message):
     args = message.text.split()
     if len(args) < 2:
