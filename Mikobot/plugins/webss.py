@@ -46,16 +46,21 @@ async def eor(msg: Message, **kwargs):
     spec = getfullargspec(func.__wrapped__).args
     return await func(**{k: v for k, v in kwargs.items() if k in spec})
 
-async def take_ss(ctx: ContextTypes.DEFAULT_TYPE, message: Message):
-    if len(ctx.args) < 1:
+async def take_ss(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    message = update.message
+    if message is None:
+        return
+
+    ctx_args = context.args
+    if len(ctx_args) < 1:
         return await eor(message, text="ɢɪᴠᴇ ᴀ ᴜʀʟ ᴛᴏ ғᴇᴛᴄʜ sᴄʀᴇᴇɴsʜᴏᴛ.")
 
-    if len(ctx.args) == 1:
-        url = ctx.args[0]
+    if len(ctx_args) == 1:
+        url = ctx_args[0]
         full = False
-    elif len(ctx.args) == 2:
-        url = ctx.args[0]
-        full = ctx.args[1].lower().strip() in ["yes", "y", "1", "true"]
+    elif len(ctx_args) == 2:
+        url = ctx_args[0]
+        full = ctx_args[1].lower().strip() in ["yes", "y", "1", "true"]
     else:
         return await eor(message, text="ɪɴᴠᴀʟɪᴅ ᴄᴏᴍᴍᴀɴᴅ.")
 
