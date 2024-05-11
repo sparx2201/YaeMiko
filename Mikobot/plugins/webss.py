@@ -59,7 +59,7 @@ def get_reply_to(message: telegram.Message):
         except AttributeError:
             return None
 
-async def eor(msg: Message, **kwargs):
+async def eor(update: Update, msg: Message, **kwargs):
     reply_to = get_reply_to(msg)
 
     if reply_to is not None:
