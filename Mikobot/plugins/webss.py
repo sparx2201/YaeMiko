@@ -1,6 +1,6 @@
 from inspect import getfullargspec
 from io import BytesIO
-from telegram import Message
+from telegram import Message, Update
 from telegram.ext import CommandHandler, ContextTypes, MessageHandler, filters
 
 from Mikobot import tbot as app
