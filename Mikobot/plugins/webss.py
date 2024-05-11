@@ -3,6 +3,14 @@ from io import BytesIO
 from telegram import Message, Update, User
 from telegram.ext import CommandHandler, ContextTypes, MessageHandler, filters, Updater 
 from telegram.error import TelegramError
+import logging
+import asyncio
+import logging
+import os
+import sys
+import base64
+import io
+import telegram
 
 from Mikobot import tbot as app
 from Mikobot import aiohttpsession as session
