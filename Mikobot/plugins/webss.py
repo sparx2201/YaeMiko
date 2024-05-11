@@ -5,6 +5,7 @@ from telegram.ext import CommandHandler, ContextTypes, MessageHandler, filters
 
 from Mikobot import tbot as app
 from Mikobot import aiohttpsession as session
+from Mikobot import dispatcher
 
 async def post(url: str, *args, **kwargs):
     async with session.post(url, *args, **kwargs) as resp:
