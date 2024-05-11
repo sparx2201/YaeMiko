@@ -8,8 +8,9 @@ import logging
 import os
 import sys
 import time
-from random import choice
 
+from random import choice
+from aiohttp import ClientSession
 import telegram
 import telegram.ext as tg
 from pyrogram import Client, errors
@@ -20,7 +21,8 @@ from telethon import TelegramClient, events
 from telethon.sessions import MemorySession
 
 # <=======================================================================================================>
-
+# AioHttp Session
+aiohttpsession = ClientSession()
 # <================================================= NECESSARY ======================================================>
 StartTime = time.time()
 
