@@ -37,13 +37,17 @@ async def take_screenshot(url: str, full: bool = False):
     file.name = "webss.jpg"
     return file
 
+def get_reply_to(message: Message):
+    try:
+        return message.reply_to_message.message_id
+    except AttributeError:
+        try:
+            return message.reply_to_message_id
+        except AttributeError:
+            return None
+
 async def eor(msg: Message, **kwargs):
-    if isinstance(msg.reply_to_message, Message):
-        reply_to = msg.reply_to_message
-    elif msg.reply_to_message_id:
-        reply_to = await msg.chat.get_message(msg.reply_to_message_id)
-    else:
-        reply_to = None
+    reply_to = get_reply_to(msg)
 
     func = (
         (msg.edit_text if reply_to == msg else msg.reply_text)
