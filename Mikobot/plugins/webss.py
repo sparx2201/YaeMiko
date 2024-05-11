@@ -1,6 +1,6 @@
 from inspect import getfullargspec
 from io import BytesIO
-from telegram import Message, Update
+from telegram import Message, Update, User
 from telegram.ext import CommandHandler, ContextTypes, MessageHandler, filters
 
 from Mikobot import tbot as app
@@ -38,10 +38,17 @@ async def take_screenshot(url: str, full: bool = False):
     return file
 
 async def eor(msg: Message, **kwargs):
+    if isinstance(msg.reply_to_message, Message):
+        reply_to = msg.reply_to_message
+    elif msg.reply_to_message_id:
+        reply_to = await msg.chat.get_message(msg.reply_to_message_id)
+    else:
+        reply_to = None
+
     func = (
-        (msg.edit_text if msg.from_user.is_self else msg.reply)
+        (msg.edit_text if reply_to == msg else msg.reply_text)
         if msg.from_user
-        else msg.reply
+        else msg.reply_text
     )
     spec = getfullargspec(func.__wrapped__).args
     return await func(**{k: v for k, v in kwargs.items() if k in spec})
@@ -77,9 +84,9 @@ async def take_ss(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await m.delete()
     except Exception as e:
         await m.edit(str(e))
-        
 
 dispatcher.add_handler(CommandHandler(["webss", "ss", "webshot"], take_ss, block=False))
+
 
 
 __mod_name__ = "𝐖ᴇʙsʜᴏᴛ"
