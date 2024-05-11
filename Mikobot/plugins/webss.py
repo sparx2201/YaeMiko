@@ -49,12 +49,15 @@ def get_reply_to(message: Message):
 async def eor(msg: Message, **kwargs):
     reply_to = get_reply_to(msg)
 
-    func = (
-        (msg.edit_text if reply_to == msg else msg.reply_text)
-        if msg.from_user
-        else msg.reply_text
-    )
-    spec = getfullargspec(func.__wrapped__).args
+    if reply_to is not None:
+        if hasattr(msg, 'edit_text'):
+            func = msg.edit_text
+        else:
+            func = msg.reply_text
+    else:
+        func = msg.reply_text
+
+    spec = getfullargspec(func).args
     return await func(**{k: v for k, v in kwargs.items() if k in spec})
 
 async def take_ss(update: Update, context: ContextTypes.DEFAULT_TYPE):
