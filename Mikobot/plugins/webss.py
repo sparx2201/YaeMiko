@@ -68,7 +68,7 @@ async def eor(msg: Message, **kwargs):
         else:
             func = msg.reply_text
     else:
-        func = msg.reply_text
+        func = update.callback_query.msg.reply_text
 
     spec = getfullargspec(func).args
     return await func(**{k: v for k, v in kwargs.items() if k in spec})
