@@ -1,3 +1,84 @@
+from inspect import getfullargspec
+from io import BytesIO
+from telegram import Message
+from telegram.ext import CommandHandler, ContextTypes
+
+from Mikobot import tbot as app
+from Mikobot import aiohttpsession as session
+
+async def post(url: str, *args, **kwargs):
+    async with session.post(url, *args, **kwargs) as resp:
+        try:
+            data = await resp.json()
+        except Exception:
+            data = await resp.text()
+    return data
+
+async def take_screenshot(url: str, full: bool = False):
+    url = url if url.startswith("http") else f"https://{url}"
+    payload = {
+        "url": url,
+        "width": 1920,
+        "height": 1080,
+        "scale": 1,
+        "format": "jpeg",
+    }
+    if full:
+        payload["full"] = True
+    data = await post(
+        "https://webscreenshot.vercel.app/api",
+        data=payload,
+    )
+    if "image" not in data:
+        return None
+    b = data["image"].replace("data:image/jpeg;base64,", "")
+    file = BytesIO(b64decode(b))
+    file.name = "webss.jpg"
+    return file
+
+async def eor(msg: Message, **kwargs):
+    func = (
+        (msg.edit_text if msg.from_user.is_self else msg.reply)
+        if msg.from_user
+        else msg.reply
+    )
+    spec = getfullargspec(func.__wrapped__).args
+    return await func(**{k: v for k, v in kwargs.items() if k in spec})
+
+@app.command("webss", "ss", "webshot")
+async def take_ss(ctx: ContextTypes.DEFAULT_TYPE, message: Message):
+    if len(ctx.args) < 1:
+        return await eor(message, text="ɢɪᴠᴇ ᴀ ᴜʀʟ ᴛᴏ ғᴇᴛᴄʜ sᴄʀᴇᴇɴsʜᴏᴛ.")
+
+    if len(ctx.args) == 1:
+        url = ctx.args[0]
+        full = False
+    elif len(ctx.args) == 2:
+        url = ctx.args[0]
+        full = ctx.args[1].lower().strip() in ["yes", "y", "1", "true"]
+    else:
+        return await eor(message, text="ɪɴᴠᴀʟɪᴅ ᴄᴏᴍᴍᴀɴᴅ.")
+
+    m = await eor(message, text="ᴄᴀᴘᴛᴜʀɪɴɢ sᴄʀᴇᴇɴsʜᴏᴛ...")
+
+    try:
+        photo = await take_screenshot(url, full)
+        if not photo:
+            return await m.edit("ғᴀɪʟᴇᴅ ᴛᴏ ᴛᴀᴋᴇ sᴄʀᴇᴇɴsʜᴏᴛ.")
+
+        m = await m.edit("ᴜᴘʟᴏᴀᴅɪɴɢ...")
+
+        await message.reply_document(photo)
+        await m.delete()
+    except Exception as e:
+        await m.edit(str(e))
+
+__mod_name__ = "𝐖ᴇʙsʜᴏᴛ"
+__help__ = """
+» /webss *:* Sᴇɴᴅs ᴛʜᴇ sᴄʀᴇᴇɴsʜᴏᴛ ᴏғ ᴛʜᴇ ɢɪᴠᴇɴ ᴜʀʟ.
+"""
+
+
 #from base64 import b64decode
 #from io import BytesIO
 #from inspect import getfullargspec
