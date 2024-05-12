@@ -49,7 +49,7 @@ async def kukirm(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )
         else:
             await update.effective_message.edit_text(
-                f"Chatbot disable by {mention_html(user.id, user.first_name)}.",
+                f"Chatbot Deactivated by {mention_html(user.id, user.first_name)} \nMaybe my words hurt you",
                 parse_mode=ParseMode.HTML,
             )
 
@@ -72,7 +72,7 @@ async def kukiadd(update: Update, context: ContextTypes.DEFAULT_TYPE):
             )
         else:
             await update.effective_message.edit_text(
-                f"Hey Darling Chatbot enable by {mention_html(user.id, user.first_name)}.",
+                f"Chatbot Activated by {mention_html(user.id, user.first_name)} \nLet's light up this chat with some serious fireworks!",
                 parse_mode=ParseMode.HTML,
             )
 
