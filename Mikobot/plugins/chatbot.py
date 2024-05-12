@@ -123,7 +123,7 @@ async def chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
         Message = message.text
         await bot.send_chat_action(chat_id, action="typing")
         kukiurl = requests.get(
-            f"http://api.brainshop.ai/get?bid=176809&key=lbMN8CXTGzhn1NKG&uid=[user]&msg={Message}"
+            f"https://pervert-api.onrender.com/chatbot/{Message}"
         )
 
         Kuki = json.loads(kukiurl.text)
