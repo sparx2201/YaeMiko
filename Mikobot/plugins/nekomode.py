@@ -91,7 +91,7 @@ async def nekomode_commands(event):
             animation_url = result["url"]
 
             # Send animation
-            await event.respond(file=animation_url)
+            await event.reply(file=animation_url)
 
 
 __help__ = """
