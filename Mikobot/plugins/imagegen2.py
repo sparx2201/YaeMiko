@@ -275,7 +275,7 @@ import uvloop
 uvloop.install()
 import datetime,logging, sys
 from pyrogram import Client
-from lexica import Client as ApiClient
+from lexica import Client as GraphClient
 from lexica.constants import version
 #from config import Config
 #from Utils.telegraph import GraphClient
@@ -291,10 +291,10 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 LOGGER = logging.getLogger(__name__)
 
 StartTime = datetime.datetime.now()
-Models = ApiClient().models['models']['image']
+Models = GraphClient().models['models']['image']
 LOGGER.info(f"Models Loaded: v{version}")
 
-TelegraphClient = ApiClient(
+TelegraphClient = GraphClient(
     "LexicaAPI",
     "https://t.me/LexicaAPI",
     "LexicaAPI"
@@ -327,12 +327,12 @@ class Bot(Client):
 if __name__ == "__main__":
     Bot().run()
 
-#################################### (ApiClient) ########################################
+#################################### (GraphClient) ########################################
 from httpx import Client,AsyncClient
 import os,traceback,json
 #from .htmlParser import htmlToNodes
 
-class ApiClient:
+class GraphClient:
     def __init__(self,author_name,author_url,short_name,access_token=None):
         self.baseUrl = "https://api.graph.org/"
         self.client = Client(http2=True)
