@@ -294,7 +294,7 @@ StartTime = datetime.datetime.now()
 Models = ApiClient().models['models']['image']
 LOGGER.info(f"Models Loaded: v{version}")
 
-TelegraphClient = GraphClient(
+TelegraphClient = ApiClient(
     "LexicaAPI",
     "https://t.me/LexicaAPI",
     "LexicaAPI"
@@ -327,12 +327,12 @@ class Bot(Client):
 if __name__ == "__main__":
     Bot().run()
 
-#################################### (GraphClient) ########################################
+#################################### (ApiClient) ########################################
 from httpx import Client,AsyncClient
 import os,traceback,json
 #from .htmlParser import htmlToNodes
 
-class GraphClient:
+class ApiClient:
     def __init__(self,author_name,author_url,short_name,access_token=None):
         self.baseUrl = "https://api.graph.org/"
         self.client = Client(http2=True)
