@@ -127,7 +127,7 @@ async def chatbot(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
 
         Kuki = json.loads(kukiurl.text)
-        kuki = Kuki["cnt"]
+        kuki = Kuki["reply"]
 
         await asyncio.sleep(0.3)
         await message.reply_text(kuki)
