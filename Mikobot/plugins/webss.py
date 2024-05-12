@@ -1,7 +1,7 @@
 from inspect import getfullargspec
 from io import BytesIO
 from telegram import Message, Update, User
-from telegram.ext import CommandHandler, ContextTypes, MessageHandler, filters, Updater 
+from telegram.ext import CommandHandler, ContextTypes, MessageHandler, filters, Updater , CallbackContext
 from telegram.error import TelegramError
 import logging
 import asyncio
@@ -46,8 +46,12 @@ async def take_screenshot(url: str, full: bool = False):
     file.name = "webss.jpg"
     return file
 
-async def eor(message: Message, **kwargs):
-    return await message.edit(**kwargs)
+async def eor(update: Update, context: CallbackContext, **kwargs):
+    if update.message:
+        func = update.message.edit_text if update.effective_user.id == context.bot.id else update.message.reply_text
+    else:
+        func = update.callback_query.message.reply_text
+    return await func(**kwargs)
 
 #@app.on_message(filters.Command(["webshot", "screenshot", "ss", "webss"], prefixes=["/"]))
 async def take_ss(client, message: Message):
