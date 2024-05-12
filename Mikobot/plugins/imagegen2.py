@@ -280,8 +280,8 @@ from lexica.constants import version
 #from config import Config
 #from Utils.telegraph import GraphClient
 
-# Get logging configurations
-logging.basicConfig(
+ Get logging configurations
+ logging.basicConfig(
     format="%(asctime)s - [BOT] - %(levelname)s - %(message)s",
     handlers=[logging.FileHandler("logs.txt"), logging.StreamHandler()],
     level=logging.INFO,
@@ -294,12 +294,12 @@ StartTime = datetime.datetime.now()
 Models = ApiClient().models['models']['image']
 LOGGER.info(f"Models Loaded: v{version}")
 
-TelegraphClient = GraphClient(
-    "LexicaAPI",
-    "https://t.me/LexicaAPI",
-    "LexicaAPI"
-)
-TelegraphClient.createAccount()
+#TelegraphClient = GraphClient(
+#    "LexicaAPI",
+#    "https://t.me/LexicaAPI",
+#    "LexicaAPI"
+#)
+#TelegraphClient.createAccount()
 
 class Bot(Client):
     global StartTime,Models
@@ -324,8 +324,8 @@ class Bot(Client):
         await super().stop()
         LOGGER.info("Stopped Services")
 
-if __name__ == "__main__":
-    Bot().run()
+#if __name__ == "__main__":
+#    Bot().run()
 
 #################################### (GraphClient) ########################################
 from httpx import Client,AsyncClient
