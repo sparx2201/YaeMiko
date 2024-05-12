@@ -5,6 +5,12 @@ uvloop
 lexica-api
 python-dotenv
 
+Pyrogram
+TgCrypto
+uvloop
+lexica-api
+httpx[http2]
+python-dotenv
 
 # ==== A ====
 aiofiles==23.2.1
