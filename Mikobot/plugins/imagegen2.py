@@ -275,7 +275,7 @@ import uvloop
 uvloop.install()
 import datetime,logging, sys
 from pyrogram import Client
-from lexica import Client as GraphClient
+from lexica import Client as ApiClient
 from lexica.constants import version
 #from config import Config
 #from Utils.telegraph import GraphClient
@@ -291,7 +291,7 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 LOGGER = logging.getLogger(__name__)
 
 StartTime = datetime.datetime.now()
-Models = GraphClient().models['models']['image']
+Models = ApiClient().models['models']['image']
 LOGGER.info(f"Models Loaded: v{version}")
 
 TelegraphClient = GraphClient(
