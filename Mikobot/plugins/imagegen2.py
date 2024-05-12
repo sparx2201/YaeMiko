@@ -1,4 +1,14 @@
+############################ (getText) #####################################
 
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+class Config(object):
+    BOT_TOKEN = os.getenv("BOT_TOKEN")
+    API_ID = os.getenv("API_ID")
+    API_HASH = os.getenv("API_HASH")
+    
 ############################ (getText) #####################################
 import httpx
 from urllib.parse import urlsplit
@@ -267,7 +277,7 @@ import datetime,logging, sys
 from pyrogram import Client
 from lexica import Client as ApiClient
 from lexica.constants import version
-from config import Config
+#from config import Config
 #from Utils.telegraph import GraphClient
 
 # Get logging configurations
