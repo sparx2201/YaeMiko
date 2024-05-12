@@ -280,8 +280,8 @@ from lexica.constants import version
 #from config import Config
 #from Utils.telegraph import GraphClient
 
- # Get logging configurations
- logging.basicConfig(
+# Get logging configurations
+logging.basicConfig(
     format="%(asctime)s - [BOT] - %(levelname)s - %(message)s",
     handlers=[logging.FileHandler("logs.txt"), logging.StreamHandler()],
     level=logging.INFO,
