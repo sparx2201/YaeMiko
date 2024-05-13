@@ -178,9 +178,10 @@ async def nsfw_enable_disable(_, message):
 )
 @can_restrict
 async def nsfw_warn_enable_disable(_, message):
-  if not await is_nsfw_on(message.chat.id):
-      await message.reply_text("Enable Antinsfw System First!")
-      return
+    
+    if not await is_nsfw_on(message.chat.id):
+        await message.reply_text("Enable Antinsfw System First!")
+        return
     
     if len(message.command) != 2:
         await message.reply_text("Usage: /warnnsfw [on/off]")
