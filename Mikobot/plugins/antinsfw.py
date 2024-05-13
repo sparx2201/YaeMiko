@@ -3,7 +3,7 @@ from os import remove
 
 from pyrogram import filters
 
-from Database.mongodb.toggle_mongo import is_nsfw_on, nsfw_off, nsfw_on
+from Database.mongodb.toggle_mongo import is_nsfw_on, nsfw_off, nsfw_on, nsfw_warn_on, nsfw_warn_off, is_nsfw_warn_on
 from Mikobot import BOT_USERNAME, DRAGONS, app
 from Mikobot.state import arq
 from Mikobot.utils.can_restrict import can_restrict
@@ -170,6 +170,42 @@ async def nsfw_enable_disable(_, message):
         await message.reply_text("Disabled AntiNSFW System.")
     else:
         await message.reply_text("Unknown Suffix, Use /antinsfw [on/off]")
+        
+################################################################################################
+
+@app.on_message(
+    filters.command(["warnnsfw", f"warnnsfw@{BOT_USERNAME}"]) & ~filters.private
+)
+@can_restrict
+async def nsfw_warn_enable_disable(_, message):
+  if not await is_nsfw_on(message.chat.id):
+      await message.reply_text("Enable Antinsfw System First!")
+      return
+    
+    if len(message.command) != 2:
+        await message.reply_text("Usage: /warnnsfw [on/off]")
+        return
+    status = message.text.split(None, 1)[1].strip()
+    status = status.lower()
+    chat_id = message.chat.id
+    if status in ("on", "yes"):
+        if await is_nsfw_warn_on(chat_id):
+            await message.reply_text("Warn is already enabled on Nsfw content.")
+            return
+        await nsfw_warn_on(chat_id)
+        await message.reply_text("Enabled Warn System on Nsfw content.")
+
+    
+    elif status in ("off", "no"):
+        if not await is_nsfw_warn_on(chat_id):
+            await message.reply_text("Warn is already disabled on Nsfw content.")
+            return
+        await nsfw_warn_off(chat_id)
+        await message.reply_text("Disabled Warn System on Nsfw content.")
+    else:
+        await message.reply_text("Unknown Suffix, Use /antinsfw [on/off]")
+
+
 
 
 # <=================================================== HELP ====================================================>
