@@ -1,4 +1,8 @@
-# <============================================== IMPORTS =========================================================>
+
+# Created by : AJ
+# @JinX_Ubot
+
+# ============================================== IMPORTS =========================================================
 from os import remove
 
 from pyrogram import filters
@@ -9,10 +13,10 @@ from Mikobot.state import arq
 from Mikobot.utils.can_restrict import can_restrict
 from Mikobot.utils.errors import capture_err
 
-# <=======================================================================================================>
+# =================================================== Fuction ====================================================
 
+##########################################(basic)##############################
 
-# <================================================ FUNCTION =======================================================>
 async def get_file_id_from_message(message):
     file_id = None
     if message.document:
@@ -45,6 +49,7 @@ async def get_file_id_from_message(message):
         file_id = message.video.thumbs[0].file_id
     return file_id
 
+##########################################(Auto Detect for Anti-Nsfw)###########################
 
 @app.on_message(
     (
@@ -86,17 +91,53 @@ async def detect_nsfw(_, message):
         return
     await message.reply_text(
         f"""
-**🔞 NSFW Image Detected & Deleted Successfully!**
-
-**✪ User:** {message.from_user.mention} [`{message.from_user.id}`]
-**✪ Safe:** `{results.neutral} %`
-**✪ Porn:** `{results.porn} %`
-**✪ Adult:** `{results.sexy} %`
-**✪ Hentai:** `{results.hentai} %`
-**✪ Drawings:** `{results.drawings} %`
+───────────────────
+⚠️ **NSFW Image Detected & 
+ Deleted  Successfully!**
+────────────────
+ **User** : {message.from_user.mention} [{message.from_user.id}]
+┈┈┈┈┈┈┈┈┈┈┈┈┈┈
+▸ __Safe__ : `{results.neutral} %`
+▸ __Porn__ : `{results.porn} %`
+▸ __Hentai__ : `{results.hentai} %`
+▸ __Sexy__ : `{results.sexy} %`
+▸ __Drawings__ : `{results.drawings} %`
+────────────────────
 """
     )
 
+##########################################(Anti-Nsfw)#####################################
+
+@app.on_message(
+    filters.command(["antinsfw", f"antinsfw@{BOT_USERNAME}"]) & ~filters.private
+)
+@can_restrict
+async def nsfw_enable_disable(_, message):
+    if len(message.command) != 2:
+        await message.reply_text("Lol! Use /antinsfw [on/off] Bruhh")
+        return
+    status = message.text.split(None, 1)[1].strip()
+    status = status.lower()
+    chat_id = message.chat.id
+    if status in ("on", "yes"):
+        if await is_nsfw_on(chat_id):
+            await message.reply_text("**AntiNsfw is already enabled!**./nHihi and working Properly so don't worry")
+            return
+        await nsfw_on(chat_id)
+        await message.reply_text(
+            "**Enabled AntiNsfw System!**./n/nNow I will Detect & Delete Inappropriate Content /nso no-one can become more bad than me"
+        )
+    elif status in ("off", "no"):
+        if not await is_nsfw_on(chat_id):
+            await message.reply_text("**AntiNsfw is already Disabled!**./nso whole chat free to send anything")
+            return
+        await nsfw_off(chat_id)
+        await message.reply_text("**Disabled AntiNSFW System!** /n/nAww Bad Manners Now chat is free/nfrom my hands now.")
+    else:
+        await message.reply_text("Lol! Only Use /antinsfw [on/off] Bruhh")
+
+
+###########################################(scan)######################################
 
 @app.on_message(filters.command(["nsfwscan", f"nsfwscan@{BOT_USERNAME}"]))
 @capture_err
@@ -133,94 +174,72 @@ async def nsfw_scan_command(_, message):
     results = results.result
     await m.edit(
         f"""
-**➢ Neutral:** `{results.neutral} %`
-**➢ Porn:** `{results.porn} %`
-**➢ Hentai:** `{results.hentai} %`
-**➢ Sexy:** `{results.sexy} %`
-**➢ Drawings:** `{results.drawings} %`
-**➢ NSFW:** `{results.is_nsfw}`
+────────────────
+ **Scan Sucessefully!**
+──────────────
+▸ __Neutral__ : `{results.neutral} %`
+▸ __Porn__ : `{results.porn} %`
+▸ __Hentai__ : `{results.hentai} %`
+▸ __Sexy__ : `{results.sexy} %`
+▸ __Drawings__ : `{results.drawings} %`
+┈┈┈┈┈┈┈┈┈┈┈┈┈┈
+ **NSFW** : `{results.is_nsfw}`
+───────────────
 """
     )
-
-
-@app.on_message(
-    filters.command(["antinsfw", f"antinsfw@{BOT_USERNAME}"]) & ~filters.private
-)
-@can_restrict
-async def nsfw_enable_disable(_, message):
-    if len(message.command) != 2:
-        await message.reply_text("Usage: /antinsfw [on/off]")
-        return
-    status = message.text.split(None, 1)[1].strip()
-    status = status.lower()
-    chat_id = message.chat.id
-    if status in ("on", "yes"):
-        if await is_nsfw_on(chat_id):
-            await message.reply_text("Antinsfw is already enabled.")
-            return
-        await nsfw_on(chat_id)
-        await message.reply_text(
-            "Enabled AntiNSFW System. I will Delete Messages Containing Inappropriate Content."
-        )
-    elif status in ("off", "no"):
-        if not await is_nsfw_on(chat_id):
-            await message.reply_text("Antinsfw is already disabled.")
-            return
-        await nsfw_off(chat_id)
-        await message.reply_text("Disabled AntiNSFW System.")
-    else:
-        await message.reply_text("Unknown Suffix, Use /antinsfw [on/off]")
-        
-################################################################################################
-
-@app.on_message(
-    filters.command(["warnnsfw", f"warnnsfw@{BOT_USERNAME}"]) & ~filters.private
-)
-@can_restrict
-async def nsfw_warn_enable_disable(_, message):
     
-    if not await is_nsfw_on(message.chat.id):
-        await message.reply_text("Enable Antinsfw System First!")
-        return
-    
-    if len(message.command) != 2:
-        await message.reply_text("Usage: /warnnsfw [on/off]")
-        return
-    status = message.text.split(None, 1)[1].strip()
-    status = status.lower()
-    chat_id = message.chat.id
-    if status in ("on", "yes"):
-        if await is_nsfw_warn_on(chat_id):
-            await message.reply_text("Warn is already enabled on Nsfw content.")
-            return
-        await nsfw_warn_on(chat_id)
-        await message.reply_text("Enabled Warn System on Nsfw content.")
+##########################################(Anti-Nsfw + Warn)####################################
 
-    
-    elif status in ("off", "no"):
-        if not await is_nsfw_warn_on(chat_id):
-            await message.reply_text("Warn is already disabled on Nsfw content.")
-            return
-        await nsfw_warn_off(chat_id)
-        await message.reply_text("Disabled Warn System on Nsfw content.")
-    else:
-        await message.reply_text("Unknown Suffix, Use /antinsfw [on/off]")
+# @app.on_message(
+#     filters.command(["warnnsfw", f"warnnsfw@{BOT_USERNAME}"]) & ~filters.private
+# )
+# @can_restrict
+# async def nsfw_warn_enable_disable(_, message):
+#     
+#     if not await is_nsfw_on(message.chat.id):
+#         await message.reply_text("Enable Antinsfw System First!")
+#         return
+#     
+#     if len(message.command) != 2:
+#         await message.reply_text("Usage: /warnnsfw [on/off]")
+#         return
+#     status = message.text.split(None, 1)[1].strip()
+#     status = status.lower()
+#     chat_id = message.chat.id
+#     if status in ("on", "yes"):
+#         if await is_nsfw_warn_on(chat_id):
+#             await message.reply_text("Warn is already enabled on Nsfw content.")
+#             return
+#         await nsfw_warn_on(chat_id)
+#         await message.reply_text("Enabled Warn System on Nsfw content.")
+# 
+#     
+#     elif status in ("off", "no"):
+#         if not await is_nsfw_warn_on(chat_id):
+#             await message.reply_text("Warn is already disabled on Nsfw content.")
+#             return
+#         await nsfw_warn_off(chat_id)
+#         await message.reply_text("Disabled Warn System on Nsfw content.")
+#     else:
+#         await message.reply_text("Unknown Suffix, Use /antinsfw [on/off]")
 
 
 
 
-# <=================================================== HELP ====================================================>
+# =================================================== Help ====================================================
 
 
-__mod_name__ = "ANTI-NSFW"
+__mod_name__ = "Aɴᴛɪ-Nsғᴡ"
 
 __help__ = """
-*🔞 Helps in detecting NSFW material and removing it*.
+*🔞 Dᴇᴛᴇᴄᴛ NSFW ᴍᴀᴛᴇʀɪᴀʟ ᴀɴᴅ ʀᴇᴍᴏᴠᴇ ɪᴛ ᴛᴏ ᴘʀᴇᴠᴇɴᴛ 
+     Tʜᴇ Gʀᴏᴜᴘ ғʀᴏᴍ ɢᴇᴛᴛɪɴɢ ʙᴀɴɴᴇᴅ.*.
 
-➠ *Usage:*
+ *Commands:*
 
-» /antinsfw [on/off]: Enables Anti-NSFW system.
+▸ /antinsfw [on/off]: Eɴᴀʙʟᴇs Aɴᴛɪ-Nsғᴡ sʏsᴛᴇᴍ.
+   ᴛᴏ ᴀᴜᴛᴏ ᴅᴇᴛᴇᴄᴛ ᴀɴᴅ ᴅᴇʟᴇᴛᴇ Nsғᴡ (18+) Cᴏɴᴛᴇɴᴛ
 
-» /nsfwscan <reply to message>: Scans the file replied to.
+▸ /nsfwscan <reply to message>: Sᴄᴀɴs ᴛʜᴇ ғɪʟᴇ ʀᴇᴘʟɪᴇᴅ ᴛᴏ.
 """
-# <================================================ END =======================================================>
+# =============================================== END =======================================================>
