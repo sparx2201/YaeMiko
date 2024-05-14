@@ -121,24 +121,24 @@ async def nsfw_enable_disable(_, message):
     chat_id = message.chat.id
     if status in ("on", "yes"):
         if await is_nsfw_on(chat_id):
-            await message.reply_text("**AntiNsfw is already enabled!**.
+            await message.reply_text("**AntiNsfw is already enabled!**
             ʜɪʜɪ ᴀɴᴅ ᴡᴏʀᴋɪɴɢ Pʀᴏᴘᴇʀʟʏ sᴏ ᴅᴏɴ'ᴛ ᴡᴏʀʀʏ")
             return
         await nsfw_on(chat_id)
-        await message.reply_text(" **Enabled AntiNsfw System!**
+        await message.reply_text("**Enabled AntiNsfw System!**
             Nᴏᴡ I ᴡɪʟʟ Dᴇᴛᴇᴄᴛ ᴀɴᴅ Dᴇʟᴇᴛᴇ Iɴᴀᴘᴘʀᴏᴘʀɪᴀᴛᴇ Cᴏɴᴛᴇɴᴛ 
-            sᴏ ɴᴏ-ᴏɴᴇ ᴄᴀɴ ʙᴇᴄᴏᴍᴇ ᴍᴏʀᴇ ʙᴀᴅ ᴛʜᴀɴ ᴍᴇ ")
+            sᴏ ɴᴏ-ᴏɴᴇ ᴄᴀɴ ʙᴇᴄᴏᴍᴇ ᴍᴏʀᴇ ʙᴀᴅ ᴛʜᴀɴ ᴍᴇ")
             
     elif status in ("off", "no"):
         if not await is_nsfw_on(chat_id):
-            await message.reply_text("**AntiNsfw is already Disabled!**.
+            await message.reply_text("**AntiNsfw is already Disabled!**
             sᴏ ᴡʜᴏʟᴇ ᴄʜᴀᴛ ғʀᴇᴇ ᴛᴏ sᴇɴᴅ ᴀɴʏᴛʜɪɴɢ")
             return
             
         await nsfw_off(chat_id)
         await message.reply_text("**Disabled AntiNSFW System!** 
         ʙᴛᴡ ɪᴛ's ʙᴀᴅ ᴍᴀɴɴᴇʀs ɴᴏᴡ ᴄʜᴀᴛ 
-        ɪs ғʀᴇᴇ ғʀᴏᴍ ᴍʏ ʜᴀɴᴅs ɴᴏᴡ..")
+        ɪs ғʀᴇᴇ ғʀᴏᴍ ᴍʏ ʜᴀɴᴅs ɴᴏᴡ")
     else:
         await message.reply_text("Lol! Only Use /antinsfw [on/off] Bruhh")
 
