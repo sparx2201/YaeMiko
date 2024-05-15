@@ -215,7 +215,8 @@ async def chats(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != OWNER_ID:
         await update.effective_message.reply_text("This command is for the owner only.")
         return
-        
+
+    
     all_chats = sql.get_all_chats() or []
     chatfile = "List of chats.\n0. Chat Name | Chat ID | Members Count\n"
     P = 1
@@ -229,10 +230,23 @@ async def chats(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 chat.chat_name,
                 chat.chat_id,
                 chat_members,
+                invitelink,
             )
             P = P + 1
         except Exception as e:
             print(f"Error adding chat {chat.chat_id}: {e}")
+            
+    if chat.chat_name:
+         invitelink = "https://t.me/{chat.username}"
+    elif chat.type in [ChatType.SUPERGROUP, ChatType.CHANNEL]:
+        bot_member = await chat.get_member(context.bot.id)
+        if (
+            bot_member.can_invite_users
+            if isinstance(bot_member, ChatMemberAdministrator)
+            else None
+        ):
+            invitelink = await context.bot.exportChatInviteLink(chat.id)
+        
 
     with BytesIO(str.encode(chatfile)) as output:
         output.name = "groups_list.txt"
