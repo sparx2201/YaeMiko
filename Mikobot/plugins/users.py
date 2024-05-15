@@ -213,7 +213,7 @@ async def chats(update: Update, context: ContextTypes.DEFAULT_TYPE):
         try:
             curr_chat = await context.bot.getChat(chat.chat_id)
             await curr_chat.get_member(context.bot.id)
-            chat_members = await curr_chat.get_member_count(context.bot.id)
+            chat_members = await curr_chat.get_member_count()
             chatfile += "{}. {} | {} | {}\n".format(
                 P,
                 chat.chat_name,
@@ -221,7 +221,6 @@ async def chats(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 chat_members,
             )
             P = P + 1
-            print(f"Added chat {chat.chat_name} to file")
         except Exception as e:
             print(f"Error adding chat {chat.chat_id}: {e}")
 
@@ -232,7 +231,6 @@ async def chats(update: Update, context: ContextTypes.DEFAULT_TYPE):
             filename="groups_list.txt",
             caption="Here be the list of groups in my database.",
         )
-
 
 async def chat_checker(update: Update, context: ContextTypes.DEFAULT_TYPE):
     bot = context.bot
