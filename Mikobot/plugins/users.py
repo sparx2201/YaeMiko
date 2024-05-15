@@ -140,7 +140,7 @@ async def get_user_id(username: str) -> Union[int, None]:
     return None
 
 
-async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def broadcast(update: Update, message: Message, context: ContextTypes.DEFAULT_TYPE):
     user_id = message.from_user.id
     if user_id not in [OWNER_ID] + DEV_USERS:
         await message.reply_text(
@@ -212,7 +212,7 @@ async def log_user(update: Update, context: ContextTypes.DEFAULT_TYPE):
         sql.update_user(msg.forward_from.id, msg.forward_from.username)
 
 
-async def chats(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def chats(update: Update, message: Message, context: ContextTypes.DEFAULT_TYPE):
     user_id = message.from_user.id
     if user_id not in [OWNER_ID] + DEV_USERS:
         await message.reply_text(
