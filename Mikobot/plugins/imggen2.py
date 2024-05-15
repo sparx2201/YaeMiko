@@ -50,7 +50,8 @@ async def generate_image(client, message):
                 await wait_message.delete()
 
                 # Send the generated image
-                await message.reply_document(destination_path, caption=f"Here's the generated image!\nTime Taken: {prompt}")
+                await message.reply_photo(destination_path, caption=f"**Prompt**: `{prompt}`")
+                await message.delete()
 
                 # Delete the generated image after sending
                 os.remove(destination_path)
@@ -60,3 +61,5 @@ async def generate_image(client, message):
             await wait_message.edit_text("Error: {}".format(e))
     else:
         await wait_message.edit_text("Error: {}".format(response.status_code))
+
+
