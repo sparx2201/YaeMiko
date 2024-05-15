@@ -140,12 +140,10 @@ async def get_user_id(username: str) -> Union[int, None]:
     return None
 
 
-async def broadcast(update: Update, message: Message, context: ContextTypes.DEFAULT_TYPE):
-    user_id = message.from_user.id
-    if user_id not in [OWNER_ID] + DEV_USERS:
-        await message.reply_text(
-            "You are not authorized to use this command. Only the owner and authorized users can use it."
-        )
+async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    if update.effective_user.id != OWNER_ID:
+        await update.effective_message.reply_text("This command is for the owner only.")
         return
         
     to_send = update.effective_message.text.split(None, 1)
@@ -212,12 +210,10 @@ async def log_user(update: Update, context: ContextTypes.DEFAULT_TYPE):
         sql.update_user(msg.forward_from.id, msg.forward_from.username)
 
 
-async def chats(update: Update, message: Message, context: ContextTypes.DEFAULT_TYPE):
-    user_id = message.from_user.id
-    if user_id not in [OWNER_ID] + DEV_USERS:
-        await message.reply_text(
-            "You are not authorized to use this command. Only the owner and authorized users can use it."
-        )
+async def chats(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    
+    if update.effective_user.id != OWNER_ID:
+        await update.effective_message.reply_text("This command is for the owner only.")
         return
         
     all_chats = sql.get_all_chats() or []
