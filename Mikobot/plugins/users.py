@@ -141,6 +141,13 @@ async def get_user_id(username: str) -> Union[int, None]:
 
 
 async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    
+    if user_id not in [OWNER_ID] + DEV_USERS:
+        await message.reply_text(
+            "You are not authorized to use this command. Only the owner and authorized users can use it."
+        )
+        return
+        
     to_send = update.effective_message.text.split(None, 1)
 
     if len(to_send) >= 2:
@@ -206,6 +213,13 @@ async def log_user(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def chats(update: Update, context: ContextTypes.DEFAULT_TYPE):
+
+    if user_id not in [OWNER_ID] + DEV_USERS:
+        await message.reply_text(
+            "You are not authorized to use this command. Only the owner and authorized users can use it."
+        )
+        return
+        
     all_chats = sql.get_all_chats() or []
     chatfile = "List of chats.\n0. Chat Name | Chat ID | Members Count\n"
     P = 1
