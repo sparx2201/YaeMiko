@@ -148,8 +148,10 @@ async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE):
         to_user = False
         if to_send[0] == "/broadcastgroups":
             to_group = True
+            to_user = False
         if to_send[0] == "/broadcastusers":
             to_user = True
+            to_group = False
         else:
             to_group = to_user = True
         chats = sql.get_all_chats() or []
@@ -219,8 +221,9 @@ async def chats(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 chat_members,
             )
             P = P + 1
-        except:
-            pass
+            print(f"Added chat {chat.chat_name} to file")
+        except Exception as e:
+            print(f"Error adding chat {chat.chat_id}: {e}")
 
     with BytesIO(str.encode(chatfile)) as output:
         output.name = "groups_list.txt"
