@@ -111,6 +111,7 @@ blacklisted_words = [
 "Anus",
 "Buttocks",
 "Pubic",
+"fucking", "fucked",
 ]
 
 # Command handler for /generate
@@ -121,10 +122,10 @@ async def generate_image(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # Get the user who sent the command
     if message.reply_to_message:
-    user_id = message.reply_to_message.from_user.id
-    user = await context.bot.get_chat_member(message.chat_id, user_id)
+        user_id = message.reply_to_message.from_user.id
+        user = await context.bot.get_chat_member(message.chat_id, user_id)
     else:
-    user = await context.bot.get_chat_member(message.chat_id, message.from_user.id)
+        user = await context.bot.get_chat_member(message.chat_id, message.from_user.id)
     
     # Get the prompt from the command
     prompt = ' '.join(message.text.split()[1:])
