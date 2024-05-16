@@ -11,9 +11,106 @@ import os
 from pyrogram import filters
 from Mikobot import app
 
+blacklisted_words = [
+"Pornography",
+"Nude",
+"Naked",
+"Explicit",
+"XXX",
+"Sex",
+"Erotic",
+"Obscene",
+"Hardcore",
+"NSFW",
+"Sexual",
+"Intimate",
+"Sensual",
+"Racy",
+"Provocative",
+"Lewd",
+"Indecent",
+"Steamy",
+"Vulgar",
+"Salacious",
+"Naughty",
+"Titillating",
+"X-rated",
+"Suggestive",
+"Raunchy",
+"Carnal",
+"Prurient",
+"Dirty",
+"Smutty",
+"Filthy",
+"Nudity",
+"Undressed",
+"Exposed",
+"Unclad",
+"Bare",
+"Flesh",
+"Eroticized",
+"Kinky",
+"Fetish",
+"Perversion",
+"Taboo",
+"Deviant",
+"Degenerate",
+"Debauchery",
+"Libertine",
+"Whore",
+"Slut",
+"Prostitute",
+"Escort",
+"Brothel",
+"Pimp",
+"Orgy",
+"Threesome",
+"Gangbang",
+"Swinger",
+"Voyeur",
+"Exhibitionist",
+"Masturbation",
+"Spank",
+"BDSM",
+"Bondage",
+"Discipline",
+"Submission",
+"Sadism",
+"Masochism",
+"Fornication",
+"Copulation",
+"Intercourse",
+"Coitus",
+"Penetration",
+"Ejaculation",
+"Sperm",
+"Cum",
+"Oral",
+"Blowjob",
+"Cunnilingus",
+"Anal",
+"Butt",
+"Ass",
+"Tits",
+"Boobs",
+"Breasts",
+"Genitals",
+"Vagina",
+"Vulva",
+"Clitoris",
+"Penis",
+"Testicles",
+"Scrotum",
+"Labia",
+"Anus",
+"Buttocks",
+"Pubic",
+]
+
 # Command handler for /generate
 @app.on_message(filters.command('create'))
 async def generate_image(client, message):
+    
     if message.reply_to_message:
         user_id = message.reply_to_message.from_user.id
         user = await client.get_users(user_id)
@@ -23,6 +120,10 @@ async def generate_image(client, message):
         
     # Get the prompt from the command
     prompt = ' '.join(message.command[1:])
+
+    if any(word.lower() in prompt.lower() for word in blacklisted_words):
+        await message.reply_text("Warning: Your prompt contains a blacklisted word.")
+        return
 
     # Send a message to inform the user to wait
     wait_message = await message.reply_text("Generating your image...")
