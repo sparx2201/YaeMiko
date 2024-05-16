@@ -113,11 +113,11 @@ blacklisted_words = [
 ]
 
 # Command handler for /generate
-#@app.on_message(filters.command('create'))
-#async def generate_image(client, message):
-async def generate_image(client, update: Update, context: ContextTypes.DEFAULT_TYPE):
+@app.on_message(filters.command('create'))
+async def generate_image(client, message):
+#async def generate_image(client, update: Update, context: ContextTypes.DEFAULT_TYPE):
     
-    message = update.effective_message  # Extract the Message object from the CallbackContext object
+   # message = update.effective_message  # Extract the Message object from the CallbackContext object
     
     if message.reply_to_message:
         user_id = message.reply_to_message.from_user.id
@@ -180,5 +180,5 @@ async def generate_image(client, update: Update, context: ContextTypes.DEFAULT_T
         await wait_message.edit_text("Error: {}".format(response.status_code))
 
 ##########################################################3
-GEN_HANDLER = DisableAbleCommandHandler("create", generate_image, block=False)
-dispatcher.add_handler(GEN_HANDLER)
+#GEN_HANDLER = DisableAbleCommandHandler("create", generate_image, block=False)
+#dispatcher.add_handler(GEN_HANDLER)
