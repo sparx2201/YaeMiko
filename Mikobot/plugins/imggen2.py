@@ -11,6 +11,7 @@ import os
 from pyrogram import filters
 from Mikobot import app
 from Mikobot.plugins.disable import DisableAbleCommandHandler
+from Mikobot import dispatcher
 
 blacklisted_words = [
 "Pornography",
