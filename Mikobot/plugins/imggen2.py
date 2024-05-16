@@ -162,7 +162,7 @@ async def generate_image(update: Update, context: ContextTypes.DEFAULT_TYPE):
     image_bytes = response.content
 
     # Save the generated image to a file
-    file_name = f"{user.username}_{int(time.time())}.png"
+    file_name = f"img_gen_byJinx.png"
     file_path = os.path.join("generated_images", file_name)
     with open(file_path, "wb") as f:
         f.write(image_bytes)
@@ -172,7 +172,7 @@ async def generate_image(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         await context.bot.send_photo(chat_id=message.chat_id, photo=file_path, caption=caption)
     except BadRequest as e:
-        await message.reply_text(f"Error: {e}")
+        await message.reply_text(f"Error: Prompt missing")
         await wait_message.delete()
         return
 
