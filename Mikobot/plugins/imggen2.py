@@ -117,6 +117,9 @@ blacklisted_words = [
 # Command handler for /generate
 #@app.on_message(filters.command('create'))
 async def generate_image(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not os.path.exists("generated_images"):
+        os.makedirs("generated_images")
+
     # Extract the Message object from the Update object
     message = update.message
 
