@@ -73,7 +73,7 @@ async def nsfw_warn_off(chat_id: int):
 
 ####################################################################################################
 
-async def create_on(chat_id: int) -> bool:
+async def is_create_on(chat_id: int) -> bool:
     chat = await createimgdb.find_one({"chat_id_toggle": chat_id})
     return not bool(chat)
 
