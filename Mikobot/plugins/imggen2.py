@@ -123,7 +123,7 @@ async def generate_image(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if message.reply_to_message:
     user_id = message.reply_to_message.from_user.id
     user = await context.bot.get_chat_member(message.chat_id, user_id)
-else:
+    else:
     user = await context.bot.get_chat_member(message.chat_id, message.from_user.id)
     
     # Get the prompt from the command
