@@ -4,6 +4,7 @@ dwelcomedb = dbname.dwelcome
 nsfwdb = dbname.nsfw
 nekomodedb = dbname.nekomode
 warnnsfwdb = dbname.warnnsfw
+createimgdb = dbname.createimg
 
 async def is_dwelcome_on(chat_id: int) -> bool:
     chat = await dwelcomedb.find_one({"chat_id_toggle": chat_id})
@@ -69,3 +70,17 @@ async def nsfw_warn_off(chat_id: int):
     if not is_nsfw:
         return
     return await warnnsfwdb.delete_one({"chat_id": chat_id})
+
+####################################################################################################
+
+async def create_on(chat_id: int) -> bool:
+    chat = await createimgdb.find_one({"chat_id_toggle": chat_id})
+    return not bool(chat)
+
+
+async def create_on(chat_id: int):
+    await createimgdb.delete_one({"chat_id_toggle": chat_id})
+
+
+async def create_off(chat_id: int):
+    await createimgdb.insert_one({"chat_id_toggle": chat_id})
