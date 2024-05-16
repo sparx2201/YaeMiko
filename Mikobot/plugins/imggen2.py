@@ -12,6 +12,9 @@ from pyrogram import filters
 from Mikobot import app
 from Mikobot.plugins.disable import DisableAbleCommandHandler
 from Mikobot import dispatcher
+from telegram import Update
+from telegram.constants import ParseMode
+from telegram.ext import ContextTypes
 
 blacklisted_words = [
 "Pornography",
