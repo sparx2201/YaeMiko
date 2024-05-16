@@ -10,6 +10,7 @@ import time
 import os
 from pyrogram import filters
 from Mikobot import app
+from Mikobot.plugins.disable import DisableAbleCommandHandler
 
 blacklisted_words = [
 "Pornography",
