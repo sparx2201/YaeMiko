@@ -112,9 +112,9 @@ blacklisted_words = [
 # Command handler for /generate
 #@app.on_message(filters.command('create'))
 #async def generate_image(client, message):
-async def generate_image(client, context):
+async def generate_image(client, update, context):
     
-    message = context.message  # Extract the Message object from the CallbackContext object
+    message = update.effective_message  # Extract the Message object from the CallbackContext object
     
     if message.reply_to_message:
         user_id = message.reply_to_message.from_user.id
