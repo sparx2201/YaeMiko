@@ -18,6 +18,7 @@ from telegram.ext import ContextTypes
 from telegram.error import BadRequest
 from telegram import User
 from telegram.constants import ParseMode
+from telegram.helpers import mention_html
 
 blacklisted_words = [
 "Pornography",
