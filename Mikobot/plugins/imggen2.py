@@ -108,7 +108,7 @@ blacklisted_words = [
 ]
 
 # Command handler for /generate
-@app.on_message(filters.command('create'))
+#@app.on_message(filters.command('create'))
 async def generate_image(client, message):
     
     if message.reply_to_message:
@@ -171,4 +171,6 @@ async def generate_image(client, message):
     else:
         await wait_message.edit_text("Error: {}".format(response.status_code))
 
-
+##########################################################3
+GEN_HANDLER = DisableAbleCommandHandler("create", generate_image, block=False)
+dispatcher.add_handler(GEN_HANDLER)
