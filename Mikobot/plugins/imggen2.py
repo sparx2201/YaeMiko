@@ -136,7 +136,7 @@ async def generate_image(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     # Get the prompt from the command
     
-    prompt = ' '.join(message.text.split()[1:])
+    prompt = ' '.join(update.message.text.split()[1:])
 
     if any(word.lower() in prompt.lower() for word in blacklisted_words):
         await update.message.reply_text("Warning: Your prompt contains a blacklisted word.")
