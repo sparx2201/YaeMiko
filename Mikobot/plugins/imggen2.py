@@ -11,6 +11,7 @@
 import requests
 import time
 import os
+from Mikobot.utils.can_restrict import can_restrict
 from pyrogram import filters
 from Mikobot import app
 from Mikobot.plugins.disable import DisableAbleCommandHandler
