@@ -116,7 +116,7 @@ blacklisted_words = [
 "Anus",
 "Buttocks",
 "Pubic",
-"fucking", "fucked",
+"fucking", "fucked", "pussy",
 ]
 
 
@@ -142,7 +142,7 @@ async def generate_image(client, message):
     prompt = ' '.join(message.command[1:])
 
     if any(word.lower() in prompt.lower() for word in blacklisted_words):
-        await message.reply_text("Warning: Your prompt contains a blacklisted word.")
+        await message.reply_text("Warning: Your prompt contains a blacklisted useless word.")
         return
 
     # Send a message to inform the user to wait
@@ -187,7 +187,7 @@ async def generate_image(client, message):
             else:
                 await wait_message.edit_text("Failed to generate the image.")
         except Exception as e:
-            await wait_message.edit_text("Error: {}".format(e))
+            await wait_message.edit_text("Error: bruhhh prompt?")
     else:
         await wait_message.edit_text("Error: {}".format(response.status_code))
 
