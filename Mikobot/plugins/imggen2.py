@@ -128,7 +128,7 @@ async def generate_image(client, message):
    # message = update.effective_message  # Extract the Message object from the CallbackContext object
     
     if not await is_create_on(message.chat.id):
-        await message.reply_text("Create Command is Disabled! in this chat\n Use '/generate on' to enable or Use create in my PM")
+        await message.reply_text("Create Command is Disabled in this chat\nUse '/createMode on' to enable it")
         return
     
     #if message.reply_to_message:
@@ -206,17 +206,17 @@ async def create_enable_disable(_, message):
     chat_id = message.chat.id
     if status in ("on", "yes"):
         if await is_create_on(chat_id):
-            await message.reply_text("**Create System is already enabled!**\nUse '/create' to Generate Image")
+            await message.reply_text("**Create Mode is already enabled!**\nUse '/create' to Generate Image")
             return
         await create_on(chat_id)
-        await message.reply_text("**Enabled Create System!**\nNow anyone can use '/create' to Generate Image")
+        await message.reply_text("**Enabled Create Mode!**\nNow anyone can use '/create' to \nGenerate Image")
             
     elif status in ("off", "no"):
         if not await is_create_on(chat_id):
-            await message.reply_text("**Create System is already Disabled!**\nCan't use '/create' to Generate Image")
+            await message.reply_text("**Create Mode is already Disabled!**\nCan't use '/create' to Generate Image")
             return
             
         await create_off(chat_id)
-        await message.reply_text("**Disabled Create System!**\nʙNow no-one can use '/create' to Generate Image")
+        await message.reply_text("**Disabled Create Mode!**\nNow no-one can use '/create' to \nGenerate Image")
     else:
         await message.reply_text("Use /createMode [on/off] to enable or disable create command \nand Use '/create' to Generate Image")
