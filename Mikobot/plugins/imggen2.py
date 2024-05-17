@@ -14,11 +14,14 @@ from Mikobot.plugins.disable import DisableAbleCommandHandler
 from Mikobot import dispatcher
 from telegram import Update
 from telegram.constants import ParseMode
-from telegram.ext import ContextTypes
+from telegram.ext import ContextTypes, CommandHandler
 from telegram.error import BadRequest
 from telegram import User
 from telegram.constants import ParseMode
 from telegram.helpers import mention_html
+#from telegram.ext import CommandHandler
+
+
 
 blacklisted_words = [
 "Pornography",
