@@ -21,6 +21,8 @@ from telegram.constants import ParseMode
 from telegram.ext import ContextTypes
 from Mikobot import BOT_USERNAME
 from Database.mongodb.toggle_mongo import is_create_on, create_on, create_off
+#"Sex",
+#"Sexual",
 
 blacklisted_words = [
 "Pornography",
@@ -28,12 +30,10 @@ blacklisted_words = [
 "Naked",
 "Explicit",
 "XXX",
-"Sex",
 "Erotic",
 "Obscene",
 "Hardcore",
 "NSFW",
-"Sexual",
 "Intimate",
 "Sensual",
 "Racy",
@@ -116,8 +116,7 @@ blacklisted_words = [
 "Anus",
 "Buttocks",
 "Pubic",
-"fucking", "fucked", "pussy",
-]
+"fucking", "fucked", "pussy",]
 
 
 
