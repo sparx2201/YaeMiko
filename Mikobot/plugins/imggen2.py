@@ -188,7 +188,7 @@ async def generate_image(client, message):
         except Exception as e:
             await wait_message.edit_text("Error: {}".format(e))
     else:
-        await wait_message.edit_text("Error: bruhhh prompt?))
+        await wait_message.edit_text("Error: bruhhh prompt?")
 
 ########################################################################################################
 
