@@ -166,6 +166,8 @@ async def generate_image(client, message):
     if response.status_code == 200:
         print("200")
         try:
+
+            if 'output' in response.json() and response.json()['output']:
             if response.json():
                     # Get the image link from the API response
                     image_link = response.json()['output'][0]
