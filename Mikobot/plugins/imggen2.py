@@ -166,7 +166,7 @@ async def generate_image(client, message):
         try:
             if response.json():
                     # Get the image link from the API response
-                    image_link = response.json('output')[0]
+                    image_link = response_json('output')[0]
 
                     response = requests.get(image_link)
                     img = Image.open(io.BytesIO(response.content))
