@@ -162,6 +162,7 @@ async def generate_image(client, message):
 
     response = requests.post(url, json=payload)
     if response.status_code == 200:
+    print("200")
         try:
             if isinstance(response.json(), list) and response.json()[0].startswith('http'):
                 # The response is a list of image URLs
