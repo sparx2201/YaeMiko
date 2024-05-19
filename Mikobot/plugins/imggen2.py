@@ -164,7 +164,7 @@ async def generate_image(client, message):
     #response = requests.post(url, data=form_data)
 
     url = 'https://fumes-api.onrender.com/sdxl-api'
-    payload = {'prompt': 'car',
+    payload = {'prompt': prompt,
             "apply_watermark": False,
             "negative_prompt": '',
             "image": None,
