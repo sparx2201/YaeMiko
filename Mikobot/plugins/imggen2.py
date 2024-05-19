@@ -8,6 +8,8 @@
 
 
 
+from PIL import Image
+import io
 import requests
 import time
 import os
