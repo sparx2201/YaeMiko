@@ -150,18 +150,38 @@ async def generate_image(client, message):
 
 
     # API endpoint URL
-    url = 'https://ai-api.magicstudio.com/api/ai-art-generator'
+#    url = 'https://ai-api.magicstudio.com/api/ai-art-generator'
 
     # Form data for the request
-    form_data = {
-        'prompt': prompt,
-        'output_format': 'bytes',
-        'request_timestamp': str(int(time.time())),
-        'user_is_subscribed': 'false',
-    }
+ #   form_data = {
+  #      'prompt': prompt,
+  #      'output_format': 'bytes',
+  #      'request_timestamp': str(int(time.time())),
+  #      'user_is_subscribed': 'false',
+   # }
 
     # Send a POST request to the API
-    response = requests.post(url, data=form_data)
+    #response = requests.post(url, data=form_data)
+
+    url = 'https://fumes-api.onrender.com/sdxl-api'
+    payload = {'prompt': 'car',
+            "apply_watermark": False,
+            "negative_prompt": '',
+            "image": None,
+            "mask": None,
+            "width": 1024,
+            "height": 1024,
+            "num_outputs": 1,
+            "scheduler": 'DDIM',
+            "num_inference_steps": 40,
+            "guidance_scale": 8,
+            "prompt_strength": 0.8,
+            "seed": 69,
+            "refine": "no_refiner",
+            "high_noise_frac": 1,
+            "refine_steps": None,}
+
+    response = requests.post(url, json=payload)
 
     if response.status_code == 200:
         try:
