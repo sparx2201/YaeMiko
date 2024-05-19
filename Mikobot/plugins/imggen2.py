@@ -186,7 +186,7 @@ async def generate_image(client, message):
     if response.status_code == 200:
         try:
             if response.content:
-                destination_dir = ''
+                destination_dir = ""
                 destination_path = os.path.join(destination_dir, 'img_gen_byJinx.png')
 
                 # Save the image to the destination path
