@@ -130,7 +130,7 @@ async def generate_image(client, message):
         await message.reply_text("Create Command is Disabled in this chat\nUse '/createMode on' to enable it")
         return
 
-    if len(message.command) != 2:
+    if len(message.command) < 2:
         await message.reply_text("bruhhh prompt?")
         return
        
@@ -238,7 +238,7 @@ async def generate_image(client, message):
         await message.reply_text("Create Command is Disabled in this chat\nUse '/createMode on' to enable it")
         return
 
-    if len(message.command) != 2:
+    if len(message.command) < 2:
         await message.reply_text("bruhhh prompt?")
         return
        
