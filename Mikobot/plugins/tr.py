@@ -7,7 +7,7 @@ from urllib.parse import quote
 import requests
 import urllib3
 from emoji import EMOJI_DATA
-from telegram import Update
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.constants import ParseMode
 from telegram.ext import ContextTypes, filters
 
