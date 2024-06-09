@@ -328,13 +328,12 @@ async def totranslate(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def langs(update: Update, context: ContextTypes.DEFAULT_TYPE):
     args = context.args
     message = update.effective_message
-    await message.reply_text(
+    await message.reply_text("Click on the button below to see the list of supported language codes.",
             reply_markup=InlineKeyboardMarkup([
     [
         InlineKeyboardButton(text="Language Codes",url=f"https://telegra.ph/Lang-Codes-03-19-3"),
     ],
 ]),
-            caption="Click on the button below to see the list of supported language codes.",
             parse_mode=ParseMode.HTML,
         )
 
