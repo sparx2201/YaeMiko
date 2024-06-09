@@ -9,7 +9,7 @@ import urllib3
 from emoji import EMOJI_DATA
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.constants import ParseMode
-from telegram.ext import ContextTypes, filters
+from telegram.ext import ContextTypes, filters, CommandHandler
 
 from Mikobot import LOGGER, function
 from Mikobot.plugins.anime import DEFAULT_SERVICE_URLS, LANGUAGES
