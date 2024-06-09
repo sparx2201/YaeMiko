@@ -301,13 +301,13 @@ async def totranslate(update: Update, context: ContextTypes.DEFAULT_TYPE):
             detection = trl.detect(text)
             trans_str = trl.translate(text, lang_tgt=dest_lang)
             return await message.reply_text(
-                f"📒 *Translated from* `{detection[0]}` to `{dest_lang}`:\n`{trans_str}`",
+                f"*Language:* `{detection[0]}` -> `{dest_lang}`\n\n Translation: `{trans_str}`",
                 parse_mode=ParseMode.MARKDOWN,
             )
         else:
             trans_str = trl.translate(text, lang_tgt=dest_lang, lang_src=source_lang)
             await message.reply_text(
-                f"📒 *Translated from* `{source_lang}` to `{dest_lang}`:\n`{trans_str}`",
+                f"*Language:* `{source_lang}` -> `{dest_lang}`\n\n Translation:`{trans_str}`",
                 parse_mode=ParseMode.MARKDOWN,
             )
 
@@ -325,6 +325,18 @@ async def totranslate(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         return
 
+async def langs(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    args = context.args
+    message = update.effective_message
+    await message.reply_text(
+            reply_markup=InlineKeyboardMarkup([
+    [
+        InlineKeyboardButton(text="Language Codes",url=f"https://telegra.ph/Lang-Codes-03-19-3"),
+    ],
+]),
+            caption="Click on the button below to see the list of supported language codes.",
+            parse_mode=ParseMode.HTML,
+        )
 
 # <=================================================== HELP ====================================================>
 
@@ -348,8 +360,9 @@ ECHO_HANDLER = DisableAbleCommandHandler(
 
 function(TRANSLATE_HANDLER)
 function(ECHO_HANDLER)
+function(CommandHandler("langs", langs))
 
-__mod_name__ = "TRANSLATOR"
+__mod_name__ = "Tʀᴀɴsʟᴀᴛᴇ"
 __command_list__ = ["tr", "tl", "echo"]
 __handlers__ = [TRANSLATE_HANDLER]
 # <================================================ END =======================================================>
