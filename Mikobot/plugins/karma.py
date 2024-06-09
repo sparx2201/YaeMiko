@@ -1,6 +1,3 @@
-# https://github.com/Team-ProjectCodeX
-# UPDATED BY https://t.me/O_okarma
-# https://t.me/ProjectCodeX
 
 # <============================================== IMPORTS =========================================================>
 import asyncio
@@ -25,7 +22,7 @@ karma_negative_group = 4
     & filters.incoming
     & filters.reply
     & filters.regex(
-        r"^(\+|\+\+|\+1|thx|tnx|ty|tq|thank you|thanx|thanks|pro|cool|good|agree|makasih|👍|\+\+ .+)$"
+        r"^(\+|\+\+|\+\+\+|\+\+\+\+|\+\+\+\+\+|thnx|\+1|thx|tnx|ty|tq|thank you|thanx|thanks|pro|cool|good|agree|makasih|Thnx|Thx|Tnx|Ty|Tq|Thank you|Thanx|Thanks|Pro|Cool|Good|Agree|Makasih|👍|👍👍|👍👍👍|❤️|❤️❤️|❤️❤️❤️|Arigatou gozaimasu|Arigatou Gozaimasu|arigatou gozaimasu|Arigatou|arigatou|spaseebah|SpaSeeBah|Spaseebah|\+\+ .+)$"
     )
     & ~filters.via_bot
     & ~filters.bot,
@@ -40,7 +37,7 @@ async def upvote(_, message):
     if not (reply_user and current_user):
         return
     if reply_user.id == OWNER_ID:
-        await message.reply_text("How so pro?")
+        await message.reply_text("Wᴇʟʟ! ᴛʜᴀᴛ's ᴍʏ ᴍᴀɴ ᴀɴᴅ ʜᴇ's ᴀʟᴡᴀʏs ʀɪɢʜᴛ ✨ ")
         return
     if reply_user.id == current_user.id:
         return
@@ -53,7 +50,7 @@ async def upvote(_, message):
     new_karma = {"karma": karma}
     await update_karma(chat_id, await int_to_alpha(user_id), new_karma)
     await message.reply_text(
-        f"**Iɴᴄʀᴇᴍᴇɴᴛᴇᴅ Kᴀʀᴍᴀ ᴏғ**\n{user_mention} **ʙʏ 1.**\n\n**✨ Tᴏᴛᴀʟ Pᴏɪɴᴛs :** {karma}"
+        f"Iɴᴄʀᴇᴍᴇɴᴛᴇᴅ Kᴀʀᴍᴀ ᴏғ\n{user_mention} ʙʏ 1\n\n**✨ Tᴏᴛᴀʟ Pᴏɪɴᴛs :** {karma}"
     )
 
 
@@ -62,7 +59,7 @@ async def upvote(_, message):
     & filters.group
     & filters.incoming
     & filters.reply
-    & filters.regex(r"^(-|--|-1|not cool|disagree|worst|bad|👎|-- .+)$")
+    & filters.regex(r"^(-|--|-1|not cool|disagree|worst|bad|Not Cool|Not cool|Disagree|Worst|Bad|👎|👎👎|👎👎👎|-- .+)$")
     & ~filters.via_bot
     & ~filters.bot,
     group=karma_negative_group,
@@ -88,7 +85,7 @@ async def downvote(_, message):
     new_karma = {"karma": karma}
     await update_karma(message.chat.id, await int_to_alpha(user_id), new_karma)
     await message.reply_text(
-        f"**Dᴇᴄʀᴇᴍᴇɴᴛᴇᴅ Kᴀʀᴍᴀ ᴏғ**\n{user_mention} **ʙʏ 1.**\n\n**✨ Tᴏᴛᴀʟ Pᴏɪɴᴛs :** {karma}"
+        f"Dᴇᴄʀᴇᴍᴇɴᴛᴇᴅ Kᴀʀᴍᴀ ᴏғ\n{user_mention} ʙʏ 1\n\n**✨ Tᴏᴛᴀʟ Pᴏɪɴᴛs :** {karma}"
     )
 
 
@@ -168,8 +165,11 @@ async def karma_toggle_xd(_, message):
 __mod_name__ = "Kᴀʀᴍᴀ"
 __help__ = """
 
-❍ *Uᴘᴠᴏᴛᴇ* -  ᴜsᴇ ᴜᴘᴠᴏᴛᴇ ᴋᴇʏᴡᴏʀᴅs ʟɪᴋᴇ "+", "+1", "Thanks", ᴇᴛᴄ. ᴛᴏ ᴜᴘᴠᴏᴛᴇ ᴀ ᴍᴇssᴀɢᴇ.
-❍ *Dᴏᴡɴᴠᴏᴛᴇ* - ᴜsᴇ ᴅᴏᴡɴᴠᴏᴛᴇ ᴋᴇʏᴡᴏʀᴅs ʟɪᴋᴇ "-", "-1", ᴇᴛᴄ. ᴛᴏ ᴅᴏᴡɴᴠᴏᴛᴇ ᴀ ᴍᴇssᴀɢᴇ.
+❍ *Uᴘᴠᴏᴛᴇ* -  ᴜsᴇ ᴜᴘᴠᴏᴛᴇ ᴋᴇʏᴡᴏʀᴅs 
+ʟɪᴋᴇ "+", "+1", "Thanks", ᴇᴛᴄ. ᴛᴏ ᴜᴘᴠᴏᴛᴇ ᴀ ᴍᴇssᴀɢᴇ.
+
+❍ *Dᴏᴡɴᴠᴏᴛᴇ* - ᴜsᴇ ᴅᴏᴡɴᴠᴏᴛᴇ ᴋᴇʏᴡᴏʀᴅs 
+ʟɪᴋᴇ "-", "-1", ᴇᴛᴄ. ᴛᴏ ᴅᴏᴡɴᴠᴏᴛᴇ ᴀ ᴍᴇssᴀɢᴇ.
 
 *Commands*
 
