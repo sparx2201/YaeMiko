@@ -2,9 +2,9 @@ from pyrogram import  filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from Mikobot.utils.fonts import Fonts
-from Mikobot import tbot
+from Mikobot import app
 
-@tbot.on_message(filters.command(["font", "fonts"]))
+@app.on_message(filters.command(["font", "fonts"]))
 async def style_buttons(c, m, cb=False):
     text = m.text.split(' ',1)[1]
     buttons = [
@@ -54,7 +54,7 @@ async def style_buttons(c, m, cb=False):
         await m.message.edit_reply_markup(InlineKeyboardMarkup(buttons))
 
 
-@tbot.on_callback_query(filters.regex("^nxt"))
+@app.on_callback_query(filters.regex("^nxt"))
 async def nxt(c, m):
     if m.data == "nxt":
         buttons = [
@@ -104,7 +104,7 @@ async def nxt(c, m):
         await style_buttons(c, m, cb=True)
 
 
-@tbot.on_callback_query(filters.regex("^style"))
+@app.on_callback_query(filters.regex("^style"))
 async def style(c, m):
     await m.answer()
     cmd,style = m.data.split('+')
