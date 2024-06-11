@@ -4,7 +4,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from Mikobot.utils.fonts import Fonts
 from Mikobot import app
 
-@app.on_cmd(["font", "fonts"])
+@app.on_message(filters.command(["font", "fonts"]))
 async def style_buttons(c, m, cb=False):
     buttons = [
         [
@@ -53,7 +53,7 @@ async def style_buttons(c, m, cb=False):
         await m.message.edit_reply_markup(InlineKeyboardMarkup(buttons))
 
 
-@app.on_cb("nxt")
+@app.on_callback_query(filters.regex("^nxt"))
 async def nxt(c, m):
     if m.data == "nxt":
         buttons = [
@@ -103,7 +103,7 @@ async def nxt(c, m):
         await style_buttons(c, m, cb=True)
 
 
-@app.on_cb("style")
+@app.on_callback_query(filters.regex("^style"))
 async def style(c, m):
     await m.answer()
     cmd, style = m.data.split("+")
