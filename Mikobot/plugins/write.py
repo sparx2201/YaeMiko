@@ -8,12 +8,12 @@ async def handwrite(_, message: Message):
         text = message.reply_to_message.text
     else:
         text =message.text.split(None, 1)[1]
-    m =await message.reply_text( "`Please wait...,\n\nWriting your text...`")
+    m =await message.reply_text( "Wait me writing...")
     
     write = requests.get(f"https://apis.xditya.me/write?text={text}").url
 
     caption = f"""
-**Wʀɪᴛᴛᴇɴ ʙʏ :** [{𝘑𝘪𝘯𝙓}](https://t.me/Jinx_Ubot)
+**Wʀɪᴛᴛᴇɴ ʙʏ :** [𝘑𝘪𝘯𝙓](https://t.me/Jinx_Ubot)
 **Rᴇǫᴜᴇsᴛᴇᴅ ʙʏ :** {message.from_user.mention}
 """
     await m.delete()
