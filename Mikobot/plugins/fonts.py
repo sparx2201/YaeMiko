@@ -1,6 +1,5 @@
 from pyrogram import filters
-from pyrogram.types import  Message, InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery
-
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from Mikobot.utils.fonts import Fonts
 from Mikobot import app
 
@@ -103,14 +102,10 @@ async def nxt(c, m):
     else:
         await style_buttons(c, m, cb=True)
 
-
 @app.on_callback_query(filters.regex("^close_reply"))
-async def cb_handler(client: Bot, query: CallbackQuery):
-    await query.m.message.delete()
-    #        try:
-#            await query.m.message.reply_to_message.delete()
-#        except:
-    pass
+async def close_reply(c, m):
+    await m.message.delete()
+
 
 @app.on_callback_query(filters.regex("^style"))
 async def style(c, m):
