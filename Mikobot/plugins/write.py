@@ -18,7 +18,7 @@ async def handwrite(_, message: Message):
 """
     await m.delete()
     await message.reply_photo(photo=write,caption=caption)
-    await message.reply_to_message.delete()
+    await message.delete()
 
 __mod_name__ = "WʀɪᴛᴇTᴏᴏʟ"
 
