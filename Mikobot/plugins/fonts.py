@@ -104,6 +104,13 @@ async def nxt(c, m):
         await style_buttons(c, m, cb=True)
 
 
+@app.on_callback_query(filters.regex("^close_reply"))
+        await query.m.message.delete()
+#        try:
+#            await query.m.message.reply_to_message.delete()
+#        except:
+            pass
+
 @app.on_callback_query(filters.regex("^style"))
 async def style(c, m):
     await m.answer()
