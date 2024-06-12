@@ -227,11 +227,41 @@ async def is_user_admin(chat: Chat, user_id: int, member: ChatMember = None) -> 
         return member.status in (ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER)
 
 def user_not_admin(func):
+    @wraps(func)
+    def is_not_admin(update: Update, context: CallbackContext, *args, **kwargs):
+        context.bot
+        user = update.effective_user
+        chat = update.effective_chat
+
+        if user and not is_user_admin(chat, user.id):
+            return func(update, context, *args, **kwargs)
+        elif not user:
+            pass
+
     return is_not_admin
 
 def user_admin(func):
-    return is_admin
+    @wraps(func)
+    def is_admin(update: Update, context: CallbackContext, *args, **kwargs):
+        context.bot
+        user = update.effective_user
+        chat = update.effective_chat
 
+        if user and is_user_admin(chat, user.id):
+            return func(update, context, *args, **kwargs)
+        elif not user:
+            pass
+        elif DEL_CMDS and " " not in update.effective_message.text:
+            try:
+                update.effective_message.delete()
+            except:
+                pass
+        else:
+            update.effective_message.reply_text(
+                "Who dis non-admin telling me what to do? You want a punch?"
+            )
+
+    return is_admin
 
 async def is_bot_admin(chat: Chat, bot_id: int, bot_member: ChatMember = None) -> bool:
     if chat.type == "private":
