@@ -591,16 +591,16 @@ __help__ = """
 
 __mod_name__ = "Lᴏᴄᴋs"
 
-LOCKTYPES_HANDLER = DisableAbleCommandHandler("locktypes", locktypes, )
+LOCKTYPES_HANDLER = DisableAbleCommandHandler("locktypes", locktypes, block=false)
 LOCK_HANDLER = CommandHandler(
-    "lock", lock, pass_args=True, 
-)  # , filters=filters.chat_type.groups)
+    "lock", lock, pass_args=True, block=false
+)  # , filters=Filters.chat_type.groups)
 UNLOCK_HANDLER = CommandHandler(
-    "unlock", unlock, pass_args=True, 
-)  # , filters=filters.chat_type.groups)
+    "unlock", unlock, pass_args=True, block=false
+)  # , filters=Filters.chat_type.groups)
 LOCKED_HANDLER = CommandHandler(
-    "locks", list_locks, 
-)  # , filters=filters.chat_type.groups)
+    "locks", list_locks, block=false
+)  # , filters=Filters.chat_type.groups)
 
 dispatcher.add_handler(LOCK_HANDLER)
 dispatcher.add_handler(UNLOCK_HANDLER)
@@ -609,7 +609,7 @@ dispatcher.add_handler(LOCKED_HANDLER)
 
 dispatcher.add_handler(
     MessageHandler(
-        filters.all & filters.chat_type.groups, del_lockables, 
+        Filters.all & Filters.chat_type.groups, del_lockables, block=false
     ),
     PERM_GROUP,
 )
