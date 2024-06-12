@@ -15,20 +15,20 @@ from telegram.ext import (
 )
 from telegram.helpers import mention_html
 
-import Mikobot.modules.sql.locks_sql as sql
+import Database.sql.locks_sql as sql
 from Mikobot import DRAGONS, LOGGER, dispatcher
-from Mikobot.modules.connection import connected
-from Mikobot.modules.disable import DisableAbleCommandHandler
-from Mikobot.modules.helper_funcs.alternate import send_message, typing_action
-from Mikobot.modules.helper_funcs.chat_status import (
+from Mikobot.plugins.connection import connected
+from Mikobot.plugins.disable import DisableAbleCommandHandler
+from Mikobot.plugins.helper_funcs.alternate import send_message, typing_action
+from Mikobot.plugins.helper_funcs.chat_status import (
     can_delete,
     is_bot_admin,
     is_user_admin,
     user_admin,
     user_not_admin,
 )
-from Mikobot.modules.log_channel import loggable
-from Mikobot.modules.sql.approve_sql import is_approved
+#from Mikobot.plugins.log_channel import loggable
+from Database.sql.approve_sql import is_approved
 
 
 ad = AlphabetDetector()
@@ -148,7 +148,7 @@ def locktypes(update, context):
 
 
 @user_admin
-@loggable
+#@loggable
 @typing_action
 def lock(update, context) -> str:
     args = context.args
@@ -255,7 +255,7 @@ def lock(update, context) -> str:
 
 
 @user_admin
-@loggable
+#@loggable
 @typing_action
 def unlock(update, context) -> str:
     args = context.args
