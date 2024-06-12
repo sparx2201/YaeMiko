@@ -33,20 +33,22 @@ from Database.sql.approve_sql import is_approved
 
 ad = AlphabetDetector()
 
+from telegram.ext import filters
+from telegram import MessageEntity
+
 LOCK_TYPES = {
-    "audio": filters.audio,
-    "voice": filters.voice,
-    "document": filters.document,
-    "video": filters.video,
-    "contact": filters.contact,
-    "photo": filters.photo,
-    "url": filters.entity(MessageEntity.URL)
-    | filters.caption_entity(MessageEntity.URL),
-    "bots": filters.status_update.new_chat_members,
-    "forward": filters.forwarded,
-    "game": filters.game,
-    "location": filters.location,
-    "egame": filters.dice,
+    "audio": filters.AUDIO,
+    "voice": filters.VOICE,
+    "document": filters.DOCUMENT,
+    "video": filters.VIDEO,
+    "contact": filters.CONTACT,
+    "photo": filters.PHOTO,
+    "url": filters.Entity(MessageEntity.URL) | filters.CaptionEntity(MessageEntity.URL),
+    "bots": filters.StatusUpdate.NEW_CHAT_MEMBERS,
+    "forward": filters.FORWARDED,
+    "game": filters.GAME,
+    "location": filters.LOCATION,
+    "egame": filters.DICE,
     "rtl": "rtl",
     "button": "button",
     "inline": "inline",
