@@ -34,19 +34,19 @@ from Database.sql.approve_sql import is_approved
 ad = AlphabetDetector()
 
 LOCK_TYPES = {
-    "audio": Filters.audio,
-    "voice": Filters.voice,
-    "document": Filters.document,
-    "video": Filters.video,
-    "contact": Filters.contact,
-    "photo": Filters.photo,
-    "url": Filters.entity(MessageEntity.URL)
-    | Filters.caption_entity(MessageEntity.URL),
-    "bots": Filters.status_update.new_chat_members,
-    "forward": Filters.forwarded,
-    "game": Filters.game,
-    "location": Filters.location,
-    "egame": Filters.dice,
+    "audio": filters.audio,
+    "voice": filters.voice,
+    "document": filters.document,
+    "video": filters.video,
+    "contact": filters.contact,
+    "photo": filters.photo,
+    "url": filters.entity(MessageEntity.URL)
+    | filters.caption_entity(MessageEntity.URL),
+    "bots": filters.status_update.new_chat_members,
+    "forward": filters.forwarded,
+    "game": filters.game,
+    "location": filters.location,
+    "egame": filters.dice,
     "rtl": "rtl",
     "button": "button",
     "inline": "inline",
@@ -592,13 +592,13 @@ __mod_name__ = "Lᴏᴄᴋs"
 LOCKTYPES_HANDLER = DisableAbleCommandHandler("locktypes", locktypes, run_async=True)
 LOCK_HANDLER = CommandHandler(
     "lock", lock, pass_args=True, run_async=True
-)  # , filters=Filters.chat_type.groups)
+)  # , filters=filters.chat_type.groups)
 UNLOCK_HANDLER = CommandHandler(
     "unlock", unlock, pass_args=True, run_async=True
-)  # , filters=Filters.chat_type.groups)
+)  # , filters=filters.chat_type.groups)
 LOCKED_HANDLER = CommandHandler(
     "locks", list_locks, run_async=True
-)  # , filters=Filters.chat_type.groups)
+)  # , filters=filters.chat_type.groups)
 
 dispatcher.add_handler(LOCK_HANDLER)
 dispatcher.add_handler(UNLOCK_HANDLER)
@@ -607,7 +607,7 @@ dispatcher.add_handler(LOCKED_HANDLER)
 
 dispatcher.add_handler(
     MessageHandler(
-        Filters.all & Filters.chat_type.groups, del_lockables, run_async=True
+        filters.all & filters.chat_type.groups, del_lockables, run_async=True
     ),
     PERM_GROUP,
 )
