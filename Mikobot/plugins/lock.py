@@ -1,17 +1,20 @@
 import html
-
 from alphabet_detector import AlphabetDetector
 from telegram import (
     Chat,
     ChatPermissions,
     Message,
     MessageEntity,
-    ParseMode,
     TelegramError,
 )
+from telegram.constants import ParseMode
 from telegram.error import BadRequest
-from telegram.ext import CommandHandler, Filters, MessageHandler
-from telegram.utils.helpers import mention_html
+from telegram.ext import (
+    CommandHandler,
+    MessageHandler,
+    filters
+)
+from telegram.helpers import mention_html
 
 import Mikobot.modules.sql.locks_sql as sql
 from Mikobot import DRAGONS, LOGGER, dispatcher
@@ -27,6 +30,7 @@ from Mikobot.modules.helper_funcs.chat_status import (
 )
 from Mikobot.modules.log_channel import loggable
 from Mikobot.modules.sql.approve_sql import is_approved
+
 
 ad = AlphabetDetector()
 
