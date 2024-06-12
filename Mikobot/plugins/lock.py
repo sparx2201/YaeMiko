@@ -15,7 +15,7 @@ from telegram.ext import (
 )
 from telegram.helpers import mention_html
 
-import Database.sql.locks_sql as sql
+from Database.sql import locks_sql as sql
 from Mikobot import DRAGONS, LOGGER, dispatcher
 from Mikobot.plugins.connection import connected
 from Mikobot.plugins.disable import DisableAbleCommandHandler
