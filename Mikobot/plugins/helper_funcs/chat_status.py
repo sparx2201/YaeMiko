@@ -7,7 +7,7 @@ from cachetools import TTLCache
 from telegram import Chat, ChatMember, ChatMemberAdministrator, ChatMemberOwner, Update
 from telegram.constants import ChatMemberStatus, ChatType
 from telegram.error import Forbidden
-from telegram.ext import ContextTypes
+from telegram.ext import ContextTypes, CallbackContext
 
 from Mikobot import DEL_CMDS, DEV_USERS, DRAGONS, SUPPORT_CHAT, dispatcher
 
