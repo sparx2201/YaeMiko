@@ -226,6 +226,12 @@ async def is_user_admin(chat: Chat, user_id: int, member: ChatMember = None) -> 
     else:
         return member.status in (ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER)
 
+def user_not_admin(func):
+    return is_not_admin
+
+def user_admin(func):
+    return is_admin
+
 
 async def is_bot_admin(chat: Chat, bot_id: int, bot_member: ChatMember = None) -> bool:
     if chat.type == "private":
