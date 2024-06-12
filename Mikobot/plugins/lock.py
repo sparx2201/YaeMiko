@@ -5,10 +5,9 @@ from telegram import (
     ChatPermissions,
     Message,
     MessageEntity,
-    TelegramError,
 )
 from telegram.constants import ParseMode
-from telegram.error import BadRequest
+from telegram.error import BadRequest, TelegramError
 from telegram.ext import (
     CommandHandler,
     MessageHandler,
