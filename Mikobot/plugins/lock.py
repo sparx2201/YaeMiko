@@ -158,7 +158,7 @@ async def lock(update, context) -> str:
     user = update.effective_user
 
     if (
-        can_delete(chat, context.bot.id)
+        await can_delete(chat, context.bot.id)
         or update.effective_message.chat.type == "private"
     ):
         if len(args) >= 1:
@@ -245,7 +245,7 @@ async def lock(update, context) -> str:
                     "What are you trying to lock...? Try /locktypes for the list of lockables",
                 )
         else:
-            send_message(update.effective_message, "What are you trying to lock...?")
+            await send_message(update.effective_message, "What are you trying to lock...?")
 
     else:
         send_message(
