@@ -164,16 +164,15 @@ async def lock(update, context) -> str:
         if len(args) >= 1:
             ltype = args[0].lower()
             if ltype in LOCK_TYPES:
-                # Connection check
-                conn = connected(context.bot, update, chat, user.id, need_admin=True)
+                conn = await connected(context.bot, update, chat, user.id, need_admin=True)
                 if conn:
-                    chat = dispatcher.bot.getChat(conn)
+                    chat = await dispatcher.bot.get_chat(conn)
                     chat_id = conn
                     chat_name = chat.title
                     text = "Locked {} for non-admins in {}!".format(ltype, chat_name)
                 else:
                     if update.effective_message.chat.type == "private":
-                        send_message(
+                        await send_message(
                             update.effective_message,
                             "This command is meant to use in group not in PM",
                         )
@@ -182,8 +181,8 @@ async def lock(update, context) -> str:
                     chat_id = update.effective_chat.id
                     chat_name = update.effective_message.chat.title
                     text = "Locked {} for non-admins!".format(ltype)
-                sql.update_lock(chat.id, ltype, locked=True)
-                send_message(update.effective_message, text, parse_mode="markdown")
+                await sql.update_lock(chat.id, ltype, locked=True)
+                await send_message(update.effective_message, text, parse_mode="markdown")
 
                 return (
                     "<b>{}:</b>"
@@ -197,18 +196,15 @@ async def lock(update, context) -> str:
                 )
 
             elif ltype in LOCK_CHAT_RESTRICTION:
-                # Connection check
-                conn = connected(context.bot, update, chat, user.id, need_admin=True)
+                conn = await connected(context.bot, update, chat, user.id, need_admin=True)
                 if conn:
-                    chat = dispatcher.bot.getChat(conn)
+                    chat = await dispatcher.bot.get_chat(conn)
                     chat_id = conn
                     chat_name = chat.title
-                    text = "Locked {} for all non-admins in {}!".format(
-                        ltype, chat_name
-                    )
+                    text = "Locked {} for all non-admins in {}!".format(ltype, chat_name)
                 else:
                     if update.effective_message.chat.type == "private":
-                        send_message(
+                        await send_message(
                             update.effective_message,
                             "This command is meant to use in group not in PM",
                         )
@@ -218,8 +214,8 @@ async def lock(update, context) -> str:
                     chat_name = update.effective_message.chat.title
                     text = "Locked {} for all non-admins!".format(ltype)
 
-                current_permission = context.bot.getChat(chat_id).permissions
-                context.bot.set_chat_permissions(
+                current_permission = await context.bot.get_chat(chat_id).permissions
+                await context.bot.set_chat_permissions(
                     chat_id=chat_id,
                     permissions=get_permission_list(
                         eval(str(current_permission)),
@@ -227,7 +223,7 @@ async def lock(update, context) -> str:
                     ),
                 )
 
-                send_message(update.effective_message, text, parse_mode="markdown")
+                await send_message(update.effective_message, text, parse_mode="markdown")
                 return (
                     "<b>{}:</b>"
                     "\n#Permission_LOCK"
@@ -240,7 +236,7 @@ async def lock(update, context) -> str:
                 )
 
             else:
-                send_message(
+                await send_message(
                     update.effective_message,
                     "What are you trying to lock...? Try /locktypes for the list of lockables",
                 )
@@ -248,7 +244,7 @@ async def lock(update, context) -> str:
             await send_message(update.effective_message, "What are you trying to lock...?")
 
     else:
-        send_message(
+        await send_message(
             update.effective_message,
             "I am not administrator or haven't got enough rights.",
         )
