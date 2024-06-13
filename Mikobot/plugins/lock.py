@@ -214,7 +214,8 @@ async def lock(update, context) -> str:
                     chat_name = update.effective_message.chat.title
                     text = "Locked {} for all non-admins!".format(ltype)
 
-                current_permission = await context.bot.get_chat(chat_id).permissions
+                chat_obj = await context.bot.get_chat(chat_id)
+                current_permission = chat_obj.permissions
                 await context.bot.set_chat_permissions(
                     chat_id=chat_id,
                     permissions=get_permission_list(
