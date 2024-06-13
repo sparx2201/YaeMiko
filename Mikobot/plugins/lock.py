@@ -609,7 +609,7 @@ dispatcher.add_handler(LOCKED_HANDLER)
 
 dispatcher.add_handler(
     MessageHandler(
-        Filters.all & Filters.chat_type.groups, del_lockables, block=False
+        filters.ALL & filters.ChatType.GROUPS, del_lockables, block=False
     ),
     PERM_GROUP,
 )
