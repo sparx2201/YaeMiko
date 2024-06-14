@@ -1,4 +1,5 @@
 import html
+import asyncio
 from alphabet_detector import AlphabetDetector
 from telegram import (
     Chat,
