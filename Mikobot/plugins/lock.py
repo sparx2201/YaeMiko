@@ -181,7 +181,7 @@ async def lock(update, context) -> str:
                     chat_id = update.effective_chat.id
                     chat_name = update.effective_message.chat.title
                     text = "Locked {} for non-admins!".format(ltype)
-                await sql.update_lock(chat.id, ltype, locked=True)
+                sql.update_lock(chat.id, ltype, locked=True)
                 await send_message(update.effective_message, text, parse_mode="markdown")
 
                 return (
