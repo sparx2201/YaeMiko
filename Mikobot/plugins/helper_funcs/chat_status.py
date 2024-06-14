@@ -247,7 +247,7 @@ def user_admin(func):
         user = update.effective_user
         chat = update.effective_chat
 
-        if user and await is_user_admin(chat, user.id):
+        if user and is_user_admin(chat, user.id):
             return func(update, context, *args, **kwargs)
         elif not user:
             pass
