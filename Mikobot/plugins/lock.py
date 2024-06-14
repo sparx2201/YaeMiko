@@ -7,7 +7,7 @@ from telegram import (
     MessageEntity,
 )
 from telegram.constants import ParseMode
-from telegram.error import BadRequest, TelegramError
+from telegram.error import BadRequest, TelegramError, NetworkError
 from telegram.ext import (
     CommandHandler,
     MessageHandler,
@@ -198,7 +198,7 @@ async def lock(update, context) -> str:
             elif ltype in LOCK_CHAT_RESTRICTION:
                 conn = await connected(context.bot, update, chat, user.id, need_admin=True)
                 if conn:
-                    chat = await dispatcher.bot.get_chat(conn)
+                    chat = await context.bot.get_chat(conn)
                     chat_id = conn
                     chat_name = chat.title
                     text = "Locked {} for all non-admins in {}!".format(ltype, chat_name)
@@ -216,13 +216,27 @@ async def lock(update, context) -> str:
 
                 chat_obj = await context.bot.get_chat(chat_id)
                 current_permission = chat_obj.permissions
-                await context.bot.set_chat_permissions(
-                    chat_id=chat_id,
-                    permissions=get_permission_list(
-                        eval(str(current_permission)),
-                        LOCK_CHAT_RESTRICTION[ltype.lower()],
-                    ),
-                )
+
+                # Retry mechanism
+                retry_attempts = 3
+                for attempt in range(retry_attempts):
+                    try:
+                        await context.bot.set_chat_permissions(
+                            chat_id=chat_id,
+                            permissions=get_permission_list(
+                                eval(str(current_permission)),
+                                LOCK_CHAT_RESTRICTION[ltype.lower()],
+                            ),
+                        )
+                        break  # If successful, exit the retry loop
+                    except NetworkError as e:
+                        if attempt < retry_attempts - 1:
+                            LOGGER.warning("NetworkError encountered. Retrying... (%d/%d)", attempt + 1, retry_attempts)
+                            await asyncio.sleep(5)  # Wait for a few seconds before retrying
+                        else:
+                            LOGGER.error("Failed to set chat permissions after %d attempts. NetworkError: %s", retry_attempts, e)
+                            await send_message(update.effective_message, "Failed to set chat permissions due to network issues. Please try again later.")
+                            return
 
                 await send_message(update.effective_message, text, parse_mode="markdown")
                 return (
