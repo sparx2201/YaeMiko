@@ -141,7 +141,7 @@ async def unrestr_members(
 
 
 async def locktypes(update, context):
-    update.effective_message.reply_text(
+    await update.effective_message.reply_text(
         "\n • ".join(
             ["Locks available: "]
             + sorted(list(LOCK_TYPES) + list(LOCK_CHAT_RESTRICTION))
