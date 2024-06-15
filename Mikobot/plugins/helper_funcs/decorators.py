@@ -1,5 +1,4 @@
 from typing import List, Optional, Union
-
 from telegram.ext import (
     CallbackQueryHandler,
     CommandHandler,
@@ -7,11 +6,9 @@ from telegram.ext import (
     MessageHandler,
 )
 from telegram.ext.filters import MessageFilter
-
 from Mikobot import LOGGER
 from Mikobot import dispatcher as n
 from Mikobot.plugins.disable import DisableAbleCommandHandler, DisableAbleMessageHandler
-
 
 class ExonTelegramHandler:
     def __init__(self, n):
@@ -24,66 +21,25 @@ class ExonTelegramHandler:
         admin_ok: bool = False,
         pass_args: bool = False,
         pass_chat_data: bool = False,
-        run_async: bool = True,
         can_disable: bool = True,
         group: Optional[Union[int, str]] = 40,
     ):
         def _command(func):
-            try:
-                if can_disable:
-                    self._dispatcher.add_handler(
-                        DisableAbleCommandHandler(
-                            command,
-                            func,
-                            filters=filters,
-                            run_async=run_async,
-                            pass_args=pass_args,
-                            admin_ok=admin_ok,
-                        ),
-                        group,
-                    )
-                else:
-                    self._dispatcher.add_handler(
-                        CommandHandler(
-                            command,
-                            func,
-                            filters=filters,
-                            run_async=run_async,
-                            pass_args=pass_args,
-                        ),
-                        group,
-                    )
-                LOGGER.debug(
-                    f"[ExonCMD] Loaded handler {command} for function {func.__name__} in group {group}"
-                )
-            except TypeError:
-                if can_disable:
-                    self._dispatcher.add_handler(
-                        DisableAbleCommandHandler(
-                            command,
-                            func,
-                            filters=filters,
-                            run_async=run_async,
-                            pass_args=pass_args,
-                            admin_ok=admin_ok,
-                            pass_chat_data=pass_chat_data,
-                        )
-                    )
-                else:
-                    self._dispatcher.add_handler(
-                        CommandHandler(
-                            command,
-                            func,
-                            filters=filters,
-                            run_async=run_async,
-                            pass_args=pass_args,
-                            pass_chat_data=pass_chat_data,
-                        )
-                    )
-                LOGGER.debug(
-                    f"[ExonCMD] Loaded handler {command} for function {func.__name__}"
-                )
+            async def async_func(update, context):
+                await func(update, context)
 
+            handler = DisableAbleCommandHandler(
+                command,
+                async_func if can_disable else func,
+                filters=filters,
+                pass_args=pass_args,
+                admin_ok=admin_ok,
+                pass_chat_data=pass_chat_data,
+            )
+            self._dispatcher.add_handler(handler, group)
+            LOGGER.debug(
+                f"[ExonCMD] Loaded handler {command} for function {func.__name__} in group {group}"
+            )
             return func
 
         return _command
@@ -92,77 +48,56 @@ class ExonTelegramHandler:
         self,
         pattern: Optional[str] = None,
         can_disable: bool = True,
-        run_async: bool = True,
         group: Optional[Union[int, str]] = 60,
         friendly=None,
     ):
         def _message(func):
-            try:
-                if can_disable:
-                    self._dispatcher.add_handler(
-                        DisableAbleMessageHandler(
-                            pattern, func, friendly=friendly, run_async=run_async
-                        ),
-                        group,
-                    )
-                else:
-                    self._dispatcher.add_handler(
-                        MessageHandler(pattern, func, run_async=run_async), group
-                    )
-                LOGGER.debug(
-                    f"[ExonMSG] Loaded filter pattern {pattern} for function {func.__name__} in group {group}"
-                )
-            except TypeError:
-                if can_disable:
-                    self._dispatcher.add_handler(
-                        DisableAbleMessageHandler(
-                            pattern, func, friendly=friendly, run_async=run_async
-                        )
-                    )
-                else:
-                    self._dispatcher.add_handler(
-                        MessageHandler(pattern, func, run_async=run_async)
-                    )
-                LOGGER.debug(
-                    f"[ExonMSG] Loaded filter pattern {pattern} for function {func.__name__}"
-                )
+            async def async_func(update, context):
+                await func(update, context)
 
+            handler = DisableAbleMessageHandler(
+                pattern, async_func if can_disable else func, friendly=friendly
+            )
+            self._dispatcher.add_handler(handler, group)
+            LOGGER.debug(
+                f"[ExonMSG] Loaded filter pattern {pattern} for function {func.__name__} in group {group}"
+            )
             return func
 
         return _message
-        
+
     def callbackquery(self, pattern: str = None):
         def _callbackquery(func):
-            def async_func(update, context):
-                context.application.create_task(func(update, context))
+            async def async_func(update, context):
+                await func(update, context)
 
             self._dispatcher.add_handler(
                 CallbackQueryHandler(
                     pattern=pattern, callback=async_func
+                )
             )
-        )
             LOGGER.debug(
-            f"[ExonCALLBACK] Loaded callbackquery handler with pattern {pattern} for function {func.__name__}"
-        )
+                f"[ExonCALLBACK] Loaded callbackquery handler with pattern {pattern} for function {func.__name__}"
+            )
             return func
 
         return _callbackquery
 
-    
     def inlinequery(
         self,
         pattern: Optional[str] = None,
-        run_async: bool = True,
         pass_user_data: bool = True,
         pass_chat_data: bool = True,
         chat_types: List[str] = None,
     ):
         def _inlinequery(func):
+            async def async_func(update, context):
+                await func(update, context)
+
             self._dispatcher.add_handler(
                 InlineQueryHandler(
                     pattern=pattern,
-                    callback=func,
-                    run_async=run_async,
+                    callback=async_func,
                     pass_user_data=pass_user_data,
                     pass_chat_data=pass_chat_data,
                     chat_types=chat_types,
@@ -175,7 +110,6 @@ class ExonTelegramHandler:
             return func
 
         return _inlinequery
-
 
 Exoncmd = ExonTelegramHandler(n).command
 Exonmsg = ExonTelegramHandler(n).message
