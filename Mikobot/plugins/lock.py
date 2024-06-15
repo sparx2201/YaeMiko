@@ -26,39 +26,38 @@ from Database.sql.approve_sql import is_approved
 ad = AlphabetDetector()
 
 LOCK_TYPES = {
-    "audio": Filters.audio,
-    "voice": Filters.voice,
-    "document": Filters.document,
-    "video": Filters.video,
-    "contact": Filters.contact,
-    "photo": Filters.photo,
-    "url": Filters.entity(MessageEntity.URL)
-    | Filters.caption_entity(MessageEntity.URL),
-    "bots": Filters.status_update.new_chat_members,
-    "forward": Filters.forwarded & ~Filters.is_automatic_forward,
-    "game": Filters.game,
-    "location": Filters.location,
-    "egame": Filters.dice,
+    "audio": filters.AUDIO,
+    "voice": filters.VOICE,
+    "document": filters.Document.ALL,
+    "video": filters.VIDEO,
+    "contact": filters.CONTACT,
+    "photo": filters.PHOTO,
+    "url": filters.Entity(MessageEntity.URL) | filters.CaptionEntity(MessageEntity.URL),
+    "bots": filters.StatusUpdate.NEW_CHAT_MEMBERS,
+    "forward": filters.FORWARDED,
+    "game": filters.GAME,
+    "location": filters.LOCATION,
+#    "egame": filters.DICE,
     "rtl": "rtl",
     "button": "button",
     "inline": "inline",
-    "apk": Filters.document.mime_type("application/vnd.android.package-archive"),
-    "doc": Filters.document.mime_type("application/msword"),
-    "exe": Filters.document.mime_type("application/x-ms-dos-executable"),
-    "gif": Filters.document.mime_type("video/mp4"),
-    "jpg": Filters.document.mime_type("image/jpeg"),
-    "mp3": Filters.document.mime_type("audio/mpeg"),
-    "pdf": Filters.document.mime_type("application/pdf"),
-    "txt": Filters.document.mime_type("text/plain"),
-    "xml": Filters.document.mime_type("application/xml"),
-    "zip": Filters.document.mime_type("application/zip"),
-    "docx": Filters.document.mime_type(
+    "apk": filters.Document.mime_type("application/vnd.android.package-archive"),
+    "doc": filters.Document.mime_type("application/msword"),
+    "exe": filters.Document.mime_type("application/x-ms-dos-executable"),
+    "gif": filters.Document.mime_type("video/mp4"),
+    "jpg": filters.Document.mime_type("image/jpeg"),
+    "mp3": filters.Document.mime_type("audio/mpeg"),
+    "pdf": filters.Document.mime_type("application/pdf"),
+    "txt": filters.Document.mime_type("text/plain"),
+    "xml": filters.Document.mime_type("application/xml"),
+    "zip": filters.Document.mime_type("application/zip"),
+    "docx": filters.Document.mime_type(
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     ),
-    "py": Filters.document.mime_type("text/x-python"),
-    "svg": Filters.document.mime_type("image/svg+xml"),
-    "targz": Filters.document.mime_type("application/x-compressed-tar"),
-    "wav": Filters.document.mime_type("audio/x-wav"),
+    "py": filters.Document.mime_type("text/x-python"),
+    "svg": filters.Document.mime_type("image/svg+xml"),
+    "targz": filters.Document.mime_type("application/x-compressed-tar"),
+    "wav": filters.Document.mime_type("audio/x-wav"),
 }
 
 LOCK_CHAT_RESTRICTION = {
@@ -319,7 +318,7 @@ def unlock(update: Update, context: CallbackContext) -> str:  # sourcery no-metr
     return ""
 
 
-@natsunagimsg((Filters.all & Filters.chat_type.groups), group=PERM_GROUP)
+@natsunagimsg((filters.all & filters.chat_type.groups), group=PERM_GROUP)
 @user_not_admin
 def del_lockables(update, context):  # sourcery no-metrics
     chat = update.effective_chat  # type: Optional[Chat]
