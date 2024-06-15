@@ -1,128 +1,134 @@
-from typing import List, Optional, Union
-from telegram.ext import (
-    CallbackQueryHandler,
-    CommandHandler,
-    InlineQueryHandler,
-    MessageHandler,
-    Application,
-)
-from telegram.ext.filters import MessageFilter
-from Mikobot import LOGGER
-from Mikobot import dispatcher as n
-from Mikobot.plugins.disable import DisableAbleCommandHandler, DisableAbleMessageHandler
+import functools
+from enum import Enum
 
-class ExonTelegramHandler:
-    def __init__(self, n):
-        self._dispatcher = n
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telegram.ext import CallbackContext
+from telegram.constants import ParseMode
 
-    def command(
-        self,
-        command: str,
-        filters: Optional[MessageFilter] = None,
-        admin_ok: bool = False,
-        can_disable: bool = True,
-        group: Optional[Union[int, str]] = 40,
-        block: bool = True,
-    ):
-        def _command(func):
-            async def async_func(update, context):
-                await func(update, context)
+from Mikobot import DEV_USERS, DRAGONS, dispatcher
+from Mikobot.plugins.helper_funcs.decorators import Exoncallback
 
-            if can_disable:
-                handler = DisableAbleCommandHandler(
-                    command,
-                    async_func,
-                    filters=filters,
-                    admin_ok=admin_ok,
-                    block=block,
+
+class AdminPerms(Enum):
+    CAN_RESTRICT_MEMBERS = "can_restrict_members"
+    CAN_PROMOTE_MEMBERS = "can_promote_members"
+    CAN_INVITE_USERS = "can_invite_users"
+    CAN_DELETE_MESSAGES = "can_delete_messages"
+    CAN_CHANGE_INFO = "can_change_info"
+    CAN_PIN_MESSAGES = "can_pin_messages"
+
+
+class ChatStatus(Enum):
+    CREATOR = "creator"
+    ADMIN = "administrator"
+
+
+anon_callbacks = {}
+anon_callback_messages = {}
+anon_users = {}
+
+
+def user_admin(permission: AdminPerms):
+    def wrapper(func):
+        @functools.wraps(func)
+        async def awrapper(update: Update, context: CallbackContext, *args, **kwargs):
+            nonlocal permission
+            if update.effective_chat.type == "private":
+                return await func(update, context, *args, **kwargs)
+            message = update.effective_message
+            is_anon = update.effective_message.sender_chat
+
+            if is_anon:
+                callback_id = (
+                    f"anoncb/{message.chat.id}/{message.message_id}/{permission.value}"
                 )
+                anon_callbacks[(message.chat.id, message.message_id)] = (
+                    (update, context),
+                    func,
+                )
+                anon_callback_messages[(message.chat.id, message.message_id)] = (
+                    message.reply_text(
+                        "Seems like you're anonymous, click the button below to prove your identity",
+                        reply_markup=InlineKeyboardMarkup(
+                            [
+                                [
+                                    InlineKeyboardButton(
+                                        text="Prove identity", callback_data=callback_id
+                                    )
+                                ]
+                            ]
+                        ),
+                    )
+                ).message_id
+                # send message with callback f'anoncb{callback_id}'
             else:
-                handler = CommandHandler(
-                    command,
-                    async_func,
-                    filters=filters,
-                    block=block,
-                )
+                user_id = message.from_user.id
+                chat_id = message.chat.id
+                mem = await context.bot.get_chat_member(chat_id=chat_id, user_id=user_id)
+                if (
+                    getattr(mem, permission.value) is True
+                    or mem.status == "creator"
+                    or user_id in DRAGONS
+                ):
+                    return await func(update, context, *args, **kwargs)
+                else:
+                    return message.reply_text(
+                        f"You lack the permission: `{permission.name}`",
+                        parse_mode=ParseMode.MARKDOWN,
+                    )
 
-            self._dispatcher.add_handler(handler, group)
-            LOGGER.debug(
-                f"[ExonCMD] Loaded handler {command} for function {func.__name__} in group {group}"
-            )
-            return func
+        return awrapper
 
-        return _command
+    return wrapper
 
-    def message(
-        self,
-        pattern: Optional[str] = None,
-        can_disable: bool = True,
-        group: Optional[Union[int, str]] = 60,
-        friendly=None,
-        block: bool = True,
+
+@Exoncallback(pattern="anoncb")
+async def anon_callback_handler1(upd: Update, _: CallbackContext):
+    callback = upd.callback_query
+    perm = callback.data.split("/")[3]
+    chat_id = int(callback.data.split("/")[1])
+    message_id = int(callback.data.split("/")[2])
+    try:
+        mem = await upd.effective_chat.get_member(user_id=callback.from_user.id)
+    except Exception as e:
+        callback.answer(f"Error: {e}", show_alert=True)
+        return
+    if mem.status not in [ChatStatus.ADMIN.value, ChatStatus.CREATOR.value]:
+        callback.answer("You're aren't admin.")
+        await dispatcher.bot.delete_message(
+            chat_id, anon_callback_messages.pop((chat_id, message_id), None)
+        )
+        await dispatcher.bot.send_message(
+            chat_id, "You lack the permissions required for this command"
+        )
+    elif (
+        getattr(mem, perm) is True
+        or mem.status == "creator"
+        or mem.user.id in DEV_USERS
     ):
-        def _message(func):
-            async def async_func(update, context):
-                await func(update, context)
+        if cb := anon_callbacks.pop((chat_id, message_id), None):
+            message_id = anon_callback_messages.pop((chat_id, message_id), None)
+            if message_id is not None:
+                await dispatcher.bot.delete_message(chat_id, message_id)
+            return await cb[1](cb[0][0], cb[0][1])
+    else:
+        callback.answer("This isn't for ya")
 
-            if can_disable:
-                handler = DisableAbleMessageHandler(
-                    pattern, async_func, friendly=friendly, block=block
-                )
-            else:
-                handler = MessageHandler(pattern, async_func, block=block)
 
-            self._dispatcher.add_handler(handler, group)
-            LOGGER.debug(
-                f"[ExonMSG] Loaded filter pattern {pattern} for function {func.__name__} in group {group}"
+def resolve_user(user, message_id, chat):
+    if user.id == 1087968824:
+        try:
+            uid = anon_users.pop((chat.id, message_id))
+            user = chat.get_member(uid).user
+        except KeyError:
+            return dispatcher.bot.edit_message_text(
+                chat.id,
+                message_id,
+                f"You're now identified as: {user.first_name}",
             )
-            return func
+        except Exception as e:
+            return dispatcher.bot.edit_message_text(chat.id, message_id, f"Error: {e}")
 
-        return _message
-
-    def callbackquery(self, pattern: str = None):
-        def _callbackquery(func):
-            async def async_func(update, context):
-                await func(update, context)
-
-            self._dispatcher.add_handler(
-                CallbackQueryHandler(
-                    pattern=pattern, callback=async_func
-                )
-            )
-            LOGGER.debug(
-                f"[ExonCALLBACK] Loaded callbackquery handler with pattern {pattern} for function {func.__name__}"
-            )
-            return func
-
-        return _callbackquery
-
-    def inlinequery(
-        self,
-        pattern: Optional[str] = None,
-        chat_types: List[str] = None,
-        block: bool = True,
-    ):
-        def _inlinequery(func):
-            async def async_func(update, context):
-                await func(update, context)
-
-            self._dispatcher.add_handler(
-                InlineQueryHandler(
-                    pattern=pattern,
-                    callback=async_func,
-                    chat_types=chat_types,
-                    block=block,
-                )
-            )
-            LOGGER.debug(
-                f"[ExonINLINE] Loaded inlinequery handler with pattern {pattern} for function {func.__name__} | CHAT TYPES: {chat_types}"
-            )
-            return func
-
-        return _inlinequery
-
-
-Exoncmd = ExonTelegramHandler(n).command
-Exonmsg = ExonTelegramHandler(n).message
-Exoncallback = ExonTelegramHandler(n).callbackquery
-Exoninline = ExonTelegramHandler(n).inlinequery
+    else:
+        user = user
+    return user
