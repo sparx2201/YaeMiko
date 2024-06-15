@@ -6,8 +6,6 @@ from telegram.ext import CallbackContext
 from telegram.constants import ParseMode
 
 from Mikobot import DEV_USERS, DRAGONS, dispatcher
-from Mikobot.plugins.helper_funcs.decorators import Exoncallback
-
 
 class AdminPerms(Enum):
     CAN_RESTRICT_MEMBERS = "can_restrict_members"
@@ -82,7 +80,12 @@ def user_admin(permission: AdminPerms):
     return wrapper
 
 
-@Exoncallback(pattern="anoncb")
+def get_exoncallback():
+    from Mikobot.plugins.helper_funcs.decorators import Exoncallback
+    return Exoncallback
+
+
+@get_exoncallback()(pattern="anoncb")
 async def anon_callback_handler1(upd: Update, _: CallbackContext):
     callback = upd.callback_query
     perm = callback.data.split("/")[3]
