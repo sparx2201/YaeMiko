@@ -2,9 +2,9 @@ import ast
 import html
 
 from alphabet_detector import AlphabetDetector
-from telegram import ChatPermissions, MessageEntity, TelegramError, Update
+from telegram import ChatPermissions, MessageEntity, Update
 from telegram.constants import ParseMode
-from telegram.error import BadRequest
+from telegram.error import BadRequest, TelegramException
 from telegram.ext import CallbackContext, filters
 from telegram.helpers import mention_html
 
