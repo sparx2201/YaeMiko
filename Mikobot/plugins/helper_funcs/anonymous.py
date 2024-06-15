@@ -6,6 +6,8 @@ from telegram.ext import CallbackContext
 from telegram.constants import ParseMode
 
 from Mikobot import DEV_USERS, DRAGONS, dispatcher
+from Mikobot.plugins.helper_funcs.exoncallback import Exoncallback
+
 
 class AdminPerms(Enum):
     CAN_RESTRICT_MEMBERS = "can_restrict_members"
@@ -58,16 +60,14 @@ def user_admin(permission: AdminPerms):
                         ),
                     )
                 ).message_id
-                # send message with callback f'anoncb{callback_id}'
             else:
                 user_id = message.from_user.id
                 chat_id = message.chat.id
                 mem = await context.bot.get_chat_member(chat_id=chat_id, user_id=user_id)
-                if (
-                    getattr(mem, permission.value) is True
-                    or mem.status == "creator"
-                    or user_id in DRAGONS
-                ):
+
+                if mem.status == ChatStatus.CREATOR.value or user_id in DRAGONS:
+                    return await func(update, context, *args, **kwargs)
+                elif mem.status == ChatStatus.ADMIN.value and getattr(mem, permission.value, False):
                     return await func(update, context, *args, **kwargs)
                 else:
                     return message.reply_text(
@@ -80,12 +80,7 @@ def user_admin(permission: AdminPerms):
     return wrapper
 
 
-def get_exoncallback():
-    from Mikobot.plugins.helper_funcs.decorators import Exoncallback
-    return Exoncallback
-
-
-@get_exoncallback()(pattern="anoncb")
+@Exoncallback(pattern="anoncb")
 async def anon_callback_handler1(upd: Update, _: CallbackContext):
     callback = upd.callback_query
     perm = callback.data.split("/")[3]
@@ -105,8 +100,8 @@ async def anon_callback_handler1(upd: Update, _: CallbackContext):
             chat_id, "You lack the permissions required for this command"
         )
     elif (
-        getattr(mem, perm) is True
-        or mem.status == "creator"
+        mem.status == ChatStatus.CREATOR.value
+        or getattr(mem, perm, False)
         or mem.user.id in DEV_USERS
     ):
         if cb := anon_callbacks.pop((chat_id, message_id), None):
