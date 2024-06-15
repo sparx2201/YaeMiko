@@ -10,7 +10,7 @@ from telegram.ext.filters import MessageFilter
 
 from Mikobot import LOGGER
 from Mikobot import dispatcher as n
-from Mikobot.modules.disable import DisableAbleCommandHandler, DisableAbleMessageHandler
+from Mikobot.plugins.disable import DisableAbleCommandHandler, DisableAbleMessageHandler
 
 
 class ExonTelegramHandler:
