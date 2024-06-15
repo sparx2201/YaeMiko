@@ -141,7 +141,7 @@ class ExonTelegramHandler:
                     pattern=pattern, callback=async_func
             )
         )
-            log.debug(
+            LOGGER.debug(
             f"[ExonCALLBACK] Loaded callbackquery handler with pattern {pattern} for function {func.__name__}"
         )
             return func
