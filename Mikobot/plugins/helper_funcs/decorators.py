@@ -4,6 +4,7 @@ from telegram.ext import (
     CommandHandler,
     InlineQueryHandler,
     MessageHandler,
+    Application,
 )
 from telegram.ext.filters import MessageFilter
 from Mikobot import LOGGER
@@ -21,6 +22,7 @@ class ExonTelegramHandler:
         admin_ok: bool = False,
         can_disable: bool = True,
         group: Optional[Union[int, str]] = 40,
+        block: bool = True,
     ):
         def _command(func):
             async def async_func(update, context):
@@ -32,12 +34,14 @@ class ExonTelegramHandler:
                     async_func,
                     filters=filters,
                     admin_ok=admin_ok,
+                    block=block,
                 )
             else:
                 handler = CommandHandler(
                     command,
                     async_func,
                     filters=filters,
+                    block=block,
                 )
 
             self._dispatcher.add_handler(handler, group)
@@ -54,6 +58,7 @@ class ExonTelegramHandler:
         can_disable: bool = True,
         group: Optional[Union[int, str]] = 60,
         friendly=None,
+        block: bool = True,
     ):
         def _message(func):
             async def async_func(update, context):
@@ -61,10 +66,10 @@ class ExonTelegramHandler:
 
             if can_disable:
                 handler = DisableAbleMessageHandler(
-                    pattern, async_func, friendly=friendly
+                    pattern, async_func, friendly=friendly, block=block
                 )
             else:
-                handler = MessageHandler(pattern, async_func)
+                handler = MessageHandler(pattern, async_func, block=block)
 
             self._dispatcher.add_handler(handler, group)
             LOGGER.debug(
@@ -94,9 +99,8 @@ class ExonTelegramHandler:
     def inlinequery(
         self,
         pattern: Optional[str] = None,
-        pass_user_data: bool = True,
-        pass_chat_data: bool = True,
         chat_types: List[str] = None,
+        block: bool = True,
     ):
         def _inlinequery(func):
             async def async_func(update, context):
@@ -106,18 +110,17 @@ class ExonTelegramHandler:
                 InlineQueryHandler(
                     pattern=pattern,
                     callback=async_func,
-                    pass_user_data=pass_user_data,
-                    pass_chat_data=pass_chat_data,
                     chat_types=chat_types,
+                    block=block,
                 )
             )
             LOGGER.debug(
-                f"[ExonINLINE] Loaded inlinequery handler with pattern {pattern} for function {func.__name__} | PASSES "
-                f"USER DATA: {pass_user_data} | PASSES CHAT DATA: {pass_chat_data} | CHAT TYPES: {chat_types}"
+                f"[ExonINLINE] Loaded inlinequery handler with pattern {pattern} for function {func.__name__} | CHAT TYPES: {chat_types}"
             )
             return func
 
         return _inlinequery
+
 
 Exoncmd = ExonTelegramHandler(n).command
 Exonmsg = ExonTelegramHandler(n).message
