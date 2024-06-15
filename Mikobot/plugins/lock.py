@@ -18,8 +18,8 @@ from Mikobot.plugins.helper_funcs.anonymous import AdminPerms, user_admin
 from Mikobot.plugins.helper_funcs.chat_status import can_delete, is_bot_admin
 from Mikobot.plugins.helper_funcs.chat_status import user_admin as u_admin
 from Mikobot.plugins.helper_funcs.chat_status import user_not_admin
-from Mikobot.plugins.decorators import Exoncmd as natsunagicmd
-from Mikobot.plugins.decorators import Exonmsg as natsunagimsg
+from Mikobot.plugins.helper_funcs.decorators import Exoncmd as natsunagicmd
+from Mikobot.plugins.helper_funcs.decorators import Exonmsg as natsunagimsg
 from Mikobot.plugins.log_channel import loggable
 from Database.sql.approve_sql import is_approved
 
