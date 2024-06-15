@@ -37,27 +37,27 @@ LOCK_TYPES = {
     "forward": filters.FORWARDED,
     "game": filters.GAME,
     "location": filters.LOCATION,
-#    "egame": filters.DICE,
+    "egame": filters.Dice.ALL,
     "rtl": "rtl",
     "button": "button",
     "inline": "inline",
-    "apk": filters.Document.mime_type("application/vnd.android.package-archive"),
-    "doc": filters.Document.mime_type("application/msword"),
-    "exe": filters.Document.mime_type("application/x-ms-dos-executable"),
-    "gif": filters.Document.mime_type("video/mp4"),
-    "jpg": filters.Document.mime_type("image/jpeg"),
-    "mp3": filters.Document.mime_type("audio/mpeg"),
-    "pdf": filters.Document.mime_type("application/pdf"),
-    "txt": filters.Document.mime_type("text/plain"),
-    "xml": filters.Document.mime_type("application/xml"),
-    "zip": filters.Document.mime_type("application/zip"),
-    "docx": filters.Document.mime_type(
+    "apk": filters.Document.MimeType("application/vnd.android.package-archive"),
+    "doc": filters.Document.MimeType("application/msword"),
+    "exe": filters.Document.MimeType("application/x-ms-dos-executable"),
+    "gif": filters.Document.MimeType("video/mp4"),
+    "jpg": filters.Document.MimeType("image/jpeg"),
+    "mp3": filters.Document.MimeType("audio/mpeg"),
+    "pdf": filters.Document.MimeType("application/pdf"),
+    "txt": filters.Document.MimeType("text/plain"),
+    "xml": filters.Document.MimeType("application/xml"),
+    "zip": filters.Document.MimeType("application/zip"),
+    "docx": filters.Document.MimeType(
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     ),
-    "py": filters.Document.mime_type("text/x-python"),
-    "svg": filters.Document.mime_type("image/svg+xml"),
-    "targz": filters.Document.mime_type("application/x-compressed-tar"),
-    "wav": filters.Document.mime_type("audio/x-wav"),
+    "py": filters.Document.MimeType("text/x-python"),
+    "svg": filters.Document.MimeType("image/svg+xml"),
+    "targz": filters.Document.MimeType("application/x-compressed-tar"),
+    "wav": filters.Document.MimeType("audio/x-wav"),
 }
 
 LOCK_CHAT_RESTRICTION = {
@@ -145,7 +145,7 @@ def unrestr_members(
 
 
 @natsunagicmd(command="locktypes")
-def locktypes(update, _):
+async def locktypes(update, _):
     update.effective_message.reply_text(
         "\n × ".join(
             ["Locks available: "]
@@ -158,7 +158,7 @@ def locktypes(update, _):
 @user_admin(AdminPerms.CAN_CHANGE_INFO)
 @loggable
 @typing_action
-def lock(update: Update, context: CallbackContext) -> str:  # sourcery no-metrics
+async def lock(update: Update, context: CallbackContext) -> str:  # sourcery no-metrics
     args = context.args
     chat = update.effective_chat
     user = update.effective_user
@@ -245,7 +245,7 @@ def lock(update: Update, context: CallbackContext) -> str:  # sourcery no-metric
 @user_admin(AdminPerms.CAN_CHANGE_INFO)
 @loggable
 @typing_action
-def unlock(update: Update, context: CallbackContext) -> str:  # sourcery no-metrics
+async def unlock(update: Update, context: CallbackContext) -> str:  # sourcery no-metrics
     args = context.args
     chat = update.effective_chat
     user = update.effective_user
@@ -320,7 +320,7 @@ def unlock(update: Update, context: CallbackContext) -> str:  # sourcery no-metr
 
 @natsunagimsg((filters.all & filters.chat_type.groups), group=PERM_GROUP)
 @user_not_admin
-def del_lockables(update, context):  # sourcery no-metrics
+async def del_lockables(update, context):  # sourcery no-metrics
     chat = update.effective_chat  # type: Optional[Chat]
     message = update.effective_message  # type: Optional[Message]
     user = update.effective_user
@@ -476,7 +476,7 @@ def build_lock_message(chat_id):
 @natsunagicmd(command="locks")
 @u_admin
 @typing_action
-def list_locks(update, context):
+async def list_locks(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user
 
