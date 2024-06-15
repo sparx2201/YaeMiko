@@ -4,8 +4,8 @@ import html
 from alphabet_detector import AlphabetDetector
 from telegram import ChatPermissions, MessageEntity, Update
 from telegram.constants import ParseMode
-from telegram.error import BadRequest, Error
-from telegram.ext import CallbackContext, filters
+from telegram.error import BadRequest
+from telegram.ext import CallbackContext, filters, TelegramErrorHandler
 from telegram.helpers import mention_html
 
 import Database.sql.locks_sql as sql
