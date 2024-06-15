@@ -318,7 +318,7 @@ async def unlock(update: Update, context: CallbackContext) -> str:  # sourcery n
     return ""
 
 
-@natsunagimsg((filters.all & filters.chat_type.groups), group=PERM_GROUP)
+@natsunagimsg((filters.ALL & filters.ChatType.GROUPS), group=PERM_GROUP)
 @user_not_admin
 async def del_lockables(update, context):  # sourcery no-metrics
     chat = update.effective_chat  # type: Optional[Chat]
