@@ -1,8 +1,9 @@
 import functools
 from enum import Enum
 
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import CallbackContext
+from telegram.constants import ParseMode
 
 from Mikobot import DEV_USERS, DRAGONS, dispatcher
 from Mikobot.plugins.helper_funcs.decorators import Exoncallback
