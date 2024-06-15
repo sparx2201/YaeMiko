@@ -19,8 +19,6 @@ class ExonTelegramHandler:
         command: str,
         filters: Optional[MessageFilter] = None,
         admin_ok: bool = False,
-        pass_args: bool = False,
-        pass_chat_data: bool = False,
         can_disable: bool = True,
         group: Optional[Union[int, str]] = 40,
     ):
@@ -28,14 +26,20 @@ class ExonTelegramHandler:
             async def async_func(update, context):
                 await func(update, context)
 
-            handler = DisableAbleCommandHandler(
-                command,
-                async_func if can_disable else func,
-                filters=filters,
-                pass_args=pass_args,
-                admin_ok=admin_ok,
-                pass_chat_data=pass_chat_data,
-            )
+            if can_disable:
+                handler = DisableAbleCommandHandler(
+                    command,
+                    async_func,
+                    filters=filters,
+                    admin_ok=admin_ok,
+                )
+            else:
+                handler = CommandHandler(
+                    command,
+                    async_func,
+                    filters=filters,
+                )
+
             self._dispatcher.add_handler(handler, group)
             LOGGER.debug(
                 f"[ExonCMD] Loaded handler {command} for function {func.__name__} in group {group}"
@@ -55,9 +59,13 @@ class ExonTelegramHandler:
             async def async_func(update, context):
                 await func(update, context)
 
-            handler = DisableAbleMessageHandler(
-                pattern, async_func if can_disable else func, friendly=friendly
-            )
+            if can_disable:
+                handler = DisableAbleMessageHandler(
+                    pattern, async_func, friendly=friendly
+                )
+            else:
+                handler = MessageHandler(pattern, async_func)
+
             self._dispatcher.add_handler(handler, group)
             LOGGER.debug(
                 f"[ExonMSG] Loaded filter pattern {pattern} for function {func.__name__} in group {group}"
