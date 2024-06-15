@@ -2,10 +2,11 @@ import ast
 import html
 
 from alphabet_detector import AlphabetDetector
-from telegram import ChatPermissions, MessageEntity,  TelegramError, Update
+from telegram import ChatPermissions, MessageEntity, TelegramError, Update
+from telegram.constants import ParseMode
 from telegram.error import BadRequest
-from telegram.ext import CallbackContext, filters, ParseMode
-from telegram.utils.helpers import mention_html
+from telegram.ext import CallbackContext, filters
+from telegram.helpers import mention_html
 
 import Database.sql.locks_sql as sql
 from Mikobot import LOGGER as log
@@ -16,8 +17,8 @@ from Mikobot.plugins.helper_funcs.anonymous import AdminPerms, user_admin
 from Mikobot.plugins.helper_funcs.chat_status import can_delete, is_bot_admin
 from Mikobot.plugins.helper_funcs.chat_status import user_admin as u_admin
 from Mikobot.plugins.helper_funcs.chat_status import user_not_admin
-from Mikobot.plugins.helper_funcs.decorators import Exoncmd as natsunagicmd
-from Mikobot.plugins.helper_funcs.decorators import Exonmsg as natsunagimsg
+from Mikobot.plugins.decorators import Exoncmd as natsunagicmd
+from Mikobot.plugins.decorators import Exonmsg as natsunagimsg
 from Mikobot.plugins.log_channel import loggable
 from Database.sql.approve_sql import is_approved
 
