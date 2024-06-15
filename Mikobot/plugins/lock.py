@@ -154,7 +154,7 @@ async def locktypes(update, _):
     )
 
 
-@natsunagicmd(command="lock", pass_args=True)
+@natsunagicmd(command="lock")
 @user_admin(AdminPerms.CAN_CHANGE_INFO)
 @loggable
 @typing_action
@@ -241,7 +241,7 @@ async def lock(update: Update, context: CallbackContext) -> str:  # sourcery no-
     return ""
 
 
-@natsunagicmd(command="unlock", pass_args=True)
+@natsunagicmd(command="unlock")
 @user_admin(AdminPerms.CAN_CHANGE_INFO)
 @loggable
 @typing_action
