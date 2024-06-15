@@ -6,8 +6,6 @@ from telegram.ext import CallbackContext
 from telegram.constants import ParseMode
 
 from Mikobot import DEV_USERS, DRAGONS, dispatcher
-from Mikobot.plugins.helper_funcs.decorators import Exoncallback
-
 
 class AdminPerms(Enum):
     CAN_RESTRICT_MEMBERS = "can_restrict_members"
@@ -31,10 +29,10 @@ anon_users = {}
 def user_admin(permission: AdminPerms):
     def wrapper(func):
         @functools.wraps(func)
-        def awrapper(update: Update, context: CallbackContext, *args, **kwargs):
+        async def awrapper(update: Update, context: CallbackContext, *args, **kwargs):
             nonlocal permission
             if update.effective_chat.type == "private":
-                return func(update, context, *args, **kwargs)
+                return await func(update, context, *args, **kwargs)
             message = update.effective_message
             is_anon = update.effective_message.sender_chat
 
@@ -64,13 +62,13 @@ def user_admin(permission: AdminPerms):
             else:
                 user_id = message.from_user.id
                 chat_id = message.chat.id
-                mem = context.bot.get_chat_member(chat_id=chat_id, user_id=user_id)
+                mem = await context.bot.get_chat_member(chat_id=chat_id, user_id=user_id)
                 if (
                     getattr(mem, permission.value) is True
                     or mem.status == "creator"
                     or user_id in DRAGONS
                 ):
-                    return func(update, context, *args, **kwargs)
+                    return await func(update, context, *args, **kwargs)
                 else:
                     return message.reply_text(
                         f"You lack the permission: `{permission.name}`",
@@ -82,23 +80,28 @@ def user_admin(permission: AdminPerms):
     return wrapper
 
 
-@Exoncallback(pattern="anoncb")
-def anon_callback_handler1(upd: Update, _: CallbackContext):
+def get_exoncallback():
+    from Mikobot.plugins.helper_funcs.decorators import Exoncallback
+    return Exoncallback
+
+
+@get_exoncallback()(pattern="anoncb")
+async def anon_callback_handler1(upd: Update, _: CallbackContext):
     callback = upd.callback_query
     perm = callback.data.split("/")[3]
     chat_id = int(callback.data.split("/")[1])
     message_id = int(callback.data.split("/")[2])
     try:
-        mem = upd.effective_chat.get_member(user_id=callback.from_user.id)
-    except BaseException as e:
+        mem = await upd.effective_chat.get_member(user_id=callback.from_user.id)
+    except Exception as e:
         callback.answer(f"Error: {e}", show_alert=True)
         return
     if mem.status not in [ChatStatus.ADMIN.value, ChatStatus.CREATOR.value]:
         callback.answer("You're aren't admin.")
-        dispatcher.bot.delete_message(
+        await dispatcher.bot.delete_message(
             chat_id, anon_callback_messages.pop((chat_id, message_id), None)
         )
-        dispatcher.bot.send_message(
+        await dispatcher.bot.send_message(
             chat_id, "You lack the permissions required for this command"
         )
     elif (
@@ -109,8 +112,8 @@ def anon_callback_handler1(upd: Update, _: CallbackContext):
         if cb := anon_callbacks.pop((chat_id, message_id), None):
             message_id = anon_callback_messages.pop((chat_id, message_id), None)
             if message_id is not None:
-                dispatcher.bot.delete_message(chat_id, message_id)
-            return cb[1](cb[0][0], cb[0][1])
+                await dispatcher.bot.delete_message(chat_id, message_id)
+            return await cb[1](cb[0][0], cb[0][1])
     else:
         callback.answer("This isn't for ya")
 
@@ -126,7 +129,7 @@ def resolve_user(user, message_id, chat):
                 message_id,
                 f"You're now identified as: {user.first_name}",
             )
-        except BaseException as e:
+        except Exception as e:
             return dispatcher.bot.edit_message_text(chat.id, message_id, f"Error: {e}")
 
     else:
