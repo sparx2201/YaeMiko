@@ -134,14 +134,14 @@ class ExonTelegramHandler:
     def callbackquery(self, pattern: str = None):
         def _callbackquery(func):
             def async_func(update, context):
-            context.application.create_task(func(update, context))
+                context.application.create_task(func(update, context))
 
-        self._dispatcher.add_handler(
-            CallbackQueryHandler(
-                pattern=pattern, callback=async_func
+            self._dispatcher.add_handler(
+                CallbackQueryHandler(
+                    pattern=pattern, callback=async_func
             )
         )
-        log.debug(
+            log.debug(
             f"[ExonCALLBACK] Loaded callbackquery handler with pattern {pattern} for function {func.__name__}"
         )
             return func
