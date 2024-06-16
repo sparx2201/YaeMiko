@@ -6,7 +6,7 @@ from telegram.ext import CallbackContext
 from telegram.constants import ParseMode
 
 from Mikobot import DEV_USERS, DRAGONS, dispatcher
-from Mikobot.plugins.helper_funcs.exoncallback import Exoncallback
+from Mikobot.plugins.helper_funcs.decorators import Exoncallback
 
 
 class AdminPerms(Enum):
