@@ -179,7 +179,7 @@ async def lock(update: Update, context: CallbackContext) -> str:  # sourcery no-
                     text = f"Locked {ltype} for non-admins in {chat_name}!"
                 else:
                     if update.effective_message.chat.type == "private":
-                        send_message(
+                        await send_message(
                             update.effective_message,
                             "This command is meant to use in group not in PM",
                         )
@@ -189,7 +189,7 @@ async def lock(update: Update, context: CallbackContext) -> str:  # sourcery no-
                     # chat_name = update.effective_message.chat.title
                     text = f"Locked {ltype} for non-admins!"
                 sql.update_lock(chat.id, ltype, locked=True)
-                send_message(update.effective_message, text, parse_mode="markdown")
+                await send_message(update.effective_message, text, parse_mode="markdown")
 
                 return f"<b>{html.escape(chat.title)}:</b>\n#LOCK\n<b>Admin:</b> {mention_html(user.id, user.first_name)}\nLocked <code>{ltype}</code>."
 
@@ -203,7 +203,7 @@ async def lock(update: Update, context: CallbackContext) -> str:  # sourcery no-
                     text = f"Locked {ltype} for all non-admins in {chat_name}!"
                 else:
                     if update.effective_message.chat.type == "private":
-                        send_message(
+                        await send_message(
                             update.effective_message,
                             "This command is meant to use in group not in PM",
                         )
@@ -213,8 +213,8 @@ async def lock(update: Update, context: CallbackContext) -> str:  # sourcery no-
                     # chat_name = update.effective_message.chat.title
                     text = f"Locked {ltype} for all non-admins!"
 
-                current_permission = context.bot.getChat(chat_id).permissions
-                context.bot.set_chat_permissions(
+                current_permission = await context.bot.getChat(chat_id).permissions
+                await context.bot.set_chat_permissions(
                     chat_id=chat_id,
                     permissions=get_permission_list(
                         ast.literal_eval(str(current_permission)),
@@ -222,24 +222,23 @@ async def lock(update: Update, context: CallbackContext) -> str:  # sourcery no-
                     ),
                 )
 
-                send_message(update.effective_message, text, parse_mode="markdown")
+                await send_message(update.effective_message, text, parse_mode="markdown")
                 return f"<b>{html.escape(chat.title)}:</b>\n#Permission_LOCK\n<b>Admin:</b> {mention_html(user.id, user.first_name)}\nLocked <code>{ltype}</code>."
 
-            send_message(
+            await send_message(
                 update.effective_message,
                 "What are you trying to lock...? Try /locktypes for the list of lockables",
             )
         else:
-            send_message(update.effective_message, "What are you trying to lock...?")
+            await send_message(update.effective_message, "What are you trying to lock...?")
 
     else:
-        send_message(
+        await send_message(
             update.effective_message,
             "I am not administrator or haven't got enough rights.",
         )
 
     return ""
-
 
 @natsunagicmd(command="unlock")
 @user_admin(AdminPerms.CAN_CHANGE_INFO)
