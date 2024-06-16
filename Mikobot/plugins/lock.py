@@ -173,7 +173,7 @@ async def lock(update: Update, context: CallbackContext) -> str:  # sourcery no-
                 if conn := connected(
                     context.bot, update, chat, user.id, need_admin=True
                 ):
-                    chat = dispatcher.bot.getChat(conn)
+                    chat = await dispatcher.bot.getChat(conn)
                     # chat_id = conn
                     chat_name = chat.title
                     text = f"Locked {ltype} for non-admins in {chat_name}!"
@@ -197,7 +197,7 @@ async def lock(update: Update, context: CallbackContext) -> str:  # sourcery no-
                 if conn := connected(
                     context.bot, update, chat, user.id, need_admin=True
                 ):
-                    chat = dispatcher.bot.getChat(conn)
+                    chat = await dispatcher.bot.getChat(conn)
                     chat_id = conn
                     chat_name = chat.title
                     text = f"Locked {ltype} for all non-admins in {chat_name}!"
@@ -256,7 +256,7 @@ async def unlock(update: Update, context: CallbackContext) -> str:  # sourcery n
             if conn := connected(
                 context.bot, update, chat, user.id, need_admin=True
             ):
-                chat = context.bot.getChat(conn)
+                chat = await context.bot.getChat(conn)
                 # chat_id = conn
                 chat_name = chat.title
                 text = f"Unlocked {ltype} for everyone in {chat_name}!"
@@ -279,7 +279,7 @@ async def unlock(update: Update, context: CallbackContext) -> str:  # sourcery n
             if conn := connected(
                 context.bot, update, chat, user.id, need_admin=True
             ):
-                chat = dispatcher.bot.getChat(conn)
+                chat = await dispatcher.bot.getChat(conn)
                 chat_id = conn
                 chat_name = chat.title
                 text = f"Unlocked {ltype} for everyone in {chat_name}!"
