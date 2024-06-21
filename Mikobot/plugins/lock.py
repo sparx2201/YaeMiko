@@ -146,7 +146,7 @@ def unrestr_members(
 
 @natsunagicmd(command="locktypes")
 async def locktypes(update, _):
-    update.effective_message.reply_text(
+    await update.effective_message.reply_text(
         "\n × ".join(
             ["Locks available: "]
             + sorted(list(LOCK_TYPES) + list(LOCK_CHAT_RESTRICTION))
